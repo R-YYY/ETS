@@ -1,2 +1,2 @@
-# Software-Engineering-Course-Design
-Software engineering course design -- experimental teaching system
+# Software Engineering Course Design
+Software engineering course design -- ExperimentTeachingSystem
