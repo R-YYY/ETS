@@ -5,7 +5,7 @@
         <el-button class="addStudent" type="primary" plain>添加学生</el-button>
         <el-button class="addStudents" type="primary" plain>导出名单</el-button>
         <div>
-          <el-table class="memberTable" :data="list" height="340px">
+          <el-table class="memberTable" :data="list" height="350px">
             <el-table-column prop="id" label="学号" width="200px"></el-table-column>
             <el-table-column prop="name" label="姓名" width="200px"></el-table-column>
             <el-table-column prop="email" label="邮箱" width="350px"></el-table-column>
@@ -18,7 +18,7 @@
 
       <el-tab-pane class="optionPage" label="待审核">
         <div>
-          <el-table class="memberTable" :data="waitList" height="340px">
+          <el-table class="memberTable" :data="waitList" height="390px">
             <el-table-column prop="id" label="学号" width="200px"></el-table-column>
             <el-table-column prop="name" label="姓名" width="150px"></el-table-column>
             <el-table-column prop="email" label="邮箱" width="300px"></el-table-column>

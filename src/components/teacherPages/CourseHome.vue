@@ -48,52 +48,58 @@ export default {
   },
   methods:{
     toCourse(){
-      this.$router.push({
-        name:'info',
-        params:{
-          course_id:42024401
-        }
-      });
+      this.$router.push({name:'info'});
+      // this.$router.push({
+      //   name:'info',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // });
     },
     toStudent(){
-      this.$router.push({
-        name:'students',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'students'});
+      // this.$router.push({
+      //   name:'students',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     },
     toTask(){
-      this.$router.push({
-        name:'tasks',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'tasks'});
+      // this.$router.push({
+      //   name:'tasks',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     },
     toGrade(){
-      this.$router.push({
-        name:'grades',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'grades'});
+      // this.$router.push({
+      //   name:'grades',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     },
     toFile(){
-      this.$router.push({
-        name:'files',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'files'});
+      // this.$router.push({
+      //   name:'files',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     },
     toFeedback(){
-      this.$router.push({
-        name:'feedbacks',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'feedbacks'});
+      // this.$router.push({
+      //   name:'feedbacks',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     }
   },
   mounted() {

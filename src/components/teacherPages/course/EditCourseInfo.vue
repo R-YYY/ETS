@@ -55,20 +55,22 @@ export default {
     //更新课程资料
     saveEdit(){
       console.log("success!")
-      this.$router.push({
-        name:'info',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'info'});
+      // this.$router.push({
+      //   name:'info',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     },
     cancelEdit(){
-      this.$router.push({
-        name:'info',
-        params:{
-          course_id:42024401
-        }
-      })
+      this.$router.push({name:'info'});
+      // this.$router.push({
+      //   name:'info',
+      //   params:{
+      //     course_id:42024401
+      //   }
+      // })
     }
   },
   mounted() {
