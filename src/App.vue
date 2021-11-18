@@ -5,7 +5,16 @@
 </template>
 
 <script>
-
+export default {
+  mounted () {
+    this.$axios
+        .get('/selectAll')
+        .then(response => (console.log(response.data)))
+        .catch(function (error) { // 请求失败处理
+          console.log(error);
+        });
+  }
+}
 </script>
 
 <style>

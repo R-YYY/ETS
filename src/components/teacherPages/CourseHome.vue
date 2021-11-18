@@ -10,12 +10,24 @@
         </div>
         <div>
           <el-menu :default-active="activeIndex">
-            <el-menu-item class="option" index="1" @click="toCourse">课程管理</el-menu-item>
-            <el-menu-item class="option" index="2" @click="toStudent">学生管理</el-menu-item>
-            <el-menu-item class="option" index="3" @click="toProject">学习任务</el-menu-item>
-            <el-menu-item class="option" index="4" @click="toGrade">成绩管理</el-menu-item>
-            <el-menu-item class="option" index="5" @click="toFile">学习资料</el-menu-item>
-            <el-menu-item class="option" index="6" @click="toFeedback">课程反馈</el-menu-item>
+            <el-menu-item class="option" index="1" @click="toCourse">
+              <i class="el-icon-reading"></i>课程管理
+            </el-menu-item>
+            <el-menu-item class="option" index="2" @click="toStudent">
+              <i class="el-icon-user"></i>学生管理
+            </el-menu-item>
+            <el-menu-item class="option" index="3" @click="toTask">
+              <i class="el-icon-document-copy"></i>学习任务
+            </el-menu-item>
+            <el-menu-item class="option" index="4" @click="toGrade">
+              <i class="el-icon-finished"></i>成绩管理
+            </el-menu-item>
+            <el-menu-item class="option" index="5" @click="toFile">
+              <i class="el-icon-folder-opened"></i>学习资料
+            </el-menu-item>
+            <el-menu-item class="option" index="6" @click="toFeedback">
+              <i class="el-icon-edit-outline"></i>课程反馈
+            </el-menu-item>
           </el-menu>
         </div>
       </el-aside>
@@ -36,23 +48,61 @@ export default {
   },
   methods:{
     toCourse(){
-      this.$router.push({path:'/managecourse'})
+      this.$router.push({
+        name:'info',
+        params:{
+          course_id:42024401
+        }
+      });
     },
     toStudent(){
-      this.$router.push({path:'/managestudent'})
+      this.$router.push({
+        name:'students',
+        params:{
+          course_id:42024401
+        }
+      })
     },
-    toProject(){
-      this.$router.push({path:'/manageproject'})
+    toTask(){
+      this.$router.push({
+        name:'tasks',
+        params:{
+          course_id:42024401
+        }
+      })
     },
     toGrade(){
-      this.$router.push({path:'/managegrade'})
+      this.$router.push({
+        name:'grades',
+        params:{
+          course_id:42024401
+        }
+      })
     },
     toFile(){
-      this.$router.push({path:'/managefile'})
+      this.$router.push({
+        name:'files',
+        params:{
+          course_id:42024401
+        }
+      })
     },
     toFeedback(){
-      this.$router.push({path:'/feedback'})
+      this.$router.push({
+        name:'feedbacks',
+        params:{
+          course_id:42024401
+        }
+      })
     }
+  },
+  mounted() {
+    this.$router.push({
+      name:'info',
+      params:{
+        course_id:42024401
+      }
+    });
   }
 }
 </script>
@@ -76,7 +126,7 @@ export default {
 }
 
 .optionImg{
-  width: 160px
+  width: 150px
 }
 
 .optionAside{
