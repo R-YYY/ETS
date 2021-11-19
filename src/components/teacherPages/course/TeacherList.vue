@@ -57,17 +57,17 @@ export default {
       this.$prompt('请输入添加老师的工号', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        inputPattern:'',
-        inputErrorMessage: '工号格式不正确'
+        inputPattern:/^\d\d\d\d\d$/,
+        inputErrorMessage: '工号格式不正确',
       }).then(({ value }) => {
         this.$message({
           type: 'success',
-          message: '你的邮箱是: ' + value
+          message: '添加成功！'
         });
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '取消输入'
+          message: '取消添加'
         });
       });
     }
