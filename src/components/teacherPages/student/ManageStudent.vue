@@ -1,16 +1,24 @@
 <template>
   <div>
     <el-tabs class="studentTab" type="border-card">
-      <el-tab-pane class="optionPage" label="课程学生">
-        <el-button class="addStudent" type="primary" plain>添加学生</el-button>
-        <el-button class="addStudents" type="primary" plain>导出名单</el-button>
+      <el-tab-pane label="课程学生">
+        <el-button class="addStudent" type="primary" plain @click="add">
+          <span>添加学生</span>
+        </el-button>
+        <el-button type="primary" plain>
+          <span>导出名单</span>
+        </el-button>
         <div>
-          <el-table class="memberTable" :data="list" height="350px">
-            <el-table-column prop="id" label="学号" width="200px"></el-table-column>
-            <el-table-column prop="name" label="姓名" width="200px"></el-table-column>
-            <el-table-column prop="email" label="邮箱" width="350px"></el-table-column>
-            <el-table-column width="100px">
-              <el-button type="danger" icon="el-icon-delete" circle plain></el-button>
+          <el-table class="memberTable" :data="list" height="470px">
+            <el-table-column prop="id" label="学号" width="250px">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="250px">
+            </el-table-column>
+            <el-table-column prop="email" label="邮箱" width="420px">
+            </el-table-column>
+            <el-table-column width="120px">
+              <el-button type="danger" icon="el-icon-delete" circle plain @click="open">
+              </el-button>
             </el-table-column>
           </el-table>
         </div>
@@ -18,15 +26,20 @@
 
       <el-tab-pane class="optionPage" label="待审核">
         <div>
-          <el-table class="memberTable" :data="waitList" height="390px">
-            <el-table-column prop="id" label="学号" width="200px"></el-table-column>
-            <el-table-column prop="name" label="姓名" width="150px"></el-table-column>
-            <el-table-column prop="email" label="邮箱" width="300px"></el-table-column>
-            <el-table-column  width="100px">
-              <el-button type="success" icon="el-icon-check" circle plain></el-button>
+          <el-table class="memberTable" :data="waitList" height="530px">
+            <el-table-column prop="id" label="学号" width="240px">
             </el-table-column>
-            <el-table-column width="100px">
-              <el-button type="danger" icon="el-icon-close" circle plain></el-button>
+            <el-table-column prop="name" label="姓名" width="240px">
+            </el-table-column>
+            <el-table-column prop="email" label="邮箱" width="380px">
+            </el-table-column>
+            <el-table-column  width="90px">
+              <el-button type="success" icon="el-icon-check" circle plain>
+              </el-button>
+            </el-table-column>
+            <el-table-column width="90px">
+              <el-button type="danger" icon="el-icon-close" circle plain>
+              </el-button>
             </el-table-column>
           </el-table>
         </div>
@@ -46,7 +59,46 @@ export default {
     };
     return {
       list:Array(15).fill(item),
-      waitList:Array(2).fill(item)
+      waitList:Array(12).fill(item),
+      dialogVisible:false,
+      addStudentID:''
+    }
+  },
+  methods:{
+    open() {
+      this.$confirm('此操作将从课程中删除该学生, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    add() {
+      this.$prompt('请输入添加学生的学号', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern:'',
+        inputErrorMessage: '学号格式不正确'
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '你的邮箱是: ' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
     }
   }
 }
@@ -55,33 +107,24 @@ export default {
 <style scoped>
 
 .studentTab{
-  height:480px;
-  width: 1150px;
-  position: relative;
-  left: 70px;
-  top:45px;
-}
-
-.optionPage{
-  height: 450px;
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 40px;
+  background-color:white;
 }
 
 .addStudent{
   position: relative;
-  left: 770px;
-  top:5px
-}
-
-.addStudents{
-  position: relative;
-  left: 790px;
-  top:5px;
+  margin-top: 10px;
+  margin-left: 70px;
+  margin-right: 50px;
 }
 
 .memberTable{
-  left: 90px;
-  width: 960px ;
-  top: 5px;
+  width: 1060px;
+  margin-left: 70px;
+  margin-top: 10px;
 }
 
 </style>

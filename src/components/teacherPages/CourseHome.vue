@@ -1,38 +1,42 @@
 <template>
-  <el-container class="firstContainer">
-    <el-header height="100px">
-      <h1 style="font-size: 35px">口v口 Experiment Teaching System 口∧口</h1>
+  <el-container style="height: 100%">
+    <el-header style="height: 10%">
+      <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
-    <el-container class="optionContainer">
-      <el-aside class="optionAside" width="170px">
-        <div>
-          <img class="optionImg" src="../../../src/assets/course.jpg" alt="加载失败">
-        </div>
+    <el-container>
+      <el-aside class="mainAside" width="170px">
+        <img id="courseImg" src="../../../src/assets/course.jpg" alt="加载失败">
         <div>
           <el-menu :default-active="activeIndex">
             <el-menu-item class="option" index="1" @click="toCourse">
-              <i class="el-icon-reading"></i>课程管理
+              <i class="el-icon-reading"></i>
+              <span>课程管理</span>
             </el-menu-item>
             <el-menu-item class="option" index="2" @click="toStudent">
-              <i class="el-icon-user"></i>学生管理
+              <i class="el-icon-user"></i>
+              <span>学生管理</span>
             </el-menu-item>
             <el-menu-item class="option" index="3" @click="toTask">
-              <i class="el-icon-document-copy"></i>学习任务
+              <i class="el-icon-document-copy"></i>
+              <span>学习任务</span>
             </el-menu-item>
             <el-menu-item class="option" index="4" @click="toGrade">
-              <i class="el-icon-finished"></i>成绩管理
+              <i class="el-icon-finished"></i>
+              <span>成绩管理</span>
             </el-menu-item>
             <el-menu-item class="option" index="5" @click="toFile">
-              <i class="el-icon-folder-opened"></i>学习资料
+              <i class="el-icon-folder-opened"></i>
+              <span>学习资料</span>
             </el-menu-item>
             <el-menu-item class="option" index="6" @click="toFeedback">
-              <i class="el-icon-edit-outline"></i>课程反馈
+              <i class="el-icon-edit-outline"></i>
+              <span>课程反馈</span>
             </el-menu-item>
           </el-menu>
         </div>
       </el-aside>
-      <el-main class="optionMain">
-        <router-view></router-view>
+      <el-main style="background-color: #e5eff5">
+        <router-view style="height:100%;overflow: hidden"></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -114,34 +118,24 @@ export default {
 </script>
 
 <style scoped>
-
-.firstContainer{
-  height: 100%;
-  width: 100% ;
-  border: 1px solid #eee
-}
-
-.optionContainer{
-  width: 100%;
-  height: 595px
-}
-
 .option{
   height: 70px;
   font-size: 17px;
 }
 
-.optionImg{
-  width: 150px
+#courseImg{
+  width: 160px
 }
 
-.optionAside{
+.mainAside{
   text-align: center;
-  background-color: rgb(238, 241, 246)
+  /*background-color: rgb(238, 241, 246)*/
 }
 
-.optionMain{
-  background-color: #e5eff5
+.title{
+  font-size: 35px;
+  line-height: 10px;
+  text-align: left;
 }
 
 </style>

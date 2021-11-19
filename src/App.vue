@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
@@ -18,16 +18,14 @@ export default {
 </script>
 
 <style>
-#app {
+html,body,#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 #nav a {
@@ -35,7 +33,4 @@ export default {
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

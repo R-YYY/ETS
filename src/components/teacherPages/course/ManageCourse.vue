@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-tabs class="courseTab" v-model="activeIndex" type="border-card" @tab-click="handleClick">
-      <el-tab-pane class="optionPage" label="课程设置">
+      <el-tab-pane label="课程设置">
         <el-container>
           <el-aside class="courseAside">
             <div>
@@ -11,10 +11,10 @@
                   :show-file-list="false">
                 <img class="courseImg" src="../../../assets/course.jpg" alt="加载失败">
               </el-upload>
-            </div>
-            <div class="tips">
-              <br><br><span>仅支持*******格式图片</span><br>
-              <span>建议最佳尺寸*****，不超过***</span>
+              <div class="tips">
+                <span>仅支持*******格式图片</span><br><br>
+                <span>建议最佳尺寸*****，不超过***</span>
+              </div>
             </div>
           </el-aside>
           <el-main class="courseMain">
@@ -22,10 +22,11 @@
           </el-main>
         </el-container>
       </el-tab-pane>
-      <el-tab-pane class="optionPage" label="教师团队">
+
+      <el-tab-pane label="教师团队">
         <router-view name="teacherList"></router-view>
       </el-tab-pane>
-      <el-tab-pane class="optionPage" label="助教团队">
+      <el-tab-pane label="助教团队">
         <router-view name="taList"></router-view>
       </el-tab-pane>
     </el-tabs>
@@ -82,37 +83,34 @@ export default {
 </script>
 
 <style scoped>
-
 .courseTab{
-  height:480px;
-  width: 1150px;
-  position: relative;
-  left: 70px;
-  top:45px;
-}
-
-.optionPage{
-  height: 450px;
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 40px;
+  background-color:white;
 }
 
 .courseAside{
-  position: relative;
-  left: 110px;
-  top:50px;
-  height: 450px;
+  margin-left: 150px;
+  margin-top: 90px;
 }
 
 .tips{
-  font-size: 12px;
+  font-size: 13px;
+  position: relative;
+  margin-top: 40px;
 }
 
 .courseMain{
+  text-align: left;
   position: relative;
-  left: 220px;
+  margin-left: 140px;
+  margin-top: 30px;
 }
 
 .courseImg{
-  width: 240px;
+  width: 260px;
 }
 
 </style>

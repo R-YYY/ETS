@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-tabs class="gradeTab" type="border-card">
+
     </el-tabs>
   </div>
 </template>
@@ -13,10 +14,10 @@ export default {
 
 <style scoped>
 .gradeTab{
-  height:480px;
-  width: 1150px;
-  position: relative;
-  left: 70px;
-  top:45px;
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 40px;
+  background-color:white;
 }
 </style>

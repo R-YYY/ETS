@@ -1,36 +1,34 @@
 <template>
-  <div style="height:400px ;overflow: hidden">
+  <div style="height:430px ;overflow: hidden">
     <div>
       <h2>课程信息</h2>
       <el-form>
         <el-form-item label="课程编号">
           <el-input v-model="this.$route.params.course_id"
-                    :disabled="true"
-                    style="width: 100px;font-size: 17px"></el-input>
+                    :disabled="true" style="width: 150px;font-size: 17px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="责任教师">
+          <el-input v-model="this.$route.params.course_teacher_ID"
+                    :disabled="true" style="width: 150px;font-size: 17px">
+          </el-input>
         </el-form-item>
         <el-form-item label="课程名称">
-          <el-input v-model="this.$route.params.course_name"
-                    style="width: 400px"></el-input>
+          <el-input v-model="this.$route.params.course_name" style="width: 400px">
+          </el-input>
         </el-form-item>
         <el-form-item label="课程介绍">
-          <el-input v-model="this.$route.params.course_des"
-                    :rows="5"
-                    type="textarea"
-                    resize="none"
-                    style="width: 400px" >
+          <el-input v-model="this.$route.params.course_des" :rows="3"
+                    type="textarea" resize="none" style="width: 400px">
           </el-input>
         </el-form-item>
       </el-form>
     </div>
-    <div class="btnArea">
-      <el-button class="saveBtn"
-                 @click="saveEdit">
+    <div>
+      <el-button class="btn" @click="saveEdit">
         <span>保存</span>
       </el-button>
-      <el-button class="cancelBtn"
-                 type="danger"
-                 @click="cancelEdit"
-                 plain>
+      <el-button class="btn" type="danger" @click="cancelEdit" plain>
         <span>取消</span>
       </el-button>
     </div>
@@ -80,34 +78,11 @@ export default {
 </script>
 
 <style scoped>
-.courseID{
+.btn{
   position: relative;
-  top: 10px
-}
-
-.courseName{
-  position: relative;
-  top: 25px
-}
-
-.courseDes{
-  position: relative;
-  top: 45px
-}
-
-.btnArea{
-  position:relative;
-  left: 110px;
-}
-
-.saveBtn{
-  position: relative;
-  left: 50px;
-}
-
-.cancelBtn{
-  position: relative;
-  left: 100px;
+  margin-left: 150px;
+  margin-right: 50px;
+  margin-top: 10px;
 }
 
 </style>

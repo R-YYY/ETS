@@ -3,18 +3,24 @@
     <el-tabs class="projectTab" type="border-card" @tab-click="handleClick">
       <el-tab-pane class="optionPage" label="发布任务">
         <div>
-          <el-container class="projectContainer">
-            <el-aside>
-              <el-card class="typeCard" shadow="hover">
-                <i class="el-icon-s-cooperation"></i><br>
-                <p class="type1">发布实验项目</p>
-              </el-card>
+          <el-container>
+            <el-aside width="500px">
+                <el-card class="typeCard" shadow="hover" @click.native="addProject">
+                  <i class="el-icon-s-cooperation"></i><br>
+                  <p class="choice">发布实验项目</p>
+                </el-card>
+              <el-dialog :visible.sync="projectDialogVisible">
+
+              </el-dialog>
             </el-aside>
-            <el-aside style="position: relative;left: 100px">
-              <el-card class="typeCard" shadow="hover">
+            <el-aside width="500px">
+              <el-card class="typeCard" shadow="hover" @click.native="addAttendance">
                 <i class="el-icon-user-solid"></i><br>
-                <p class="type2">发布课程考勤</p>
+                <p class="choice">发布课程考勤</p>
               </el-card>
+              <el-dialog :visible.sync="attendanceDialogVisible">
+
+              </el-dialog>
             </el-aside>
           </el-container>
         </div>
@@ -35,15 +41,9 @@
 export default {
   name: "ManageTask",
   data() {
-    const item = {
-      id: '1111111',
-      time: '0000-00-00 00:00:00',
-      input: ''
-    };
     return {
-      drawer: false,
-      direction: 'ltr',
-      attendList:Array(15).fill(item),
+      projectDialogVisible:false,
+      attendanceDialogVisible:false,
     };
   },
   methods:{
@@ -69,6 +69,12 @@ export default {
             course_id:42024401
           }
         })
+    },
+    addProject(){
+      this.projectDialogVisible = true;
+    },
+    addAttendance(){
+      this.attendanceDialogVisible = true;
     }
   }
 }
@@ -76,50 +82,30 @@ export default {
 
 <style scoped>
 .projectTab{
-  height:480px;
-  width: 1150px;
-  position: relative;
-  left: 70px;
-  top:45px;
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 30px;
+  background-color:white;
 }
 
-.optionPage{
-  height: 450px;
-}
-
-.projectContainer{
-  height: 450px;
-  width: 800px;
-  position: relative;
-  left: 220px;
-  top:50px
-}
-
-.el-icon-s-cooperation{
+.el-icon-user-solid, .el-icon-s-cooperation{
   font-size: 180px;
   position: relative;
-  left: 30px;
+  margin-left: 30px;
 }
 
-.el-icon-user-solid{
-  font-size: 180px;
-  position: relative;
-  left: 30px;
-}
-
-.type1{
+.choice{
   font-size: 25px;
   position: relative;
-  left: 50px;
-}
-
-.type2{
-  font-size: 25px;
-  position: relative;
-  left: 50px;
+  margin-left: 50px;
 }
 
 .typeCard{
   border-width: 2px;
+  margin-top: 110px;
+  margin-left: 160px;
+  margin-right: 50px;
+  cursor:pointer;
 }
 </style>

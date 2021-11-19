@@ -2,14 +2,24 @@
   <div>
     <div>
       <h2>课程信息</h2>
-      <p class="courseID">课程编号：{{this.$route.params.course_id}}</p>
-      <P class="courseName" id="courseName">课程名称：</P>
-      <p class="courseDes" id="courseDes">课程介绍：</p>
+      <p id="courseID">课程编号：{{this.$route.params.course_id}}</p>
+      <p id="courseTeacher">责任教师：</p>
+      <P id="courseName">课程名称：</P>
+      <p id="courseDes">课程介绍：</p>
     </div>
-    <div class="btnArea">
-      <el-button @click="editCourse">编辑资料</el-button>
-      <el-button class="endCourseBtn">结束课程</el-button>
-      <el-button class="deleteCourseBtn" type="danger" plain>删除课程</el-button>
+    <div>
+      <el-button class="editBtn" @click="editCourse">
+        <span>编辑资料</span>
+      </el-button>
+      <el-button class="endBtn">
+        <span>结束课程</span>
+      </el-button>
+      <el-button
+          class="deleteBtn"
+          type="danger"
+          plain>
+        <span>删除课程</span>
+      </el-button>
     </div>
   </div>
 </template>
@@ -29,6 +39,7 @@ export default {
         params:{
           course_id:42024401,
           course_name:document.getElementById("courseName").innerText.split("：")[1],
+          course_teacher_ID:document.getElementById("courseTeacher").innerText.split("：")[1],
           course_des:document.getElementById("courseDes").innerText.split("：")[1]
         }
       })
@@ -43,6 +54,7 @@ export default {
           }
         })
         .then(function (response) {
+          document.getElementById("courseTeacher").innerHTML += response.data.teacher_ID
           document.getElementById("courseName").innerHTML += response.data.name
           document.getElementById("courseDes").innerHTML += response.data.description
         })
@@ -56,33 +68,16 @@ export default {
 
 <style scoped>
 
-.courseID{
+#courseID, #courseName, #courseTeacher, #courseDes{
   position: relative;
-  top: 20px
+  margin-top: 35px;
+  margin-bottom: 30px;
 }
 
-.courseName{
+.editBtn, .endBtn, .deleteBtn{
   position: relative;
-  top: 45px
-}
-
-.courseDes{
-  position: relative;
-  top: 70px
-}
-
-.btnArea{
-  position:relative;
-  top: 130px
-}
-
-.endCourseBtn{
-  position: relative;
-  left: 50px;
-}
-
-.deleteCourseBtn{
-  position: relative;
-  left: 100px;
+  margin-top: 60px;
+  margin-left: 30px;
+  margin-right: 40px;
 }
 </style>

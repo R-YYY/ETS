@@ -5,14 +5,23 @@
         <el-header>
           <div class="pathArea">
             <el-breadcrumb class="filePath" separator-class="el-icon-arrow-right">
-              <el-breadcrumb-item :to="{ path: '/' }">课程名？？</el-breadcrumb-item>
-              <el-breadcrumb-item>？？？？</el-breadcrumb-item>
-              <el-breadcrumb-item>？？？？</el-breadcrumb-item>
-              <el-breadcrumb-item>？？？？</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: '/' }">
+                <span>课程名？？</span>
+              </el-breadcrumb-item>
+              <el-breadcrumb-item>
+                <span>？？？？</span>
+              </el-breadcrumb-item>
+              <el-breadcrumb-item>
+                <span>？？？？</span>
+              </el-breadcrumb-item>
+              <el-breadcrumb-item>
+                <span>？？？？</span>
+              </el-breadcrumb-item>
             </el-breadcrumb>
           </div>
           <div class="searchArea">
-            <el-input class="input" v-model="input" placeholder="请输入查找项目名称"></el-input>
+            <el-input class="input" v-model="input" placeholder="请输入查找项目名称">
+            </el-input>
             <el-button type="primary">搜索</el-button>
             <el-button type="primary">上传文件</el-button>
           </div>
@@ -22,17 +31,23 @@
             <p>文件树区域</p>
           </el-aside>
           <el-main class="fileList">
-            <el-table :data="fileList" height="300px" :row-style="{height: '35px'}" :cell-style="{padding: '0'}" >
-              <el-table-column prop="name" label="文件名"></el-table-column>
-              <el-table-column prop="time" label="创建时间"></el-table-column>
+            <el-table :data="fileList" height="445px"
+                      :row-style="{height: '35px'}" :cell-style="{padding: '0'}" >
+              <el-table-column prop="name" label="文件名" width="300px">
+              </el-table-column>
+              <el-table-column prop="time" label="创建时间" width="250px">
+              </el-table-column>
               <el-table-column width="50px">
-                <el-button icon="el-icon-view" circle size="mini"></el-button>
+                <el-button icon="el-icon-view" size="mini" circle>
+                </el-button>
               </el-table-column>
               <el-table-column  width="50px">
-                <el-button icon="el-icon-download" circle size="mini"></el-button>
+                <el-button icon="el-icon-download" size="mini" circle >
+                </el-button>
               </el-table-column>
               <el-table-column width="50px">
-                <el-button icon="el-icon-delete" circle size="mini"></el-button>
+                <el-button icon="el-icon-delete" size="mini" circle>
+                </el-button>
               </el-table-column>
             </el-table>
           </el-main>
@@ -59,11 +74,11 @@ export default {
 
 <style scoped>
 .fileTab{
-  height:480px;
-  width: 1150px;
-  position: relative;
-  left: 70px;
-  top:45px;
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 40px;
+  background-color:white;
 }
 
 .pathArea{
@@ -91,7 +106,7 @@ export default {
 }
 
 .fileList{
-  position: relative;
-  top:30px;
+  margin-top: 30px;
+  margin-left: 130px;
 }
 </style>
