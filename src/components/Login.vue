@@ -1,9 +1,15 @@
 <template>
   <div class="login_container">
+    <div class="background">
+      <img src="../assets/ga.jpg" width="100%" height="100%" alt="" />
+    </div>
     <div class="login_box">
       <!-- 头像区 -->
-      <div class="avatar_box">
+      <!-- <div class="avatar_box">
         <img src="../assets/logo.png" alt="avatar" />
+      </div> -->
+      <div class="Title">
+        <h3>实验教学管理系统</h3>
       </div>
       <!-- 登录表单 -->
       <div>
@@ -14,18 +20,18 @@
           label-width="60px"
           class="login_form"
         >
-          <el-form-item label="账号" prop="id">
+          <el-form-item label="账号" prop="id" class="white_Item">
             <el-input
               v-model="loginForm.id"
-              placeholder="请输入你的学号/工号"
+              placeholder="请输入学号/工号"
               prefix-icon="iconfont icon-user"
             >
             </el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="密码" prop="password" class="white_Item">
             <el-input
               v-model="loginForm.password"
-              placeholder="请输入你的密码"
+              placeholder="请输入密码"
               type="password"
               prefix-icon="iconfont icon-3702mima"
             >
@@ -110,6 +116,18 @@ export default {
         else this.getloginInfo();
       });
     },
+    getloginInfo(){
+      this.$axios.get(
+        "/idMatchPassword",{
+          params:{
+          account_ID:this.loginForm.id,
+          password:this.loginForm.password
+          }
+        }
+      )
+      .then
+    }
+
     // async getloginInfo() {
     //   const getData = (data1) => {
     //     this.res = data1;
@@ -130,7 +148,7 @@ export default {
     //   if (this.res.code !== 200) return this.$message.error("登录失败");
     //   this.$message.success("登录成功");
     //   console.log(this.res);
-    //   // 1、将登陆成功之后的token, 保存到客户端的sessionStorage中; localStorage中是持久化的保存
+    //   // 1、将登陆成功之后的token, 保存到客户端的sessionStorage中; l中ocalStorage是持久化的保存
     //   //   1.1 项目中出现了登录之外的其他API接口，必须在登陆之后才能访问
     //   //   1.2 token 只应在当前网站打开期间生效，所以将token保存在sessionStorage中
     //   window.sessionStorage.setItem("token", this.res.data.token);
@@ -146,29 +164,40 @@ export default {
   },
 };
 </script>
+
 <style>
 /* <style lang="less" scoped> */
 /* // lang="less" 支持less格式
     // scoped vue的指令，只在当前组件生效 */
-.login_container {
-  background-color: #668b8b;
-  height: 100%;
+body {
+  margin: 0px;
+  padding: 0px;
 }
 
-/* .login_box {
+.background {
+  width: 100%;
+  height: 100%; /**宽高100%是为了图片铺满屏幕 */
+  z-index: -1;
+  position: absolute;
+}
+
+.login_box {
   width: 450px;
   height: 360px;
-  background-color: #fff;
-  border-radius: 3px;
-  box-shadow: 5px 5px 5px #000000;
+  opacity: 0.9;
+  border-radius: 5px;
   position: absolute;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border: 1px solid #d8d2d2;
+  box-shadow: 5px 5px 5px #000000;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+  background-color: #414749;
 
-  background-color: #fff;
-  .avatar_box {
+  /* .avatar_box {
     width: 130px;
     height: 130px;
     border: 1px solid #eee;
@@ -185,8 +214,18 @@ export default {
       border-radius: 50%;
       background-color: #eee;
     }
-  }
-} */
+  } 貌似又不能嵌套了？？？
+  */
+}
+
+.Title {
+  height: 130px;
+  text-align: center;
+  line-height: 65px;
+  font-size: 30px;
+  font-family: SimSun;
+  color: white;
+}
 
 .login_form {
   position: absolute;
@@ -209,5 +248,9 @@ export default {
 .info {
   font-size: 13px;
   margin: 10px 15px;
+}
+
+.white_Item .el-form-item__label {
+  color: white;
 }
 </style>
