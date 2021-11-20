@@ -14,10 +14,13 @@ Vue.use(ElementUI)
 
 Vue.use(VueRouter)
 
+Vue.config.productionTip = false
+
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL="/api";
 
-Vue.config.productionTip = false
+import Qs from "qs";
+Vue.prototype.$qs = Qs
 
 new Vue({
   router,
