@@ -8,12 +8,14 @@ import ManageCourse from "@/components/teacherPages/course/ManageCourse";
 import ManageGrade from "@/components/teacherPages/grade/ManageGrade";
 import ManageFile from "@/components/teacherPages/file/ManageFile";
 import Feedback from "@/components/teacherPages/feedback/ManageFeedbacks";
-import CourseInfo from "@/components/teacherPages/course/CourseInfo";
 import EditCourseInfo from "@/components/teacherPages/course/EditCourseInfo";
 import TeacherList from "@/components/teacherPages/course/TeacherList";
 import TAList from "@/components/teacherPages/course/TAList";
 import ProjectList from "@/components/teacherPages/task/ProjectList";
 import AttendanceList from "@/components/teacherPages/task/AttendanceList";
+import SetGrade from "@/components/teacherPages/grade/SetGrade";
+import PartGrade from "@/components/teacherPages/grade/PartGrade";
+import StudentCourseHome from "@/components/studentPages/StudentCourseHome";
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -26,7 +28,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'/',
-    redirect: {name: 'CourseHome'}
+    // redirect: {name: 'StudentCourseHome'},
+    redirect: {name: 'CourseHome'},
   },
   {
     path: '/login',
@@ -41,36 +44,26 @@ const routes = [
       {
         path: '',
         component: ManageCourse,
-        children:[
-            {
-              path: 'info',
-              name: 'info',
-              components: {
-                courseInfo:CourseInfo,
-              }
-            },
-          {
-            path: 'edit',
-            name: 'edit',
-            components: {
-              courseInfo:EditCourseInfo
-            }
-          },
-          {
-            path: 'teachers',
-            name: 'teachers',
-            components:{
-              teacherList: TeacherList
-            }
-          },
-          {
-            path: 'tas',
-            name: 'tas',
-            components:{
-              taList: TAList
-            }
-          }
-        ]
+      },
+      {
+        path: 'info',
+        name: 'info',
+        component: ManageCourse,
+      },
+      {
+        path: 'edit',
+        name: 'edit',
+        component: EditCourseInfo
+      },
+      {
+        path: 'teachers',
+        name: 'teachers',
+        component: TeacherList
+      },
+      {
+        path: 'tas',
+        name: 'tas',
+        component: TAList
       },
       {
         path: 'students',
@@ -80,28 +73,32 @@ const routes = [
       {
         path: 'tasks',
         name: 'tasks',
-        component: ManageTask,
-        children: [
-          {
-            path: 'projects',
-            name: 'projects',
-            components: {
-              projectList:ProjectList
-            }
-          },
-          {
-            path: 'attendances',
-            name: 'attendances',
-            components: {
-              attendanceList:AttendanceList
-            }
-          }
-        ]
+        component: ManageTask
       },
       {
-        path: 'grades',
-        name: 'grades',
+        path: 'projects',
+        name: 'projects',
+        component: ProjectList
+      },
+      {
+        path: 'attendances',
+        name: 'attendances',
+        component: AttendanceList
+      },
+      {
+        path: 'totalGrades',
+        name: 'totalGrades',
         component: ManageGrade
+      },
+      {
+        path: 'partGrades',
+        name: 'partGrades',
+        component: PartGrade
+      },
+      {
+        path: 'setGrades',
+        name: 'setGrades',
+        component: SetGrade
       },
       {
         path: 'files',
@@ -115,6 +112,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/stu/courseInfo/:course_id',
+    name: 'StudentCourseHome',
+    component: StudentCourseHome
+  }
 ]
 
 const router = new VueRouter({

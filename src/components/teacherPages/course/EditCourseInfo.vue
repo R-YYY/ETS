@@ -1,29 +1,5 @@
 <template>
-  <div style="height:430px ;overflow: hidden">
-    <div>
-      <h2>课程信息</h2>
-      <el-form>
-        <el-form-item label="课程编号">
-          <el-input v-model="this.$route.params.course_id"
-                    :disabled="true" style="width: 150px;font-size: 17px">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="责任教师">
-          <el-input v-model="this.$route.params.course_teacher_ID"
-                    :disabled="true" style="width: 150px;font-size: 17px">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="课程名称">
-          <el-input v-model="this.$route.params.course_name" style="width: 400px">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="课程介绍">
-          <el-input v-model="this.$route.params.course_des" :rows="3"
-                    type="textarea" resize="none" style="width: 400px">
-          </el-input>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div>
     <div>
       <el-button class="btn" @click="saveEdit">
         <span>保存</span>
@@ -32,57 +8,162 @@
         <span>取消</span>
       </el-button>
     </div>
+    <div style="height: 100%">
+      <el-tabs
+        class="editTab"
+        v-model="activeIndex"
+        type="border-card"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane label="课程设置">
+          <el-container>
+            <div class="uploadArea">
+              <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+              >
+                <img
+                  src="../../../assets/course.png"
+                  alt="加载失败"
+                  style="width: 260px"
+                />
+              </el-upload>
+              <div class="tips">
+                <br /><br /><span>仅支持*******格式图片</span><br />
+                <span>建议最佳尺寸*****，不超过***</span>
+              </div>
+            </div>
+            <div class="editArea">
+              <h2>课程信息</h2>
+              <el-form>
+                <el-form-item label="课程编号">
+                  <el-input
+                    class="inputInfo"
+                    v-model="this.$route.params.course_id"
+                    :disabled="true"
+                  >
+                  </el-input>
+                </el-form-item>
+                <el-form-item label="责任教师">
+                  <el-input
+                    v-model="this.$route.params.course_teacher_ID"
+                    :disabled="true"
+                    class="inputInfo"
+                  >
+                  </el-input>
+                </el-form-item>
+                <el-form-item label="课程名称">
+                  <el-input
+                    v-model="this.$route.params.course_name"
+                    style="width: 400px"
+                  >
+                  </el-input>
+                </el-form-item>
+                <el-form-item label="课程介绍">
+                  <el-input
+                    v-model="this.$route.params.course_des"
+                    :rows="4"
+                    type="textarea"
+                    resize="none"
+                    style="width: 400px"
+                  >
+                  </el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-container>
+        </el-tab-pane>
+        <el-tab-pane label="教师团队"> </el-tab-pane>
+        <el-tab-pane label="助教团队"> </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "EditCourseInfo",
-  data(){
-    return{
-      tmpName:'',
-      tmpDes: '',
-      courseInfo:{
-        course_ID:'',
-        name: '',
-        description: ''
-      }
-    }
+  data() {
+    return {
+      activeIndex: "0",
+      tmpName: "",
+      tmpDes: "",
+      courseInfo: {
+        course_ID: "",
+        name: "",
+        description: "",
+      },
+    };
   },
-  methods:{
-    //更新课程资料
-    saveEdit(){
-      console.log("success!")
-      this.$router.push({name:'info'});
-      // this.$router.push({
-      //   name:'info',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
+  methods: {
+    handleClick(tab, event) {
+      if (tab.index == 0)
+        this.$router.push({
+          name: "info",
+          params: {
+            course_id: 42024401,
+          },
+        });
+      else if (tab.index == 1)
+        this.$router.push({
+          name: "teachers",
+          params: {
+            course_id: 42024401,
+          },
+        });
+      else if (tab.index == 2)
+        this.$router.push({
+          name: "tas",
+          params: {
+            course_id: 42024401,
+          },
+        });
     },
-    cancelEdit(){
-      this.$router.push({name:'info'});
-      // this.$router.push({
-      //   name:'info',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
-    }
+    //更新课程资料
+    saveEdit() {
+      console.log("success!");
+      this.$router.push({ name: "info" });
+    },
+    cancelEdit() {
+      this.$router.push({ name: "info" });
+    },
   },
-  mounted() {
-
-  }
-}
+  mounted() {},
+};
 </script>
 
 <style scoped>
-.btn{
-  position: relative;
-  margin-left: 150px;
+.editTab {
+  height: 100%;
+  margin-top: 20px;
   margin-right: 50px;
-  margin-top: 10px;
+  margin-left: 40px;
+  background-color: white;
 }
 
+.uploadArea {
+  margin-left: 170px;
+  margin-top: 70px;
+  margin-right: 100px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.editArea {
+  margin-top: 10px;
+  margin-left: 100px;
+  line-height: 90px;
+  width: 600px;
+}
+
+.btn {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+.inputInfo {
+  width: 150px;
+  font-size: 17px;
+}
 </style>

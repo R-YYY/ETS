@@ -1,20 +1,44 @@
 <template>
   <div>
-    <div class="attendTable">
-      <el-table :data="attendList" height="530px">
-        <el-table-column prop="id" label="考勤编号" width="330px">
-        </el-table-column>
-        <el-table-column prop="time" label="考勤时间" width="500px" sortable>
-        </el-table-column>
-        <el-table-column width="200px">
-          <el-button @click="drawer = true" plain>查看</el-button>
-        </el-table-column>
-      </el-table>
-    </div>
+    <div style="height: 40px"></div>
     <div>
-      <el-drawer title="考勤详情" :visible.sync="drawer" :direction="direction">
-
-      </el-drawer>
+      <el-tabs
+        class="attendanceTab"
+        type="border-card"
+        @tab-click="handleClick"
+        value="attendance"
+      >
+        <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
+        <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
+        <el-tab-pane label="课程考勤" name="attendance">
+          <div style="height: 480px">
+            <div class="attendTable">
+              <el-table :data="attendList" height="480px">
+                <el-table-column prop="id" label="考勤编号" width="330px">
+                </el-table-column>
+                <el-table-column
+                  prop="time"
+                  label="考勤时间"
+                  width="500px"
+                  sortable
+                >
+                </el-table-column>
+                <el-table-column width="200px">
+                  <el-button @click="drawer = true" plain>查看</el-button>
+                </el-table-column>
+              </el-table>
+            </div>
+            <div>
+              <el-drawer
+                title="考勤详情"
+                :visible.sync="drawer"
+                :direction="direction"
+              >
+              </el-drawer>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -24,22 +48,54 @@ export default {
   name: "AttendanceList",
   data() {
     const item = {
-      id: '1111111',
-      time: '0000-00-00 00:00:00',
+      id: "1111111",
+      time: "0000-00-00 00:00:00",
     };
     return {
       drawer: false,
-      direction: 'ltr',
-      attendList:Array(15).fill(item),
+      direction: "ltr",
+      attendList: Array(15).fill(item),
     };
-  }
-}
+  },
+  methods: {
+    handleClick(tab, event) {
+      if (tab.index == 0)
+        this.$router.push({
+          name: "tasks",
+          params: {
+            course_id: 42024401,
+          },
+        });
+      else if (tab.index == 1)
+        this.$router.push({
+          name: "projects",
+          params: {
+            course_id: 42024401,
+          },
+        });
+      else if (tab.index == 2)
+        this.$router.push({
+          name: "attendances",
+          params: {
+            course_id: 42024401,
+          },
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-.attendTable{
-  width: 1050px;
+.attendanceTab {
+  height: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  margin-left: 40px;
+  background-color: white;
+}
+
+.attendTable {
+  width: 1100px;
   margin-left: 80px;
-  margin-top: 0;
 }
 </style>

@@ -5,9 +5,13 @@
     </el-header>
     <el-container>
       <el-aside class="mainAside" width="170px">
-        <img id="courseImg" src="../../../src/assets/course.jpg" alt="加载失败">
+        <img
+          id="courseImg"
+          src="../../../src/assets/course.png"
+          alt="加载失败"
+        />
         <div>
-          <el-menu :default-active="activeIndex">
+          <el-menu :default-active="activeIndex" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item class="option" index="1" @click="toCourse">
               <i class="el-icon-reading"></i>
               <span>课程管理</span>
@@ -35,8 +39,8 @@
           </el-menu>
         </div>
       </el-aside>
-      <el-main style="background-color: #e5eff5">
-        <router-view style="height:100%;overflow: hidden"></router-view>
+      <el-main style="background-color: #f5f5f5">
+        <router-view style="height: 100%"></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -47,12 +51,12 @@ export default {
   name: "CourseHome",
   data() {
     return {
-        activeIndex: '1'
-    }
+      activeIndex: "1",
+    };
   },
-  methods:{
-    toCourse(){
-      this.$router.push({name:'info'});
+  methods: {
+    toCourse() {
+      this.$router.push({ name: "info" });
       // this.$router.push({
       //   name:'info',
       //   params:{
@@ -60,8 +64,8 @@ export default {
       //   }
       // });
     },
-    toStudent(){
-      this.$router.push({name:'students'});
+    toStudent() {
+      this.$router.push({ name: "students" });
       // this.$router.push({
       //   name:'students',
       //   params:{
@@ -69,8 +73,8 @@ export default {
       //   }
       // })
     },
-    toTask(){
-      this.$router.push({name:'tasks'});
+    toTask() {
+      this.$router.push({ name: "tasks" });
       // this.$router.push({
       //   name:'tasks',
       //   params:{
@@ -78,8 +82,8 @@ export default {
       //   }
       // })
     },
-    toGrade(){
-      this.$router.push({name:'grades'});
+    toGrade() {
+      this.$router.push({ name: "totalGrades" });
       // this.$router.push({
       //   name:'grades',
       //   params:{
@@ -87,8 +91,8 @@ export default {
       //   }
       // })
     },
-    toFile(){
-      this.$router.push({name:'files'});
+    toFile() {
+      this.$router.push({ name: "files" });
       // this.$router.push({
       //   name:'files',
       //   params:{
@@ -96,46 +100,46 @@ export default {
       //   }
       // })
     },
-    toFeedback(){
-      this.$router.push({name:'feedbacks'});
+    toFeedback() {
+      this.$router.push({ name: "feedbacks" });
       // this.$router.push({
       //   name:'feedbacks',
       //   params:{
       //     course_id:42024401
       //   }
       // })
-    }
+    },
   },
   mounted() {
     this.$router.push({
-      name:'info',
-      params:{
-        course_id:42024401
-      }
+      name: "info",
+      params: {
+        course_id: 42024401,
+      },
     });
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.option{
+.option {
   height: 70px;
   font-size: 17px;
 }
 
-#courseImg{
-  width: 160px
+#courseImg {
+  width: 170px;
 }
 
-.mainAside{
+.mainAside {
   text-align: center;
+  background-color: #545c64;
   /*background-color: rgb(238, 241, 246)*/
 }
 
-.title{
+.title {
   font-size: 35px;
   line-height: 10px;
   text-align: left;
 }
-
 </style>
