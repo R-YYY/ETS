@@ -80,9 +80,16 @@ export default {
         course_id:42024401
       }
     })
+    //创建定时器更新最新时间
     this.timer = setInterval(() => {
       _this.date = new Date(); // 修改日期数据
     }, 1000);
+  },
+  beforeDestroy() {
+    //清除定时器
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 }
 </script>

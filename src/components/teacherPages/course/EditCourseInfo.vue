@@ -142,16 +142,16 @@ export default {
 }
 
 .uploadArea {
-  margin-left: 200px;
-  margin-top: 100px;
+  margin-left: 170px;
+  margin-top: 70px;
   margin-right: 100px;
   font-size: 12px;
   text-align: center;
 }
 
 .editArea {
-  margin-top: 30px;
-  margin-left: 150px;
+  margin-top: 10px;
+  margin-left: 100px;
   line-height: 90px;
   width: 600px;
 }
