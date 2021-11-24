@@ -11,7 +11,7 @@
         <span>删除课程</span>
       </el-button>
     </div>
-    <div>
+    <div class="Main">
       <el-tabs
         class="courseTab"
         v-model="activeIndex"
@@ -19,7 +19,7 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container style="height: 480px">
+          <el-container style="height: 100%">
             <div class="imgArea">
               <img
                 src="../../../assets/course.png"
@@ -151,5 +151,9 @@ export default {
 
 .info{
   font-size: 20px;
+}
+
+.Main{
+  height: 92%
 }
 </style>
