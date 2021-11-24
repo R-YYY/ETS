@@ -103,7 +103,7 @@ export default {
         inputErrorMessage: "学号格式不正确",
       })
         .then(({ value }) => {
-          this.add(value)
+          this.add(value);
         })
         .catch(() => {
           this.$message({
@@ -112,52 +112,53 @@ export default {
           });
         });
     },
-    add(data){
-      this.$axios.post(
-          '/course/addTakeCourse',{
-            student_ID:data,
-            course_ID:this.$route.params.course_id,
-            authority:1
-          }).then((response)=>{
-        if(response.data === 1){
-          this.$message({
-            type: "success",
-            message: "添加成功！",
-          })
-        }
-        else if(response.data === -2){
+    add(data) {
+      this.$axios
+        .post("/course/addTakeCourse", {
+          student_ID: data,
+          course_ID: this.$route.params.course_id,
+          authority: 1,
+        })
+        .then((response) => {
+          if (response.data === 1) {
+            this.$message({
+              type: "success",
+              message: "添加成功！",
+            });
+          } else if (response.data === -2) {
+            this.$message({
+              type: "error",
+              message: "添加失败！输入助教不存在！",
+            });
+          } else if (response.data === -4) {
+            this.$message({
+              type: "error",
+              message: "添加失败！该助教已经在课程中！",
+            });
+          }
+        })
+        .catch(() => {
           this.$message({
             type: "error",
-            message: "添加失败！输入助教不存在！",
+            message: "添加失败！请重试!",
           });
-        }
-        else if(response.data === -4){
-          this.$message({
-            type: "error",
-            message: "添加失败！该助教已经在课程中！",
-          });
-        }
-      }).catch(()=>{
-        this.$message({
-          type: "error",
-          message: "添加失败！请重试!",
         });
-      })
-    }
+    },
   },
   mounted() {
     this.$axios
-        .get("/course/getListStudentInfoByCourseId", {
-          params: {
-            course_ID: this.$route.params.course_id,
-            authority: 1
-          },
-        })
-        .then((response) => {
-          this.taList=response.data
-        }).catch((error)=>{
-      console.log(error)
-    })
+      .get("/course/getListStudentInfoByCourseId", {
+        params: {
+          course_ID: this.$route.params.course_id,
+          authority: 1,
+        },
+      })
+      .then((response) => {
+        this.taList = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
@@ -177,8 +178,8 @@ export default {
 }
 
 .memberTab {
-  width: 1060px;
-  margin-left: 70px;
+  width: 88%;
+  margin-left: 100px;
   margin-top: 0;
 }
 </style>

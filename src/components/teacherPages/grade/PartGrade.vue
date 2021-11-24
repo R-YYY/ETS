@@ -5,7 +5,12 @@
       <el-button>搜索</el-button>
     </div>
     <div>
-      <el-tabs class="gradeTab" active-name="part" type="border-card" @tab-click="handleClick">
+      <el-tabs
+        class="gradeTab"
+        active-name="part"
+        type="border-card"
+        @tab-click="handleClick"
+      >
         <el-tab-pane label="总成绩" name="total"></el-tab-pane>
         <el-tab-pane label="单项成绩" name="part" style="overflow: auto">
           <div class="gradeShow">
@@ -16,10 +21,26 @@
                     <span style="font-size: 17px">实验项目</span>
                   </template>
                   <el-table :data="projectGradeList">
-                    <el-table-column label="实验名称" prop="name" width="400px"></el-table-column>
-                    <el-table-column label="平均分" prop="average" width="150px"></el-table-column>
-                    <el-table-column label="最低分" prop="low" width="150px"></el-table-column>
-                    <el-table-column label="最高分" prop="high" width="150px"></el-table-column>
+                    <el-table-column
+                      label="实验名称"
+                      prop="name"
+                      width="400px"
+                    ></el-table-column>
+                    <el-table-column
+                      label="平均分"
+                      prop="average"
+                      width="150px"
+                    ></el-table-column>
+                    <el-table-column
+                      label="最低分"
+                      prop="low"
+                      width="150px"
+                    ></el-table-column>
+                    <el-table-column
+                      label="最高分"
+                      prop="high"
+                      width="150px"
+                    ></el-table-column>
                     <el-table-column width="180px">
                       <el-button>查看详情</el-button>
                     </el-table-column>
@@ -32,10 +53,26 @@
                     <span style="font-size: 17px">考勤</span>
                   </template>
                   <el-table :data="attendanceGradeList">
-                    <el-table-column type="index" label="序号" width="150px"></el-table-column>
-                    <el-table-column prop="startTime" label="开始时间" width="250px"></el-table-column>
-                    <el-table-column prop="endTime" label="结束时间" width="250px"></el-table-column>
-                    <el-table-column prop="number" label="考勤人数" width="200px"></el-table-column>
+                    <el-table-column
+                      type="index"
+                      label="序号"
+                      width="150px"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="startTime"
+                      label="开始时间"
+                      width="250px"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="endTime"
+                      label="结束时间"
+                      width="250px"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="number"
+                      label="考勤人数"
+                      width="200px"
+                    ></el-table-column>
                     <el-table-column width="150px">
                       <el-button>查看详情</el-button>
                     </el-table-column>
@@ -53,49 +90,49 @@
 
 <script>
 export default {
-  name:'PartGrade',
+  name: "PartGrade",
   data() {
     return {
       projectGradeList: [
         {
-          name:'实验一',
-          low:0,
-          high:100,
-          average:50
+          name: "实验一",
+          low: 0,
+          high: 100,
+          average: 50,
         },
         {
-          name:'实验一',
-          low:0,
-          high:100,
-          average:50
+          name: "实验一",
+          low: 0,
+          high: 100,
+          average: 50,
         },
         {
-          name:'实验一',
-          low:0,
-          high:100,
-          average:50
+          name: "实验一",
+          low: 0,
+          high: 100,
+          average: 50,
         },
       ],
-      attendanceGradeList:[
+      attendanceGradeList: [
         {
-          startTime:'2020-11-11 11:11:11',
-          endTime:'2020-11-17 11:11:11',
-          number:'11/12'
+          startTime: "2020-11-11 11:11:11",
+          endTime: "2020-11-17 11:11:11",
+          number: "11/12",
         },
         {
-          startTime:'2020-11-11 11:11:11',
-          endTime:'2020-11-17 11:11:11',
-          number:'11/12'
+          startTime: "2020-11-11 11:11:11",
+          endTime: "2020-11-17 11:11:11",
+          number: "11/12",
         },
         {
-          startTime:'2020-11-11 11:11:11',
-          endTime:'2020-11-17 11:11:11',
-          number:'11/12'
+          startTime: "2020-11-11 11:11:11",
+          endTime: "2020-11-17 11:11:11",
+          number: "11/12",
         },
-      ]
+      ],
     };
   },
-  methods:{
+  methods: {
     handleClick(tab) {
       if (tab.index == 0)
         this.$router.push({
@@ -119,7 +156,7 @@ export default {
           },
         });
     },
-  }
+  },
 };
 </script>
 
@@ -132,19 +169,19 @@ export default {
   background-color: white;
 }
 
-.inputProject{
+.inputProject {
   width: 300px;
   margin-left: 40px;
 }
 
-.gradeShow{
+.gradeShow {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 30px;
-  height: 450px;
+  height: 570px;
 }
 
-.gradeCard{
-  margin-bottom: 20px
+.gradeCard {
+  margin-bottom: 20px;
 }
 </style>

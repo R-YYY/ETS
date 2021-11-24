@@ -31,16 +31,16 @@
               <h2>课程信息</h2>
               <el-form label-position="left" label-width="80px">
                 <el-form-item label="课程编号">
-                  <span id="courseID">{{ this.$route.params.course_id }}</span>
+                  <span class="info">{{ this.$route.params.course_id }}</span>
                 </el-form-item>
                 <el-form-item label="责任教师">
-                  <span id="courseTeacher"></span>
+                  <span class="info">{{courseTeacherID}}</span>
                 </el-form-item>
                 <el-form-item label="课程名称">
-                  <span id="courseName"></span>
+                  <span class="info">{{courseName}}</span>
                 </el-form-item>
                 <el-form-item label="课程介绍">
-                  <span id="courseDes"></span>
+                  <span class="info">{{courseDes}}</span>
                 </el-form-item>
               </el-form>
             </div>
@@ -59,11 +59,9 @@ export default {
   data() {
     return {
       activeIndex: "0",
-      courseInfo: {
-        course_ID: "00000000",
-        name: "暂无课程名称",
-        description: "暂无课程介绍",
-      },
+      courseTeacherID:'',
+      courseName:'',
+      courseDes:'',
     };
   },
   methods: {
@@ -95,37 +93,31 @@ export default {
         name: "edit",
         params: {
           course_id: 42024401,
-          course_name: document
-            .getElementById("courseName")
-            .innerText,
-          course_teacher_ID: document
-            .getElementById("courseTeacher")
-            .innerText,
-          course_des: document
-            .getElementById("courseDes")
-            .innerText,
+          course_name: this.courseName,
+          course_teacher_ID: this.courseTeacherID,
+          course_des: this.courseDes,
         },
       });
     },
   },
-  mounted: function () {
+  mounted() {
     let _this = this;
-    this.$axios.get(
-        "/course/get", {
+    this.$axios
+      .get("/course/get", {
         params: {
-          course_ID: 42024401,
+          course_ID: this.$route.params.course_id,
         },
       })
       .then(function (response) {
-        document.getElementById("courseTeacher").innerHTML +=
-          response.data.teacher_ID;
-        document.getElementById("courseName").innerHTML += response.data.name;
-        document.getElementById("courseDes").innerHTML +=
-          response.data.description;
+        console.log(response.data)
+        _this.courseTeacherID=response.data.teacher_ID
+        _this.courseName=response.data.name
+        _this.courseDes=response.data.description
       })
       .catch(function (error) {
-        _this.courseInfo.name = "";
-        _this.courseInfo.description = "";
+        _this.courseTeacherID=''
+        _this.courseName=''
+        _this.courseDes=''
       });
   },
 };
@@ -141,15 +133,15 @@ export default {
 }
 
 .imgArea {
-  margin-left: 170px;
+  margin-left: 200px;
   margin-top: 100px;
   margin-right: 100px;
 }
 
 .infoArea {
-  margin-left: 130px;
+  margin-left: 150px;
   margin-top: 30px;
-  line-height: 70px;
+  line-height: 100px;
 }
 
 .btn {
@@ -157,10 +149,7 @@ export default {
   margin-right: 20px;
 }
 
-#courseID,
-#courseTeacher,
-#courseName,
-#courseDes {
-  font-size: 18px;
+.info{
+  font-size: 20px;
 }
 </style>

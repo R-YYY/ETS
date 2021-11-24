@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>
-      <el-input class="inputFeedbackName" v-model="input" placeholder="请输入反馈人姓名">
+      <el-input
+        class="inputFeedbackName"
+        v-model="input"
+        placeholder="请输入反馈人姓名"
+      >
       </el-input>
       <el-button type="primary" plain>搜索</el-button>
     </div>

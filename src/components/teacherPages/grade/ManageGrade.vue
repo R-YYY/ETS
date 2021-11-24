@@ -6,15 +6,44 @@
       <el-button>导出成绩</el-button>
     </div>
     <div>
-      <el-tabs class="gradeTab" active-name="total" type="border-card" @tab-click="handleClick">
+      <el-tabs
+        class="gradeTab"
+        active-name="total"
+        type="border-card"
+        @tab-click="handleClick"
+      >
         <el-tab-pane label="总成绩" name="total">
           <div style="height: 480px">
-            <el-table :data="totalGradeList" class="totalGradeTable" height="470px">
-              <el-table-column type="student_ID" label="学号" width="180px"></el-table-column>
-              <el-table-column type="name" label="姓名" width="180px"></el-table-column>
-              <el-table-column prop="projectGrade" label="实验成绩" width="190px"></el-table-column>
-              <el-table-column prop="attendanceGrade" label="考勤成绩" width="190px"></el-table-column>
-              <el-table-column prop="totalGrade" label="总成绩" width="190px"></el-table-column>
+            <el-table
+              :data="totalGradeList"
+              class="totalGradeTable"
+              height="470px"
+            >
+              <el-table-column
+                type="student_ID"
+                label="学号"
+                width="180px"
+              ></el-table-column>
+              <el-table-column
+                type="name"
+                label="姓名"
+                width="180px"
+              ></el-table-column>
+              <el-table-column
+                prop="projectGrade"
+                label="实验成绩"
+                width="190px"
+              ></el-table-column>
+              <el-table-column
+                prop="attendanceGrade"
+                label="考勤成绩"
+                width="190px"
+              ></el-table-column>
+              <el-table-column
+                prop="totalGrade"
+                label="总成绩"
+                width="190px"
+              ></el-table-column>
               <el-table-column width="140px">
                 <el-button>查看详情</el-button>
               </el-table-column>
@@ -33,10 +62,10 @@ export default {
   name: "ManageGrade",
   data() {
     return {
-      totalGradeList: []
+      totalGradeList: [],
     };
   },
-  methods:{
+  methods: {
     handleClick(tab) {
       if (tab.index == 0)
         this.$router.push({
@@ -60,7 +89,7 @@ export default {
           },
         });
     },
-  }
+  },
 };
 </script>
 
@@ -73,13 +102,13 @@ export default {
   background-color: white;
 }
 
-.inputProject{
+.inputProject {
   width: 300px;
   margin-left: 40px;
 }
 
-.totalGradeTable{
-  width: 1070px;
+.totalGradeTable {
+  width: 90%;
   margin-left: 70px;
 }
 </style>

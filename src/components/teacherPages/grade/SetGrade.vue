@@ -4,13 +4,16 @@
       <el-button class="btn">保存</el-button>
     </div>
     <div>
-      <el-tabs class="setGradeTab" active-name="set" type="border-card" @tab-click="handleClick">
+      <el-tabs
+        class="setGradeTab"
+        active-name="set"
+        type="border-card"
+        @tab-click="handleClick"
+      >
         <el-tab-pane label="总成绩" name="total"></el-tab-pane>
         <el-tab-pane label="单项成绩" name="part"></el-tab-pane>
         <el-tab-pane label="设置成绩权重" name="set">
-          <div style="height: 480px">
-
-          </div>
+          <div style="height: 480px"></div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -20,12 +23,10 @@
 <script>
 export default {
   name: "SetGrade",
-  data(){
-    return{
-
-    }
+  data() {
+    return {};
   },
-  methods:{
+  methods: {
     handleClick(tab) {
       if (tab.index == 0)
         this.$router.push({
@@ -49,12 +50,12 @@ export default {
           },
         });
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.setGradeTab{
+.setGradeTab {
   height: 100%;
   margin-top: 20px;
   margin-right: 50px;
@@ -62,7 +63,7 @@ export default {
   background-color: white;
 }
 
-.btn{
+.btn {
   margin-left: 40px;
 }
 </style>

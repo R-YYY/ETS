@@ -3,23 +3,82 @@
     <el-header style="height: 9%">
       <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
-    <div style="width: 100%;height: 25%;background-color: #ceced2">
-      <img class="courseImg" src="../../../src/assets/course.png" alt="加载失败">
+    <div style="width: 100%;height: 28%;background-color: #9189fd">
+      <el-container>
+        <img class="courseImg" src="../../../src/assets/course.png" alt="加载失败">
+        <span class="courseTitle">
+          {{courseName}}<br>课程编号：{{courseID}}
+        </span>
+        <el-container class="timeArea">
+          <el-card class="time">2</el-card>
+          <el-card class="time">2</el-card>
+          <span class="colon">:</span>
+          <el-card class="time">2</el-card>
+          <el-card class="time">2</el-card>
+        </el-container>
+      </el-container>
     </div>
-      <el-menu  mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-        <el-menu-item index="1" style="margin-left: 250px"><span>课程信息</span></el-menu-item>
-        <el-menu-item index="2"><span>课程学生</span></el-menu-item>
-        <el-menu-item index="3"><span>学习任务</span></el-menu-item>
-        <el-menu-item index="4"><span>课程成绩</span></el-menu-item>
-        <el-menu-item index="5"><span>课程资料</span></el-menu-item>
-        <el-menu-item index="6"><span>课程反馈</span></el-menu-item>
-      </el-menu>
+    <el-menu default-active="1" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
+      <el-menu-item index="1" class="stuOption" style="margin-left: 140px" @click="toTask"><span>学习任务</span></el-menu-item>
+      <el-menu-item index="2" class="stuOption" @click="toFile"><span>课程资料</span></el-menu-item>
+      <el-menu-item index="3" class="stuOption" @click="toStudent"><span>课程学生</span></el-menu-item>
+      <el-menu-item index="4" class="stuOption" @click="toGrade"><span>课程成绩</span></el-menu-item>
+      <el-menu-item index="5" class="stuOption" @click="toFeedback"><span>课程反馈</span></el-menu-item>
+    </el-menu>
+    <el-container style="background-color: whitesmoke">
+      <div class="courseShow" >
+        <router-view></router-view>
+      </div>
+      <div class="courseInfoArea">
+        <el-card class="courseInfo" shadow="never">
+          <div slot="header">
+            <span style="font-size: 20px">授课教师</span>
+          </div>
+        </el-card>
+        <el-card class="courseInfo" shadow="never">
+          <div slot="header">
+            <span style="font-size: 20px">课程信息</span>
+          </div>
+        </el-card>
+      </div>
+    </el-container>
   </el-container>
 </template>
 
 <script>
 export default {
-  name: "StudentCourseHome"
+  name: "StudentCourseHome",
+  data(){
+    return {
+      courseName:'软件工程课程设计',
+      courseID:'42014603',
+    }
+  },
+  methods:{
+    toTask(){
+      this.$router.push({name:'stuTasks'})
+    },
+    toFile(){
+      this.$router.push({name:'stuFiles'})
+    },
+    toGrade(){
+      this.$router.push({name:'stuGrades'})
+    },
+    toStudent(){
+      this.$router.push({name:'stuStudents'})
+    },
+    toFeedback(){
+      this.$router.push({name:'stuFeedbacks'})
+    }
+  },
+  mounted() {
+    this.$router.push({
+      name:'stuTasks',
+      params:{
+        course_id:42024401
+      }
+    })
+  }
 }
 </script>
 
@@ -31,8 +90,65 @@ export default {
 }
 
 .courseImg{
+  width: 170px;
+  margin-left: 180px;
+  margin-top: 40px;
+}
+
+.courseTitle{
+  width: 300px;
+  color: white;
+  font-size: 22px;
+  margin-top: 60px;
+  margin-left: 50px;
+  line-height: 70px;
+}
+
+.stuOption{
+  font-size: 18px;
   width: 150px;
+  text-align: center;
+}
+
+.courseInfoArea{
+  height: 100%;
+  width: 30%
+}
+
+.courseShow{
+  height: 100%;
+  width: 70%
+}
+
+.courseInfo{
+  margin-left: 20px;
+  margin-right: 120px;
+  margin-top: 30px;
+}
+
+.time{
+  margin-top: 20px;
+  margin-left: 10px;
+  font-size: 100px;
+}
+
+.colon{
+  font-size: 100px;
+  margin-top: 35px;
+  margin-left: 10px;
+  margin-right: 0;
+  border-width: 0;
+  background-color: rgba(0,0,0,0%)
+}
+
+.timeArea{
+  margin-top: 20px;
   margin-left: 250px;
-  margin-top: 15px;
+}
+</style>
+
+<style>
+.el-menu-item.is-active{
+  font-size: 22px;
 }
 </style>

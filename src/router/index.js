@@ -16,6 +16,11 @@ import AttendanceList from "@/components/teacherPages/task/AttendanceList";
 import SetGrade from "@/components/teacherPages/grade/SetGrade";
 import PartGrade from "@/components/teacherPages/grade/PartGrade";
 import StudentCourseHome from "@/components/studentPages/StudentCourseHome";
+import StudentTask from "@/components/studentPages/task/StudentTask";
+import StudentFile from "@/components/studentPages/file/StudentFile";
+import Student from "@/components/studentPages/student/Student";
+import StudentGrade from "@/components/studentPages/grade/StudentGrade";
+import StudentFeedback from "@/components/studentPages/feedback/StudentFeedback";
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -28,8 +33,9 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'/',
-    // redirect: {name: 'StudentCourseHome'},
-    redirect: {name: 'CourseHome'},
+    // redirect: {name: 'LogIn'},
+    redirect: {name: 'StudentCourseHome'},
+    // redirect: {name: 'CourseHome'},
   },
   {
     path: '/login',
@@ -115,7 +121,38 @@ const routes = [
   {
     path: '/stu/courseInfo/:course_id',
     name: 'StudentCourseHome',
-    component: StudentCourseHome
+    component: StudentCourseHome,
+    children: [
+      {
+        path: '',
+        component: StudentTask
+      },
+      {
+        path: 'stuTasks',
+        name: 'stuTasks',
+        component: StudentTask
+      },
+      {
+        path: 'stuFiles',
+        name: 'stuFiles',
+        component: StudentFile
+      },
+      {
+        path: 'stuStudents',
+        name: 'stuStudents',
+        component: Student
+      },
+      {
+        path: 'stuGrades',
+        name: 'stuGrades',
+        component: StudentGrade
+      },
+      {
+        path: 'stuFeedbacks',
+        name: 'stuFeedbacks',
+        component: StudentFeedback
+      },
+    ]
   }
 ]
 

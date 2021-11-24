@@ -21,11 +21,11 @@
               </el-table-column>
               <el-table-column width="120px">
                 <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    plain
-                    @click="open"
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                  plain
+                  @click="open"
                 >
                 </el-button>
               </el-table-column>
@@ -40,7 +40,7 @@
 <script>
 export default {
   name: "ManageStudent",
-  data(){
+  data() {
     return {
       studentList: [],
       dialogVisible: false,
@@ -75,7 +75,7 @@ export default {
         inputErrorMessage: "学号格式不正确",
       })
         .then(({ value }) => {
-          this.add(value)
+          this.add(value);
         })
         .catch(() => {
           this.$message({
@@ -84,52 +84,54 @@ export default {
           });
         });
     },
-    add(data){
-      this.$axios.post(
-          '/course/addTakeCourse',{
-            student_ID:data,
-            course_ID:this.$route.params.course_id,
-            authority:0
-          }).then((response)=>{
-        if(response.data === 1){
-          this.$message({
-            type: "success",
-            message: "添加成功！",
-          })
-        }
-        else if(response.data === -1){
+    add(data) {
+      this.$axios
+        .post("/course/addTakeCourse", {
+          student_ID: data,
+          course_ID: this.$route.params.course_id,
+          authority: 0,
+        })
+        .then((response) => {
+          if (response.data === 1) {
+            this.$message({
+              type: "success",
+              message: "添加成功！",
+            });
+          } else if (response.data === -1) {
+            this.$message({
+              type: "error",
+              message: "添加失败！输入学生不存在！",
+            });
+          } else if (response.data === -5) {
+            this.$message({
+              type: "error",
+              message: "添加失败！该学生已经在课程中！",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
           this.$message({
             type: "error",
-            message: "添加失败！输入学生不存在！",
+            message: "添加失败！请重试!",
           });
-        }
-        else if(response.data === -5){
-          this.$message({
-            type: "error",
-            message: "添加失败！该学生已经在课程中！",
-          });
-        }
-      }).catch((error)=>{
-        console.log(error)
-        this.$message({
-          type: "error",
-          message: "添加失败！请重试!",
-        })})
-    }
+        });
+    },
   },
   mounted() {
     this.$axios
-        .get("/course/getListStudentInfoByCourseId", {
-          params: {
-            course_ID: this.$route.params.course_id,
-            authority: 0
-          },
-        })
-        .then((response) => {
-          this.studentList=response.data
-        }).catch((error)=>{
-      console.log(error)
-    })
+      .get("/course/getListStudentInfoByCourseId", {
+        params: {
+          course_ID: this.$route.params.course_id,
+          authority: 0,
+        },
+      })
+      .then((response) => {
+        this.studentList = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
@@ -150,7 +152,7 @@ export default {
 }
 
 .memberTable {
-  width: 1070px;
-  margin-left: 70px;
+  width: 88%;
+  margin-left: 100px;
 }
 </style>

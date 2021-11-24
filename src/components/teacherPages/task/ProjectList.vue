@@ -29,7 +29,7 @@
                 :key="item.project_ID"
                 :offest="1"
               >
-                <div style="margin-top: 30px; margin-left: 70px">
+                <div class="eachProject">
                   <el-card class="projectCard">
                     <div slot="header">
                       <span>项目名称：{{ item.name }}</span>
@@ -58,8 +58,20 @@
               </el-col>
             </el-row>
           </div>
+
+          <el-dialog :visible=checkDialogVisible>
+            <el-table>
+              <el-table-column label="学号"></el-table-column>
+              <el-table-column label="姓名"></el-table-column>
+              <el-table-column label="提交时间"></el-table-column>
+              <el-table-column label="批改时间"
+              :filters="[{ text: '已批改', value: '已批改' }, { text: '未批改', value: '未批改' }]"
+              :filter-method="filterState"
+              ></el-table-column>
+            </el-table>
+          </el-dialog>
         </el-tab-pane>
-        <el-tab-pane label="课程考勤" name="attendancd"> </el-tab-pane>
+        <el-tab-pane label="课程考勤" name="attendance"> </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -73,6 +85,7 @@ export default {
       input: "",
       projectList: null,
       tmpList: null,
+      checkDialogVisible:false
     };
   },
   methods: {
@@ -110,21 +123,17 @@ export default {
         }
       }
     },
-    checkProject() {},
-    deleteProject() {},
+    checkProject() {
+      this.checkDialogVisible=true
+    },
+    deleteProject() {
+
+    },
+    filterState(value,row){
+      return row.state === value
+    }
   },
   mounted() {
-    const match = (dataList) => {
-      this.projectList = [];
-      for (let i = 0; i < dataList.length; i++) {
-        this.projectList.push({
-          name: dataList[i].name,
-          release_time: dataList[i].release_time,
-          deadline: dataList[i].deadline,
-          teacher_ID: dataList[i].teacher_ID,
-        });
-      }
-    };
     this.$axios
       .get("/course/getProjectListByCourseId", {
         params: {
@@ -132,7 +141,7 @@ export default {
         },
       })
       .then((response) => {
-        match(response.data);
+        this.projectList = response.data
         this.tmpList = this.projectList;
       })
       .catch((error) => {
@@ -157,17 +166,23 @@ export default {
 }
 
 .projectCard {
-  height: 300px;
-  width: 300px;
+  font-size: 18px;
+  height: 350px;
+  width: 350px;
 }
 
 .btn {
-  margin-left: 30px;
-  margin-right: 35px;
+  margin-left: 40px;
+  margin-right: 25px;
 }
 
 .projectArea {
-  height: 480px;
+  height: 600px;
   overflow: auto;
+}
+
+.eachProject{
+  margin-top: 30px;
+  margin-left: 100px;
 }
 </style>

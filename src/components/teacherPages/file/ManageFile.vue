@@ -2,9 +2,10 @@
   <div>
     <div>
       <el-input
-          class="inputFileName"
-          v-model="input"
-          placeholder="请输入查找项目名称">
+        class="inputFileName"
+        v-model="input"
+        placeholder="请输入查找项目名称"
+      >
       </el-input>
       <el-button>搜索</el-button>
       <el-button>上传文件</el-button>
@@ -15,8 +16,11 @@
           <el-container style="height: 480px">
             <div>
               <div class="pathArea">
-                <el-breadcrumb class="filePath" separator-class="el-icon-arrow-right">
-                  <el-breadcrumb-item :to="{ name:'files' }">
+                <el-breadcrumb
+                  class="filePath"
+                  separator-class="el-icon-arrow-right"
+                >
+                  <el-breadcrumb-item :to="{ name: 'files' }">
                     <span>课程名？？</span>
                   </el-breadcrumb-item>
                   <el-breadcrumb-item>
@@ -31,21 +35,23 @@
                 </el-breadcrumb>
               </div>
               <div>
-                <el-card class="fileTree"></el-card>
+                <el-card class="fileTree" shadow="never">文件树</el-card>
               </div>
             </div>
             <div class="fileList">
               <el-table
-                  :data="fileList"
-                  height="450px"
-                  :row-style="{ height: '35px' }"
-                  :cell-style="{ padding: '0' }">
+                :data="fileList"
+                height="450px"
+                :row-style="{ height: '35px' }"
+                :cell-style="{ padding: '0' }"
+              >
                 <el-table-column prop="name" label="文件名" width="300px">
                 </el-table-column>
                 <el-table-column prop="time" label="创建时间" width="250px">
                 </el-table-column>
                 <el-table-column width="50px">
-                  <el-button icon="el-icon-view" size="mini" circle> </el-button>
+                  <el-button icon="el-icon-view" size="mini" circle>
+                  </el-button>
                 </el-table-column>
                 <el-table-column width="50px">
                   <el-button icon="el-icon-download" size="mini" circle>
@@ -73,7 +79,7 @@ export default {
       time: "0000-00-00 00:00:00",
     };
     return {
-      input:'',
+      input: "",
       fileList: Array(3).fill(item),
     };
   },
@@ -94,7 +100,8 @@ export default {
 }
 
 .filePath {
-  font-size: 17px;
+  margin-top: 10px;
+  font-size: 20px;
 }
 
 .inputFileName {
@@ -103,11 +110,11 @@ export default {
 }
 
 .fileTree {
-  margin-top: 30px;
+  margin-top: 50px;
   margin-left: 25px;
   margin-right: 50px;
   width: 400px;
-  height: 420px;
+  height: 500px;
 }
 
 .fileList {

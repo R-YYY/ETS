@@ -42,8 +42,8 @@
         :visible.sync="projectDialogVisible"
         width="680px"
       >
-        <el-form :model="projectInfo" label-width="70px">
-          <el-form-item label="项目名称">
+        <el-form ref="newProject" :model="projectInfo" label-width="70px">
+          <el-form-item label="项目名称" prop="name">
             <el-input
               v-model="projectInfo.name"
               autocomplete="off"
@@ -51,7 +51,7 @@
               @change="projectDialogChange = true"
             ></el-input>
           </el-form-item>
-          <el-form-item label="有效时间">
+          <el-form-item label="有效时间" prop="time">
             <el-col style="width: 250px">
               <el-date-picker
                 v-model="projectInfo.release_time"
@@ -74,7 +74,7 @@
               </el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="项目描述">
+          <el-form-item label="项目描述" prop="description">
             <el-input
               v-model="projectInfo.description"
               autocomplete="off"
@@ -84,7 +84,7 @@
               @change="projectDialogChange = true"
             ></el-input>
           </el-form-item>
-          <el-form-item label="附加文件">
+          <el-form-item label="附加文件" prop="file">
             <el-upload
               action="https://jsonplaceholder.typicode.com/posts/"
               :on-preview="handlePreview"
@@ -144,7 +144,6 @@ export default {
       projectDialogVisible: false,
       projectDialogChange: false,
       attendanceDialogVisible: false,
-      attendanceDialogChange: false,
       attendanceTime: null,
       projectInfo: {
         name: "",
@@ -157,12 +156,7 @@ export default {
         start_time: null,
         end_time: null,
       },
-      fileList: [
-        {
-          name: "food.jpeg",
-          url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-        },
-      ],
+      fileList: [],
     };
   },
   methods: {
@@ -209,6 +203,7 @@ export default {
           .catch((action) => {
             if (action === "cancel") {
               //  重置发布项目表单内容
+              this.$refs.newProject.resetFields()
               this.projectDialogVisible = false;
               this.projectDialogChange = false;
             }
@@ -269,8 +264,8 @@ export default {
 .typeCard {
   width: 300px;
   border-width: 2px;
-  margin-top: 90px;
-  margin-left: 170px;
+  margin-top: 130px;
+  margin-left: 280px;
   margin-right: 30px;
   cursor: pointer;
 }

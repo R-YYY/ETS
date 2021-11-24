@@ -8,7 +8,7 @@
         <span>取消</span>
       </el-button>
     </div>
-    <div style="height: 100%">
+    <div>
       <el-tabs
         class="editTab"
         v-model="activeIndex"
@@ -16,7 +16,7 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container>
+          <el-container style="height: 480px">
             <div class="uploadArea">
               <el-upload
                 class="avatar-uploader"
@@ -55,14 +55,14 @@
                 </el-form-item>
                 <el-form-item label="课程名称">
                   <el-input
-                    v-model="this.$route.params.course_name"
+                    v-model="tmpName"
                     style="width: 400px"
                   >
                   </el-input>
                 </el-form-item>
                 <el-form-item label="课程介绍">
                   <el-input
-                    v-model="this.$route.params.course_des"
+                    v-model="tmpDes"
                     :rows="4"
                     type="textarea"
                     resize="none"
@@ -89,11 +89,6 @@ export default {
       activeIndex: "0",
       tmpName: "",
       tmpDes: "",
-      courseInfo: {
-        course_ID: "",
-        name: "",
-        description: "",
-      },
     };
   },
   methods: {
@@ -129,7 +124,11 @@ export default {
       this.$router.push({ name: "info" });
     },
   },
-  mounted() {},
+  mounted() {
+    let _this =this
+    _this.tmpName=this.$route.params.course_name
+    _this.tmpDes=this.$route.params.course_des
+  },
 };
 </script>
 
@@ -143,16 +142,16 @@ export default {
 }
 
 .uploadArea {
-  margin-left: 170px;
-  margin-top: 70px;
+  margin-left: 200px;
+  margin-top: 100px;
   margin-right: 100px;
   font-size: 12px;
   text-align: center;
 }
 
 .editArea {
-  margin-top: 10px;
-  margin-left: 100px;
+  margin-top: 30px;
+  margin-left: 150px;
   line-height: 90px;
   width: 600px;
 }

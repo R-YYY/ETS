@@ -11,7 +11,12 @@
           alt="加载失败"
         />
         <div>
-          <el-menu :default-active="activeIndex" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+          <el-menu
+            :default-active="activeIndex"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+          >
             <el-menu-item class="option" index="1" @click="toCourse">
               <i class="el-icon-reading"></i>
               <span>课程管理</span>
@@ -57,57 +62,21 @@ export default {
   methods: {
     toCourse() {
       this.$router.push({ name: "info" });
-      // this.$router.push({
-      //   name:'info',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // });
     },
     toStudent() {
       this.$router.push({ name: "students" });
-      // this.$router.push({
-      //   name:'students',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
     },
     toTask() {
       this.$router.push({ name: "tasks" });
-      // this.$router.push({
-      //   name:'tasks',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
     },
     toGrade() {
       this.$router.push({ name: "totalGrades" });
-      // this.$router.push({
-      //   name:'grades',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
     },
     toFile() {
       this.$router.push({ name: "files" });
-      // this.$router.push({
-      //   name:'files',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
     },
     toFeedback() {
       this.$router.push({ name: "feedbacks" });
-      // this.$router.push({
-      //   name:'feedbacks',
-      //   params:{
-      //     course_id:42024401
-      //   }
-      // })
     },
   },
   mounted() {
@@ -123,23 +92,24 @@ export default {
 
 <style scoped>
 .option {
-  height: 70px;
-  font-size: 17px;
+  height: 90px;
+  font-size: 20px;
 }
 
 #courseImg {
-  width: 170px;
+  margin-top: 5px;
+  width: 180px;
 }
 
 .mainAside {
   text-align: center;
   background-color: #545c64;
-  /*background-color: rgb(238, 241, 246)*/
 }
 
 .title {
   font-size: 35px;
-  line-height: 10px;
+  line-height: 30px;
   text-align: left;
 }
 </style>
+

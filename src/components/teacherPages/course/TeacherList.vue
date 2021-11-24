@@ -16,7 +16,12 @@
         <el-tab-pane label="教师团队">
           <div>
             <el-table class="memberTab" :data="teacherList" height="480px">
-              <el-table-column class="teacherID" prop="teacher_ID" label="工号" width="270px">
+              <el-table-column
+                class="teacherID"
+                prop="teacher_ID"
+                label="工号"
+                width="270px"
+              >
               </el-table-column>
               <el-table-column
                 class="name"
@@ -113,7 +118,7 @@ export default {
         inputErrorMessage: "工号格式不正确",
       })
         .then(({ value }) => {
-          this.add(value)
+          this.add(value);
         })
         .catch(() => {
           this.$message({
@@ -122,39 +127,40 @@ export default {
           });
         });
     },
-    add(data){
-      this.$axios.post(
-          '/course/addTeachCourse',
+    add(data) {
+      this.$axios
+        .post(
+          "/course/addTeachCourse",
           this.$qs.stringify({
-            teacher_ID:data,
-            course_ID:this.$route.params.course_id
+            teacher_ID: data,
+            course_ID: this.$route.params.course_id,
           })
-      ).then((response)=>{
-        if(response.data === 1){
-          this.$message({
-            type: "success",
-            message: "添加成功！",
-          })
-        }
-        else if(response.data === -1){
+        )
+        .then((response) => {
+          if (response.data === 1) {
+            this.$message({
+              type: "success",
+              message: "添加成功！",
+            });
+          } else if (response.data === -1) {
+            this.$message({
+              type: "error",
+              message: "添加失败！输入老师不存在！",
+            });
+          } else if (response.data === -3) {
+            this.$message({
+              type: "error",
+              message: "添加失败！该老师已经在课程中！",
+            });
+          }
+        })
+        .catch(() => {
           this.$message({
             type: "error",
-            message: "添加失败！输入老师不存在！",
+            message: "添加失败！请重试!",
           });
-        }
-        else if(response.data === -3){
-          this.$message({
-            type: "error",
-            message: "添加失败！该老师已经在课程中！",
-          });
-        }
-      }).catch(()=>{
-        this.$message({
-          type: "error",
-          message: "添加失败！请重试!",
         });
-      })
-    }
+    },
   },
   mounted() {
     this.$axios
@@ -164,11 +170,12 @@ export default {
         },
       })
       .then((response) => {
-        this.teacherList=response.data
-        console.log(response.data)
-      }).catch((error)=>{
-        console.log(error)
+        this.teacherList = response.data;
+        console.log(response.data);
       })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
@@ -188,8 +195,8 @@ export default {
 }
 
 .memberTab {
-  width: 1060px;
-  margin-left: 70px;
+  width: 88%;
+  margin-left: 100px;
   margin-top: 0;
 }
 </style>

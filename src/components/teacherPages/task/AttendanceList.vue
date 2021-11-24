@@ -12,22 +12,20 @@
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance">
           <div style="height: 480px">
-            <div class="attendTable">
-              <el-table :data="attendList" height="480px">
-                <el-table-column prop="id" label="考勤编号" width="330px">
+              <el-table class="attendTable" :data="attendList" height="470px">
+                <el-table-column prop="id" label="考勤编号" width="350px">
                 </el-table-column>
                 <el-table-column
                   prop="time"
                   label="考勤时间"
-                  width="500px"
+                  width="550px"
                   sortable
                 >
                 </el-table-column>
-                <el-table-column width="200px">
+                <el-table-column width="150px">
                   <el-button @click="drawer = true" plain>查看</el-button>
                 </el-table-column>
               </el-table>
-            </div>
             <div>
               <el-drawer
                 title="考勤详情"
@@ -95,7 +93,7 @@ export default {
 }
 
 .attendTable {
-  width: 1100px;
+  width: 90%;
   margin-left: 80px;
 }
 </style>
