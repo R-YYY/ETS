@@ -10,11 +10,11 @@
           {{courseName}}<br>课程编号：{{courseID}}
         </span>
         <el-container class="timeArea">
-          <el-card class="time">2</el-card>
-          <el-card class="time">2</el-card>
+          <el-card class="time">{{ parseInt(date.getHours()/10) }}</el-card>
+          <el-card class="time">{{ date.getHours()%10 }}</el-card>
           <span class="colon">:</span>
-          <el-card class="time">2</el-card>
-          <el-card class="time">2</el-card>
+          <el-card class="time">{{ parseInt(date.getMinutes()/10)}}</el-card>
+          <el-card class="time">{{ date.getMinutes()%10}}</el-card>
         </el-container>
       </el-container>
     </div>
@@ -50,6 +50,7 @@ export default {
   name: "StudentCourseHome",
   data(){
     return {
+      date:new Date(),
       courseName:'软件工程课程设计',
       courseID:'42014603',
     }
@@ -72,12 +73,16 @@ export default {
     }
   },
   mounted() {
+    let _this = this;
     this.$router.push({
       name:'stuTasks',
       params:{
         course_id:42024401
       }
     })
+    this.timer = setInterval(() => {
+      _this.date = new Date(); // 修改日期数据
+    }, 1000);
   }
 }
 </script>
@@ -148,6 +153,6 @@ export default {
 
 <style>
 .el-menu-item.is-active{
-  font-size: 20px;
+  font-size: 19px;
 }
 </style>
