@@ -92,13 +92,13 @@ export default {
 
 <style scoped>
 .option {
-  height: 90px;
-  font-size: 20px;
+  height: 70px;
+  font-size: 17px;
 }
 
 #courseImg {
   margin-top: 5px;
-  width: 180px;
+  width: 170px;
 }
 
 .mainAside {
@@ -108,7 +108,7 @@ export default {
 
 .title {
   font-size: 35px;
-  line-height: 30px;
+  line-height: 10px;
   text-align: left;
 }
 </style>

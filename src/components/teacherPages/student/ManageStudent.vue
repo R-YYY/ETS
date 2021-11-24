@@ -152,7 +152,7 @@ export default {
 }
 
 .memberTable {
-  width: 88%;
-  margin-left: 100px;
+  width: 90%;
+  margin-left: 60px;
 }
 </style>

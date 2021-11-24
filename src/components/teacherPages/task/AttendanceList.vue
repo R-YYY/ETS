@@ -12,7 +12,7 @@
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance">
           <div style="height: 480px">
-              <el-table class="attendTable" :data="attendList" height="470px">
+              <el-table class="attendTable" :data="attendList" height="480px">
                 <el-table-column prop="id" label="考勤编号" width="350px">
                 </el-table-column>
                 <el-table-column

@@ -50,8 +50,4 @@ export default {
   font-weight: 500;
   color: #303133;
 }
-
-/*.el-tabs__item.is-active {*/
-/*  font-size: 20px;*/
-/*}*/
 </style>

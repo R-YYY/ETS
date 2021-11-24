@@ -166,23 +166,22 @@ export default {
 }
 
 .projectCard {
-  font-size: 18px;
-  height: 350px;
-  width: 350px;
+  height: 300px;
+  width: 300px;
 }
 
 .btn {
-  margin-left: 40px;
-  margin-right: 25px;
+  margin-left: 30px;
+  margin-right: 35px;
 }
 
 .projectArea {
-  height: 600px;
+  height: 480px;
   overflow: auto;
 }
 
 .eachProject{
   margin-top: 30px;
-  margin-left: 100px;
+  margin-left: 70px;
 }
 </style>

@@ -11,7 +11,7 @@
         <span>删除课程</span>
       </el-button>
     </div>
-    <div class="Main">
+    <div>
       <el-tabs
         class="courseTab"
         v-model="activeIndex"
@@ -19,7 +19,7 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container style="height: 100%">
+          <el-container style="height: 480px">
             <div class="imgArea">
               <img
                 src="../../../assets/course.png"
@@ -133,15 +133,15 @@ export default {
 }
 
 .imgArea {
-  margin-left: 200px;
+  margin-left: 170px;
   margin-top: 100px;
   margin-right: 100px;
 }
 
 .infoArea {
-  margin-left: 150px;
+  margin-left: 130px;
   margin-top: 30px;
-  line-height: 100px;
+  line-height: 70px;
 }
 
 .btn {
@@ -150,10 +150,6 @@ export default {
 }
 
 .info{
-  font-size: 20px;
-}
-
-.Main{
-  height: 92%
+  font-size: 17px;
 }
 </style>

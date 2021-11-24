@@ -178,8 +178,8 @@ export default {
 }
 
 .memberTab {
-  width: 88%;
-  margin-left: 100px;
+  width: 90%;
+  margin-left: 60px;
   margin-top: 0;
 }
 </style>

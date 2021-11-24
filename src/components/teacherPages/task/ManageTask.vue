@@ -264,8 +264,8 @@ export default {
 .typeCard {
   width: 300px;
   border-width: 2px;
-  margin-top: 130px;
-  margin-left: 280px;
+  margin-top: 90px;
+  margin-left: 170px;
   margin-right: 30px;
   cursor: pointer;
 }

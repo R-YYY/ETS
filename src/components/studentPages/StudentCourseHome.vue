@@ -19,7 +19,7 @@
       </el-container>
     </div>
     <el-menu default-active="1" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
-      <el-menu-item index="1" class="stuOption" style="margin-left: 140px" @click="toTask"><span>学习任务</span></el-menu-item>
+      <el-menu-item index="1" class="stuOption" style="margin-left: 170px" @click="toTask"><span>学习任务</span></el-menu-item>
       <el-menu-item index="2" class="stuOption" @click="toFile"><span>课程资料</span></el-menu-item>
       <el-menu-item index="3" class="stuOption" @click="toStudent"><span>课程学生</span></el-menu-item>
       <el-menu-item index="4" class="stuOption" @click="toGrade"><span>课程成绩</span></el-menu-item>
@@ -90,22 +90,22 @@ export default {
 }
 
 .courseImg{
-  width: 170px;
+  width: 150px;
   margin-left: 180px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .courseTitle{
   width: 300px;
   color: white;
-  font-size: 22px;
-  margin-top: 60px;
+  font-size: 20px;
+  margin-top: 30px;
   margin-left: 50px;
   line-height: 70px;
 }
 
 .stuOption{
-  font-size: 18px;
+  font-size: 16px;
   width: 150px;
   text-align: center;
 }
@@ -142,13 +142,12 @@ export default {
 }
 
 .timeArea{
-  margin-top: 20px;
-  margin-left: 250px;
+  margin-left: 150px;
 }
 </style>
 
 <style>
 .el-menu-item.is-active{
-  font-size: 22px;
+  font-size: 20px;
 }
 </style>
