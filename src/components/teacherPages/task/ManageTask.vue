@@ -58,7 +58,7 @@
           <el-form-item label="有效时间" prop="time">
             <el-col style="width: 250px">
               <el-date-picker
-                v-model="projectInfo.release_time"
+                v-model="projectInfo.start_time"
                 type="datetime"
                 placeholder="选择开始时间"
                 default-time="00:00:00"
@@ -69,7 +69,7 @@
             <el-col style="width: 50px; text-align: center">至 </el-col>
             <el-col style="width: 250px; text-align: right">
               <el-date-picker
-                v-model="projectInfo.deadline"
+                v-model="projectInfo.end_time"
                 type="datetime"
                 placeholder="选择结束时间"
                 default-time="23:59:59"
@@ -152,8 +152,8 @@ export default {
       projectInfo: {
         name: "",
         description: null,
-        release_time: null,
-        deadline: "",
+        start_time: null,
+        end_time: "",
         path_number: 0,
       },
       attendanceInfo: {

@@ -92,6 +92,7 @@ export default {
 
 <style scoped>
 .option {
+  width: 170px;
   height: 70px;
   font-size: 17px;
 }

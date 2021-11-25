@@ -89,7 +89,7 @@ export default {
         .post("/course/addTakeCourse", {
           student_ID: data,
           course_ID: this.$route.params.course_id,
-          authority: 0,
+          isStudent: 1,
         })
         .then((response) => {
           if (response.data === 1) {
@@ -123,7 +123,7 @@ export default {
       .get("/course/getListStudentInfoByCourseId", {
         params: {
           course_ID: this.$route.params.course_id,
-          authority: 0,
+          isStudent: 1,
         },
       })
       .then((response) => {

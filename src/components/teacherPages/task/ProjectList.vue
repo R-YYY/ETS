@@ -35,8 +35,8 @@
                       <span>项目名称：{{ item.name }}</span>
                     </div>
                     <div>
-                      <p>发布时间：{{ item.release_time }}</p>
-                      <p>截至时间：{{ item.deadline }}</p>
+                      <p>发布时间：{{ item.start_time }}</p>
+                      <p>截至时间：{{ item.end_time }}</p>
                       <p>发布人：{{ item.teacher_ID }}</p>
                       <br />
                     </div>
