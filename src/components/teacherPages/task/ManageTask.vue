@@ -11,7 +11,10 @@
         <el-tab-pane label="发布任务" name="task">
           <el-container style="height: 480px">
             <div class="typeCard">
-              <el-card shadow="hover" @click.native="addProject">
+              <el-card
+                  shadow="hover"
+                  @click.native="addProject"
+                  style="cursor:pointer">
                 <i class="el-icon-s-cooperation"></i><br />
                 <div class="choice">
                   <p>发布实验项目</p>
@@ -22,6 +25,7 @@
               <el-card
                 shadow="hover"
                 @click.native="attendanceDialogVisible = true"
+                style="cursor:pointer"
               >
                 <i class="el-icon-user-solid"></i><br />
                 <div class="choice">
@@ -267,6 +271,5 @@ export default {
   margin-top: 90px;
   margin-left: 170px;
   margin-right: 30px;
-  cursor: pointer;
 }
 </style>

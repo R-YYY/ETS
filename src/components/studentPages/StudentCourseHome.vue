@@ -1,9 +1,9 @@
 <template>
-  <el-container style="height:100%">
-    <el-header style="height: 9%">
+  <el-container class="pageContainer">
+    <el-header class="pageHeader">
       <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
-    <div style="width: 100%;height: 28%;background-color: #9189fd">
+    <div class="pageMiddle">
       <el-container>
         <img class="courseImg" src="../../../src/assets/course.png" alt="加载失败">
         <span class="courseTitle">
@@ -25,7 +25,7 @@
       <el-menu-item index="4" class="stuOption" @click="toGrade"><span>课程成绩</span></el-menu-item>
       <el-menu-item index="5" class="stuOption" @click="toFeedback"><span>课程反馈</span></el-menu-item>
     </el-menu>
-    <el-container style="background-color: whitesmoke">
+    <el-container>
       <div class="courseShow" >
         <router-view></router-view>
       </div>
@@ -95,6 +95,23 @@ export default {
 </script>
 
 <style scoped>
+.pageContainer{
+  background-color: whitesmoke;
+  height:100%;
+  overflow:auto
+}
+
+.pageHeader{
+  height: 9%;
+  background-color: white
+}
+
+.pageMiddle{
+  width: 100%;
+  height: 28%;
+  background-color: #9189fd
+}
+
 .title {
   font-size: 35px;
   line-height: 10px;
@@ -104,11 +121,12 @@ export default {
 .courseImg{
   width: 150px;
   margin-left: 180px;
-  margin-top: 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .courseTitle{
-  width: 300px;
+  width: 400px;
   color: white;
   font-size: 20px;
   margin-top: 30px;
@@ -129,7 +147,7 @@ export default {
 
 .courseShow{
   height: 100%;
-  width: 70%
+  width: 70%;
 }
 
 .courseInfo{
@@ -138,8 +156,13 @@ export default {
   margin-top: 30px;
 }
 
+.timeArea{
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
 .time{
-  margin-top: 20px;
+  margin-top: 15px;
   margin-left: 10px;
   font-size: 100px;
 }
@@ -151,10 +174,6 @@ export default {
   margin-right: 0;
   border-width: 0;
   background-color: rgba(0,0,0,0%)
-}
-
-.timeArea{
-  margin-left: 150px;
 }
 </style>
 

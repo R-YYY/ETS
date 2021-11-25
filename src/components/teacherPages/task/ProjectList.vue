@@ -59,7 +59,7 @@
             </el-row>
           </div>
 
-          <el-dialog :visible=checkDialogVisible>
+          <el-dialog :visible.sync=checkDialogVisible>
             <el-table>
               <el-table-column label="学号"></el-table-column>
               <el-table-column label="姓名"></el-table-column>

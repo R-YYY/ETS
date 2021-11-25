@@ -100,8 +100,7 @@ export default {
 }
 
 .filePath {
-  margin-top: 10px;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .inputFileName {
@@ -110,11 +109,11 @@ export default {
 }
 
 .fileTree {
-  margin-top: 50px;
+  margin-top: 30px;
   margin-left: 25px;
   margin-right: 50px;
   width: 400px;
-  height: 500px;
+  height: 420px;
 }
 
 .fileList {
