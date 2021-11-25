@@ -104,6 +104,10 @@ export default {
       })
         .then(({ value }) => {
           this.add(value);
+          this.$message({
+            type:'success',
+            message:'助教'+value+'已被添加',
+          })
         })
         .catch(() => {
           this.$message({

@@ -2,9 +2,19 @@
   <el-tabs class="stuTaskTab" v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="实验项目" name="project">
       <div class="projectCard" v-for="project in projectList">
-        <p style="font-size: 18px"><i class="el-icon-ship" style="color: #0cd5ce;margin-left: 5px;margin-right: 15px"></i>{{project.name}}</p>
-        <p>{{project.description}}</p>
-        <p style="color: #9b9b9b">{{project.release_time}}</p>
+        <el-descriptions :title="project.name" :column="2">
+          <template slot="extra">
+            <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium" @click="btnClick">去完成</el-button>
+          </template>
+          <el-descriptions-item label="开始时间">{{project.start_time}}</el-descriptions-item>
+          <el-descriptions-item label="截止时间" class="redEndTime">{{project.end_time}}</el-descriptions-item>
+          <el-descriptions-item label="发布老师">待定</el-descriptions-item>
+        </el-descriptions>
+<!--          <span>-->
+<!--            <p style="font-size: 18px"><i class="el-icon-ship" style="color: #0cd5ce;margin-left: 5px;margin-right: 15px"></i>{{project.name}}</p>-->
+<!--            <p>{{project.description}}</p>-->
+<!--            <p style="color: #9b9b9b">{{project.release_time}}</p>-->
+<!--          </span>-->
         <el-divider></el-divider>
       </div>
     </el-tab-pane>
@@ -29,6 +39,10 @@ export default {
     },
     open(){
       window.open()
+    },
+    btnClick(){
+
+      // this.getElementById("checkButton")
     }
   },
   mounted() {
@@ -53,6 +67,10 @@ export default {
   margin-left: 170px;
   margin-right: 20px;
   background-color: white;
+}
+
+.redEndTime{
+  color: tomato;
 }
 
 .projectCard{

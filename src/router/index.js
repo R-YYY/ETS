@@ -34,8 +34,8 @@ const routes = [
   {
     path:'/',
     // redirect: {name: 'LogIn'},
-    // redirect: {name: 'StudentCourseHome'},
-    redirect: {name: 'CourseHome'},
+    redirect: {name: 'StudentCourseHome'},
+    // redirect: {name: 'CourseHome'},
   },
   {
     path: '/login',
