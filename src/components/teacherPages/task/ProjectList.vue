@@ -119,7 +119,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("/course/getProjectListByCourseId", {
+      .get("/project/getProjectListByCourseId", {
         params: {
           course_ID: this.$route.params.course_id,
         },

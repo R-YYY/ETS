@@ -95,8 +95,30 @@ export default {
     },
     //更新课程资料
     saveEdit() {
-      console.log("success!");
-      this.$router.push({ name: "info" });
+      this.$axios
+        .post(
+          "/course/setInfo",
+          this.$qs.stringify({
+            course_ID: this.$route.params.course_id,
+            name: this.tmpName,
+            description: this.tmpDes,
+          })
+        )
+        .then((response) => {
+          console.log(response.data)
+          this.$message({
+            type: "success",
+            message: "修改成功!",
+          });
+          this.$router.push({ name: "info" });
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$message({
+            type: "error",
+            message: "修改失败!请重试！",
+          });
+        });
     },
     cancelEdit() {
       this.$router.push({ name: "info" });

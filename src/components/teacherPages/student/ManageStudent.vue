@@ -86,7 +86,7 @@ export default {
     },
     add(data) {
       this.$axios
-        .post("/course/addTakeCourse", {
+        .post("/take/addTakeCourse", {
           student_ID: data,
           course_ID: this.$route.params.course_id,
           is_student: 1,
@@ -120,7 +120,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("/course/getListStudentInfoByCourseId", {
+      .get("/take/getStudentInfoList", {
         params: {
           course_ID: this.$route.params.course_id,
           is_student: 1,

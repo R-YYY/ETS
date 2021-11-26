@@ -13,7 +13,7 @@
 <!--          <span>-->
 <!--            <p style="font-size: 18px"><i class="el-icon-ship" style="color: #0cd5ce;margin-left: 5px;margin-right: 15px"></i>{{project.name}}</p>-->
 <!--            <p>{{project.description}}</p>-->
-<!--            <p style="color: #9b9b9b">{{project.release_time}}</p>-->
+<!--            <p style="color: #9b9b9b">{{project.end_time}}</p>-->
 <!--          </span>-->
         <el-divider></el-divider>
       </div>
@@ -48,7 +48,7 @@ export default {
   mounted() {
     let _this=this
     this.$axios.get(
-        '/course/getProjectListByCourseId',{
+        '/project/getProjectListByCourseId',{
       params: {
         course_ID: this.$route.params.course_id,
       },

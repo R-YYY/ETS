@@ -112,7 +112,7 @@ export default {
     add(data) {
       this.$axios
         .post(
-          "/course/addTeachCourse",
+          "/teach/addTeachCourse",
           this.$qs.stringify({
             teacher_ID: data,
             course_ID: this.$route.params.course_id,
@@ -146,7 +146,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("/course/getListTeacherInfoByCourseId", {
+      .get("/teach/getTeacherInfoList", {
         params: {
           course_ID: this.$route.params.course_id,
         },
