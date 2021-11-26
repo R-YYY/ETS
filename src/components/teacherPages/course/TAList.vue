@@ -53,28 +53,13 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
+    handleClick(tab) {
       if (tab.index == 0)
-        this.$router.push({
-          name: "info",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "info",});
       else if (tab.index == 1)
-        this.$router.push({
-          name: "teachers",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "teachers"});
       else if (tab.index == 2)
-        this.$router.push({
-          name: "tas",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "tas",});
     },
     open() {
       this.$confirm("此操作将从课程中删除该助教, 是否继续?", "提示", {
@@ -121,7 +106,7 @@ export default {
         .post("/course/addTakeCourse", {
           student_ID: data,
           course_ID: this.$route.params.course_id,
-          isStudent: 0,
+          is_student: 0,
         })
         .then((response) => {
           if (response.data === 1) {
@@ -154,7 +139,7 @@ export default {
       .get("/course/getListStudentInfoByCourseId", {
         params: {
           course_ID: this.$route.params.course_id,
-          isStudent:0,
+          is_student:0,
         },
       })
       .then((response) => {

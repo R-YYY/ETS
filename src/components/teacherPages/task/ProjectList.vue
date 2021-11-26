@@ -91,26 +91,11 @@ export default {
   methods: {
     handleClick(tab, event) {
       if (tab.index == 0)
-        this.$router.push({
-          name: "tasks",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "tasks",});
       else if (tab.index == 1)
-        this.$router.push({
-          name: "projects",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "projects",});
       else if (tab.index == 2)
-        this.$router.push({
-          name: "attendances",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "attendances",});
     },
     search() {
       if (this.input === "") this.tmpList = this.projectList;

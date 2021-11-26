@@ -67,32 +67,16 @@ export default {
   methods: {
     handleClick(tab) {
       if (tab.index == 0)
-        this.$router.push({
-          name: "info",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "info",});
       else if (tab.index == 1)
-        this.$router.push({
-          name: "teachers",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "teachers",});
       else if (tab.index == 2)
-        this.$router.push({
-          name: "tas",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "tas",});
     },
     editCourse(e) {
       this.$router.push({
         name: "edit",
         params: {
-          course_id: 42024401,
           course_name: this.courseName,
           course_teacher_ID: this.courseTeacherID,
           course_des: this.courseDes,

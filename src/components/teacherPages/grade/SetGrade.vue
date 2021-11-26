@@ -29,26 +29,11 @@ export default {
   methods: {
     handleClick(tab) {
       if (tab.index == 0)
-        this.$router.push({
-          name: "totalGrades",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "totalGrades"});
       else if (tab.index == 1)
-        this.$router.push({
-          name: "partGrades",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "partGrades",});
       else if (tab.index == 2)
-        this.$router.push({
-          name: "setGrades",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "setGrades",});
     },
   },
 };

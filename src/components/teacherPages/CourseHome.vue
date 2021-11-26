@@ -79,14 +79,6 @@ export default {
       this.$router.push({ name: "feedbacks" });
     },
   },
-  mounted() {
-    this.$router.push({
-      name: "info",
-      params: {
-        course_id: 42024401,
-      },
-    });
-  },
 };
 </script>
 

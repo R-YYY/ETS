@@ -92,28 +92,13 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
+    handleClick(tab) {
       if (tab.index == 0)
-        this.$router.push({
-          name: "info",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "info",});
       else if (tab.index == 1)
-        this.$router.push({
-          name: "teachers",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "teachers"});
       else if (tab.index == 2)
-        this.$router.push({
-          name: "tas",
-          params: {
-            course_id: 42024401,
-          },
-        });
+        this.$router.push({name: "tas",});
     },
     //更新课程资料
     saveEdit() {
