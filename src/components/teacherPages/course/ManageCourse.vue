@@ -34,13 +34,13 @@
                   <span class="info">{{ this.$route.params.course_id }}</span>
                 </el-form-item>
                 <el-form-item label="责任教师">
-                  <span class="info">{{courseTeacherID}}</span>
+                  <span class="info">{{ courseTeacherID }}</span>
                 </el-form-item>
                 <el-form-item label="课程名称">
-                  <span class="info">{{courseName}}</span>
+                  <span class="info">{{ courseName }}</span>
                 </el-form-item>
                 <el-form-item label="课程介绍">
-                  <span class="info">{{courseDes}}</span>
+                  <span class="info">{{ courseDes }}</span>
                 </el-form-item>
               </el-form>
             </div>
@@ -59,19 +59,16 @@ export default {
   data() {
     return {
       activeIndex: "0",
-      courseTeacherID:'',
-      courseName:'',
-      courseDes:'',
+      courseTeacherID: "",
+      courseName: "",
+      courseDes: "",
     };
   },
   methods: {
     handleClick(tab) {
-      if (tab.index == 0)
-        this.$router.push({name: "info",});
-      else if (tab.index == 1)
-        this.$router.push({name: "teachers",});
-      else if (tab.index == 2)
-        this.$router.push({name: "tas",});
+      if (tab.index == 0) this.$router.push({ name: "info" });
+      else if (tab.index == 1) this.$router.push({ name: "teachers" });
+      else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
     editCourse(e) {
       this.$router.push({
@@ -93,15 +90,15 @@ export default {
         },
       })
       .then(function (response) {
-        console.log(response.data)
-        _this.courseTeacherID=response.data.teacher_ID
-        _this.courseName=response.data.name
-        _this.courseDes=response.data.description
+        console.log(response.data);
+        _this.courseTeacherID = response.data.teacher_ID;
+        _this.courseName = response.data.name;
+        _this.courseDes = response.data.description;
       })
       .catch(function (error) {
-        _this.courseTeacherID=''
-        _this.courseName=''
-        _this.courseDes=''
+        _this.courseTeacherID = "";
+        _this.courseName = "";
+        _this.courseDes = "";
       });
   },
 };
@@ -133,7 +130,7 @@ export default {
   margin-right: 20px;
 }
 
-.info{
+.info {
   font-size: 17px;
 }
 </style>

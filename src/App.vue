@@ -1,19 +1,28 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <el-button @click="hh" :style="{display:isShow}">老师课程主页</el-button>
   </div>
 </template>
 
 <script>
 export default {
   name:"APP",
-  mounted() {
-    this.$router.push({
-      name:'info',
-      params:{
-        course_id:42024401
-      }
-    })
+  data(){
+    return{
+      isShow: ''
+    }
+  },
+  methods:{
+    hh(){
+      this.isShow='none'
+      this.$router.push({
+        name:'info',
+        params:{
+          course_id:42024401
+        }
+      })
+    }
   }
 }
 </script>

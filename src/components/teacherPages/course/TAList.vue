@@ -54,12 +54,9 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      if (tab.index == 0)
-        this.$router.push({name: "info",});
-      else if (tab.index == 1)
-        this.$router.push({name: "teachers"});
-      else if (tab.index == 2)
-        this.$router.push({name: "tas",});
+      if (tab.index == 0) this.$router.push({ name: "info" });
+      else if (tab.index == 1) this.$router.push({ name: "teachers" });
+      else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
     open() {
       this.$confirm("此操作将从课程中删除该助教, 是否继续?", "提示", {
@@ -90,9 +87,9 @@ export default {
         .then(({ value }) => {
           this.add(value);
           this.$message({
-            type:'success',
-            message:'助教'+value+'已被添加',
-          })
+            type: "success",
+            message: "助教" + value + "已被添加",
+          });
         })
         .catch(() => {
           this.$message({
@@ -139,7 +136,7 @@ export default {
       .get("/course/getListStudentInfoByCourseId", {
         params: {
           course_ID: this.$route.params.course_id,
-          is_student:0,
+          is_student: 0,
         },
       })
       .then((response) => {

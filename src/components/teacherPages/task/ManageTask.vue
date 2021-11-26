@@ -12,9 +12,10 @@
           <el-container style="height: 480px">
             <div class="typeCard">
               <el-card
-                  shadow="hover"
-                  @click.native="addProject"
-                  style="cursor:pointer">
+                shadow="hover"
+                @click.native="addProject"
+                style="cursor: pointer"
+              >
                 <i class="el-icon-s-cooperation"></i><br />
                 <div class="choice">
                   <p>发布实验项目</p>
@@ -25,7 +26,7 @@
               <el-card
                 shadow="hover"
                 @click.native="attendanceDialogVisible = true"
-                style="cursor:pointer"
+                style="cursor: pointer"
               >
                 <i class="el-icon-user-solid"></i><br />
                 <div class="choice">
@@ -165,12 +166,9 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      if (tab.index == 0)
-        this.$router.push({name: "tasks",});
-      else if (tab.index == 1)
-        this.$router.push({name: "projects",});
-      else if (tab.index == 2)
-        this.$router.push({name: "attendances",});
+      if (tab.index == 0) this.$router.push({ name: "tasks" });
+      else if (tab.index == 1) this.$router.push({ name: "projects" });
+      else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
 
     addProject() {
@@ -192,7 +190,7 @@ export default {
           .catch((action) => {
             if (action === "cancel") {
               //  重置发布项目表单内容
-              this.$refs.newProject.resetFields()
+              this.$refs.newProject.resetFields();
               this.projectDialogVisible = false;
               this.projectDialogChange = false;
             }

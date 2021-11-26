@@ -56,7 +56,7 @@ export default {
   name: "CourseHome",
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: "",
     };
   },
   methods: {
@@ -78,6 +78,33 @@ export default {
     toFeedback() {
       this.$router.push({ name: "feedbacks" });
     },
+  },
+  mounted() {
+    if (
+      this.$route.name === "info" ||
+      this.$route.name === "tas" ||
+      this.$route.name === "teacher"
+    ) {
+      this.activeIndex = "1";
+    } else if (this.$route.name === "students") {
+      this.activeIndex = "2";
+    } else if (
+      this.$route.name === "tasks" ||
+      this.$route.name === "projects" ||
+      this.$route.name === "attendances"
+    ) {
+      this.activeIndex = "3";
+    } else if (
+      this.$route.name === "totalGrades" ||
+      this.$route.name === "partGrades" ||
+      this.$route.name === "setGrades"
+    ) {
+      this.activeIndex = "4";
+    } else if (this.$route.name === "files") {
+      this.activeIndex = "5";
+    } else if (this.$route.name === "feedbacks") {
+      this.activeIndex = "6";
+    }
   },
 };
 </script>
@@ -105,4 +132,3 @@ export default {
   text-align: left;
 }
 </style>
-

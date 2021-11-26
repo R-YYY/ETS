@@ -12,20 +12,20 @@
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance">
           <div style="height: 480px">
-              <el-table class="attendTable" :data="attendList" height="480px">
-                <el-table-column prop="id" label="考勤编号" width="350px">
-                </el-table-column>
-                <el-table-column
-                  prop="time"
-                  label="考勤时间"
-                  width="550px"
-                  sortable
-                >
-                </el-table-column>
-                <el-table-column width="150px">
-                  <el-button @click="drawer = true" plain>查看</el-button>
-                </el-table-column>
-              </el-table>
+            <el-table class="attendTable" :data="attendList" height="480px">
+              <el-table-column prop="id" label="考勤编号" width="350px">
+              </el-table-column>
+              <el-table-column
+                prop="time"
+                label="考勤时间"
+                width="550px"
+                sortable
+              >
+              </el-table-column>
+              <el-table-column width="150px">
+                <el-button @click="drawer = true" plain>查看</el-button>
+              </el-table-column>
+            </el-table>
             <div>
               <el-drawer
                 title="考勤详情"
@@ -57,12 +57,9 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      if (tab.index == 0)
-        this.$router.push({name: "tasks",});
-      else if (tab.index == 1)
-        this.$router.push({name: "projects",});
-      else if (tab.index == 2)
-        this.$router.push({name: "attendances",});
+      if (tab.index == 0) this.$router.push({ name: "tasks" });
+      else if (tab.index == 1) this.$router.push({ name: "projects" });
+      else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
   },
 };

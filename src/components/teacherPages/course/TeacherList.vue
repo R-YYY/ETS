@@ -69,12 +69,9 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      if (tab.index == 0)
-        this.$router.push({name: "info",});
-      else if (tab.index == 1)
-        this.$router.push({name: "teachers"});
-      else if (tab.index == 2)
-        this.$router.push({name: "tas",});
+      if (tab.index == 0) this.$router.push({ name: "info" });
+      else if (tab.index == 1) this.$router.push({ name: "teachers" });
+      else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
     open() {
       this.$confirm("此操作将从课程中删除该老师, 是否继续?", "提示", {

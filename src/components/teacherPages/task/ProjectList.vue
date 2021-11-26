@@ -59,14 +59,18 @@
             </el-row>
           </div>
 
-          <el-dialog :visible.sync=checkDialogVisible>
+          <el-dialog :visible.sync="checkDialogVisible">
             <el-table>
               <el-table-column label="学号"></el-table-column>
               <el-table-column label="姓名"></el-table-column>
               <el-table-column label="提交时间"></el-table-column>
-              <el-table-column label="批改时间"
-              :filters="[{ text: '已批改', value: '已批改' }, { text: '未批改', value: '未批改' }]"
-              :filter-method="filterState"
+              <el-table-column
+                label="批改时间"
+                :filters="[
+                  { text: '已批改', value: '已批改' },
+                  { text: '未批改', value: '未批改' },
+                ]"
+                :filter-method="filterState"
               ></el-table-column>
             </el-table>
           </el-dialog>
@@ -85,17 +89,14 @@ export default {
       input: "",
       projectList: null,
       tmpList: null,
-      checkDialogVisible:false
+      checkDialogVisible: false,
     };
   },
   methods: {
     handleClick(tab, event) {
-      if (tab.index == 0)
-        this.$router.push({name: "tasks",});
-      else if (tab.index == 1)
-        this.$router.push({name: "projects",});
-      else if (tab.index == 2)
-        this.$router.push({name: "attendances",});
+      if (tab.index == 0) this.$router.push({ name: "tasks" });
+      else if (tab.index == 1) this.$router.push({ name: "projects" });
+      else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
     search() {
       if (this.input === "") this.tmpList = this.projectList;
@@ -109,14 +110,12 @@ export default {
       }
     },
     checkProject() {
-      this.checkDialogVisible=true
+      this.checkDialogVisible = true;
     },
-    deleteProject() {
-
+    deleteProject() {},
+    filterState(value, row) {
+      return row.state === value;
     },
-    filterState(value,row){
-      return row.state === value
-    }
   },
   mounted() {
     this.$axios
@@ -126,7 +125,7 @@ export default {
         },
       })
       .then((response) => {
-        this.projectList = response.data
+        this.projectList = response.data;
         this.tmpList = this.projectList;
       })
       .catch((error) => {
@@ -165,7 +164,7 @@ export default {
   overflow: auto;
 }
 
-.eachProject{
+.eachProject {
   margin-top: 30px;
   margin-left: 70px;
 }

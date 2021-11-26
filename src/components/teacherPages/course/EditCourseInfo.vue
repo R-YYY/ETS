@@ -54,11 +54,7 @@
                   </el-input>
                 </el-form-item>
                 <el-form-item label="课程名称">
-                  <el-input
-                    v-model="tmpName"
-                    style="width: 400px"
-                  >
-                  </el-input>
+                  <el-input v-model="tmpName" style="width: 400px"> </el-input>
                 </el-form-item>
                 <el-form-item label="课程介绍">
                   <el-input
@@ -93,12 +89,9 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      if (tab.index == 0)
-        this.$router.push({name: "info",});
-      else if (tab.index == 1)
-        this.$router.push({name: "teachers"});
-      else if (tab.index == 2)
-        this.$router.push({name: "tas",});
+      if (tab.index == 0) this.$router.push({ name: "info" });
+      else if (tab.index == 1) this.$router.push({ name: "teachers" });
+      else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
     //更新课程资料
     saveEdit() {
@@ -110,9 +103,9 @@ export default {
     },
   },
   mounted() {
-    let _this =this
-    _this.tmpName=this.$route.params.course_name
-    _this.tmpDes=this.$route.params.course_des
+    let _this = this;
+    _this.tmpName = this.$route.params.course_name;
+    _this.tmpDes = this.$route.params.course_des;
   },
 };
 </script>
