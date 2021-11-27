@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-button class="btn" @click="writeInfo">
+      <el-button class="btn" @click="writeTeacherID">
         <span>添加老师</span>
       </el-button>
     </div>
@@ -38,14 +38,16 @@
               >
               </el-table-column>
               <el-table-column width="100px">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  circle
-                  plain
-                  @click="open"
-                >
-                </el-button>
+                <template slot-scope="scope">
+                  <el-button
+                    type="danger"
+                    icon="el-icon-delete"
+                    circle
+                    plain
+                    @click="open(scope.row)"
+                  >
+                  </el-button>
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -73,17 +75,14 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "teachers" });
       else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
-    open() {
+    open(row) {
       this.$confirm("此操作将从课程中删除该老师, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          this.deleteTeacher(row);
         })
         .catch(() => {
           this.$message({
@@ -92,7 +91,30 @@ export default {
           });
         });
     },
-    writeInfo() {
+    deleteTeacher(data) {
+      this.$axios
+        .post(
+          "teach/deleteTeachCourse",
+          this.$qs.stringify({
+            teacher_ID: data.teacher_ID,
+            course_ID: this.$route.params.course_id,
+          })
+        )
+        .then(() => {
+          this.teacherList.splice(data, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "error",
+            message: "删除失败!请重试！",
+          });
+        });
+    },
+    writeTeacherID() {
       this.$prompt("请输入添加老师的工号", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -100,7 +122,7 @@ export default {
         inputErrorMessage: "工号格式不正确",
       })
         .then(({ value }) => {
-          this.add(value);
+          this.addTeacher(value);
         })
         .catch(() => {
           this.$message({
@@ -109,7 +131,7 @@ export default {
           });
         });
     },
-    add(data) {
+    addTeacher(data) {
       this.$axios
         .post(
           "/teach/addTeachCourse",
@@ -120,6 +142,7 @@ export default {
         )
         .then((response) => {
           if (response.data === 1) {
+            this.loadData();
             this.$message({
               type: "success",
               message: "添加成功！",
@@ -132,7 +155,7 @@ export default {
           } else if (response.data === -3) {
             this.$message({
               type: "error",
-              message: "添加失败！该老师已经在课程中！",
+              message: "添加失败！该老师已在课程中！",
             });
           }
         })
@@ -143,21 +166,21 @@ export default {
           });
         });
     },
+    loadData() {
+      this.$axios
+        .get("/teach/getTeacherInfoList", {
+          params: {
+            course_ID: this.$route.params.course_id,
+          },
+        })
+        .then((response) => {
+          this.teacherList = response.data;
+        })
+        .catch();
+    },
   },
   mounted() {
-    this.$axios
-      .get("/teach/getTeacherInfoList", {
-        params: {
-          course_ID: this.$route.params.course_id,
-        },
-      })
-      .then((response) => {
-        this.teacherList = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.loadData();
   },
 };
 </script>

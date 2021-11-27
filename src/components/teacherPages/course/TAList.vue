@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-button class="btn" @click="writerInfo">
+      <el-button class="btn" @click="writerTaID">
         <span>添加助教</span>
       </el-button>
     </div>
@@ -24,14 +24,16 @@
               <el-table-column prop="email" label="邮箱" width="400px">
               </el-table-column>
               <el-table-column width="100px">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  circle
-                  plain
-                  @click="open"
-                >
-                </el-button>
+                <template slot-scope="scope">
+                  <el-button
+                    type="danger"
+                    icon="el-icon-delete"
+                    circle
+                    plain
+                    @click="open(scope.row)"
+                  >
+                  </el-button>
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -58,17 +60,14 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "teachers" });
       else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
-    open() {
+    open(row) {
       this.$confirm("此操作将从课程中删除该助教, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          this.deleteTa(row);
         })
         .catch(() => {
           this.$message({
@@ -77,7 +76,31 @@ export default {
           });
         });
     },
-    writerInfo() {
+    deleteTa(data) {
+      this.$axios
+        .post(
+          "take/deleteTakeCourse",
+          this.$qs.stringify({
+            student_ID: data.student_ID,
+            course_ID: this.$route.params.course_id,
+            is_student: 0,
+          })
+        )
+        .then(() => {
+          this.taList.splice(data, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "error",
+            message: "删除失败!请重试！",
+          });
+        });
+    },
+    writerTaID() {
       this.$prompt("请输入添加助教的学号", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -85,11 +108,7 @@ export default {
         inputErrorMessage: "学号格式不正确",
       })
         .then(({ value }) => {
-          this.add(value);
-          this.$message({
-            type: "success",
-            message: "助教" + value + "已被添加",
-          });
+          this.addTa(value);
         })
         .catch(() => {
           this.$message({
@@ -98,28 +117,32 @@ export default {
           });
         });
     },
-    add(data) {
+    addTa(data) {
       this.$axios
-        .post("/take/addTakeCourse", {
-          student_ID: data,
-          course_ID: this.$route.params.course_id,
-          is_student: 0,
-        })
+        .post(
+          "/take/addTakeCourse",
+          this.$qs.stringify({
+            student_ID: data,
+            course_ID: this.$route.params.course_id,
+            is_student: 0,
+          })
+        )
         .then((response) => {
           if (response.data === 1) {
+            this.loadDate();
             this.$message({
               type: "success",
               message: "添加成功！",
             });
-          } else if (response.data === -2) {
+          } else if (response.data === -1) {
             this.$message({
               type: "error",
-              message: "添加失败！输入助教不存在！",
+              message: "添加失败！输入学生不存在！",
             });
-          } else if (response.data === -4) {
+          } else if (response.data === -3) {
             this.$message({
               type: "error",
-              message: "添加失败！该助教已经在课程中！",
+              message: "添加失败！该学生已在课程中！",
             });
           }
         })
@@ -130,21 +153,22 @@ export default {
           });
         });
     },
+    loadDate() {
+      this.$axios
+        .get("/take/getStudentInfoList", {
+          params: {
+            course_ID: this.$route.params.course_id,
+            is_student: 0,
+          },
+        })
+        .then((response) => {
+          this.taList = response.data;
+        })
+        .catch();
+    },
   },
   mounted() {
-    this.$axios
-      .get("/take/getStudentInfoList", {
-        params: {
-          course_ID: this.$route.params.course_id,
-          is_student: 0,
-        },
-      })
-      .then((response) => {
-        this.taList = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.loadDate();
   },
 };
 </script>

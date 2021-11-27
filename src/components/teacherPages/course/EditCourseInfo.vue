@@ -105,7 +105,7 @@ export default {
           })
         )
         .then((response) => {
-          console.log(response.data)
+          console.log(response.data);
           this.$message({
             type: "success",
             message: "修改成功!",
@@ -113,7 +113,7 @@ export default {
           this.$router.push({ name: "info" });
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           this.$message({
             type: "error",
             message: "修改失败!请重试！",
