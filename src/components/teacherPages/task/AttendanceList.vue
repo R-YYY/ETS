@@ -13,12 +13,19 @@
         <el-tab-pane label="课程考勤" name="attendance">
           <div style="height: 480px">
             <el-table class="attendTable" :data="attendList" height="480px">
-              <el-table-column prop="id" label="考勤编号" width="350px">
+              <el-table-column label="序号" type="index" width="200px">
               </el-table-column>
               <el-table-column
-                prop="time"
-                label="考勤时间"
-                width="550px"
+                prop="start_time"
+                label="开始时间"
+                width="350px"
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="end_time"
+                label="结束时间"
+                width="350px"
                 sortable
               >
               </el-table-column>
@@ -45,14 +52,10 @@
 export default {
   name: "AttendanceList",
   data() {
-    const item = {
-      id: "1111111",
-      time: "0000-00-00 00:00:00",
-    };
     return {
       drawer: false,
       direction: "ltr",
-      attendList: Array(15).fill(item),
+      attendList: [],
     };
   },
   methods: {
@@ -61,6 +64,18 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "projects" });
       else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
+  },
+  mounted() {
+    //调用api加载考勤列表
+    this.$axios
+      .get("/attend/getAttendanceListByCourseId", {
+        params: {
+          course_ID: this.$route.params.course_id,
+        },
+      })
+      .then((response) => {
+        this.attendList = response.data;
+      });
   },
 };
 </script>

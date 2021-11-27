@@ -75,6 +75,8 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "teachers" });
       else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
+
+    //删除老师的提示，确认后调用api从课程中删除老师
     open(row) {
       this.$confirm("此操作将从课程中删除该老师, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -91,6 +93,8 @@ export default {
           });
         });
     },
+
+    //调用api向后端传输删除老师的id
     deleteTeacher(data) {
       this.$axios
         .post(
@@ -114,6 +118,8 @@ export default {
           });
         });
     },
+
+    //填写老师id并检验
     writeTeacherID() {
       this.$prompt("请输入添加老师的工号", "提示", {
         confirmButtonText: "确定",
@@ -131,6 +137,8 @@ export default {
           });
         });
     },
+
+    //调用api向后端传输添加老师的id
     addTeacher(data) {
       this.$axios
         .post(
@@ -166,6 +174,8 @@ export default {
           });
         });
     },
+
+    //加载老师列表数据
     loadData() {
       this.$axios
         .get("/teach/getTeacherInfoList", {

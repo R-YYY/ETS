@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      <!--课程管理按钮区域-->
       <el-button class="btn" @click="editCourse">
         <span>编辑资料</span>
       </el-button>
@@ -20,6 +21,7 @@
       >
         <el-tab-pane label="课程设置">
           <el-container style="height: 480px">
+            <!--课程头像-->
             <div class="imgArea">
               <img
                 src="../../../assets/course.png"
@@ -27,6 +29,7 @@
                 style="width: 260px"
               />
             </div>
+            <!--课程信息-->
             <div class="infoArea">
               <h2>课程信息</h2>
               <el-form label-position="left" label-width="80px">
@@ -90,7 +93,6 @@ export default {
         },
       })
       .then(function (response) {
-        console.log(response.data);
         _this.courseTeacherID = response.data.teacher_ID;
         _this.courseName = response.data.name;
         _this.courseDes = response.data.description;

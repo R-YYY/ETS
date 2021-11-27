@@ -60,6 +60,8 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "teachers" });
       else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
+
+    //删除助教的提示，确认后调用api删除助教
     open(row) {
       this.$confirm("此操作将从课程中删除该助教, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -76,6 +78,8 @@ export default {
           });
         });
     },
+
+    //调用api向后端发送删除助教的id
     deleteTa(data) {
       this.$axios
         .post(
@@ -100,6 +104,8 @@ export default {
           });
         });
     },
+
+    //填写添加助教的id并检验
     writerTaID() {
       this.$prompt("请输入添加助教的学号", "提示", {
         confirmButtonText: "确定",
@@ -117,6 +123,8 @@ export default {
           });
         });
     },
+
+    //调用api，向后端发送添加助教的id
     addTa(data) {
       this.$axios
         .post(
@@ -153,6 +161,8 @@ export default {
           });
         });
     },
+
+    //加载助教列表数据
     loadDate() {
       this.$axios
         .get("/take/getStudentInfoList", {

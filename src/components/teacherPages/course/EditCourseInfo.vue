@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      <!--编辑课程信息按钮区域-->
       <el-button class="btn" @click="saveEdit">
         <span>保存</span>
       </el-button>
@@ -18,6 +19,7 @@
         <el-tab-pane label="课程设置">
           <el-container style="height: 480px">
             <div class="uploadArea">
+              <!--上传课程头像-->
               <el-upload
                 class="avatar-uploader"
                 action="https://jsonplaceholder.typicode.com/posts/"
@@ -29,6 +31,7 @@
                   style="width: 260px"
                 />
               </el-upload>
+              <!--课程头像上传建议-->
               <div class="tips">
                 <br /><br /><span>仅支持*******格式图片</span><br />
                 <span>建议最佳尺寸*****，不超过***</span>
@@ -36,6 +39,7 @@
             </div>
             <div class="editArea">
               <h2>课程信息</h2>
+              <!--课程信息表单-->
               <el-form>
                 <el-form-item label="课程编号">
                   <el-input
@@ -95,6 +99,10 @@ export default {
     },
     //更新课程资料
     saveEdit() {
+      let data = new FormData();
+      data.append("course_ID", this.$route.params.course_id);
+      data.append("name", this.tmpName);
+      data.append("description", this.tmpDes);
       this.$axios
         .post(
           "/course/setInfo",

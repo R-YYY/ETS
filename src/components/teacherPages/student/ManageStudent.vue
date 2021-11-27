@@ -50,6 +50,7 @@ export default {
     };
   },
   methods: {
+    //删除学生的提示，确认后调用api删除学生
     open(row) {
       this.$confirm("此操作将从课程中删除该学生, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -66,6 +67,8 @@ export default {
           });
         });
     },
+
+    //调用api向后端发送删除学生的id
     deleteStudent(data) {
       this.$axios
         .post(
@@ -90,6 +93,8 @@ export default {
           });
         });
     },
+
+    //填写添加学生的id并检验
     writeStudentID() {
       this.$prompt("请输入添加学生的学号", "提示", {
         confirmButtonText: "确定",
@@ -107,6 +112,8 @@ export default {
           });
         });
     },
+
+    //调用api，像后端发送添加学生的id
     addStudent(data) {
       this.$axios
         .post(
@@ -144,6 +151,8 @@ export default {
           });
         });
     },
+
+    //调用api，加载学生列表
     loadData() {
       this.$axios
         .get("/take/getStudentInfoList", {
