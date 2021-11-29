@@ -1,8 +1,9 @@
 <template>
   <el-container class="pageContainer">
     <el-header class="pageHeader">
-      <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
+      <h1 class="title">Experiment Teaching System</h1>
     </el-header>
+
     <div class="pageMiddle">
       <el-container>
         <img class="courseImg" src="../../../src/assets/course.png" alt="加载失败">
@@ -18,17 +19,36 @@
         </el-container>
       </el-container>
     </div>
-    <el-menu default-active="1" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
-      <el-menu-item index="1" class="stuOption" style="margin-left: 170px" @click="toTask"><span>学习任务</span></el-menu-item>
-      <el-menu-item index="2" class="stuOption" @click="toFile"><span>课程资料</span></el-menu-item>
-      <el-menu-item index="3" class="stuOption" @click="toStudent"><span>课程学生</span></el-menu-item>
-      <el-menu-item index="4" class="stuOption" @click="toGrade"><span>课程成绩</span></el-menu-item>
-      <el-menu-item index="5" class="stuOption" @click="toFeedback"><span>课程反馈</span></el-menu-item>
+
+    <el-menu class="menu" default-active="activeIndex" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
+
+      <el-menu-item index="1" class="stuOption" @click="toTask">
+        <span>学习任务</span>
+      </el-menu-item>
+
+      <el-menu-item index="2" class="stuOption" @click="toFile">
+        <span>课程资料</span>
+      </el-menu-item>
+
+      <el-menu-item index="3" class="stuOption" @click="toStudent">
+        <span>课程学生</span>
+      </el-menu-item>
+
+      <el-menu-item index="4" class="stuOption" @click="toGrade">
+        <span>课程成绩</span>
+      </el-menu-item>
+
+      <el-menu-item index="5" class="stuOption" @click="toFeedback">
+        <span>课程反馈</span>
+      </el-menu-item>
+
     </el-menu>
+
     <el-container>
       <div class="courseShow" >
         <router-view></router-view>
       </div>
+
       <div class="courseInfoArea">
         <el-card class="courseInfo" shadow="never">
           <div slot="header">
@@ -51,8 +71,9 @@ export default {
   data(){
     return {
       date:new Date(),
-      courseName:'软件工程课程设计',
-      courseID:'42014603',
+      courseName:'软工',
+      courseID: '42024401',
+      activeIndex: '1'
     }
   },
   methods:{
@@ -77,7 +98,7 @@ export default {
     this.$router.push({
       name:'stuTasks',
       params:{
-        course_id:42024401
+        course_id: '42024401'
       }
     })
     //创建定时器更新最新时间
@@ -109,13 +130,16 @@ export default {
 .pageMiddle{
   width: 100%;
   height: 28%;
-  background-color: #9189fd
+  /*background-color: #9189fd*/
+  background-image: linear-gradient(to bottom right, rgba(238,130,248,1), rgba(255,255,130,1));
 }
 
 .title {
+  padding-left: 40px;
   font-size: 35px;
   line-height: 10px;
   text-align: left;
+  font-family: "Microsoft YaHei UI Light";
 }
 
 .courseImg{
@@ -132,6 +156,10 @@ export default {
   margin-top: 30px;
   margin-left: 50px;
   line-height: 70px;
+}
+
+.menu{
+  padding-left: 170px;
 }
 
 .stuOption{
@@ -157,14 +185,15 @@ export default {
 }
 
 .timeArea{
+  margin-top: 10px;
   margin-left: 50px;
   margin-bottom: 10px;
 }
 
 .time{
-  margin-top: 15px;
+  margin-top: 10px;
   margin-left: 10px;
-  font-size: 100px;
+  font-size: 80px;
 }
 
 .colon{
@@ -174,11 +203,5 @@ export default {
   margin-right: 0;
   border-width: 0;
   background-color: rgba(0,0,0,0%)
-}
-</style>
-
-<style>
-.el-menu-item.is-active{
-  font-size: 19px;
 }
 </style>
