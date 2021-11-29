@@ -21,6 +21,7 @@
       >
         <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
         <el-tab-pane label="实验项目" name="project">
+          <!--实验信息卡片列表-->
           <div class="projectArea">
             <el-row>
               <el-col
@@ -59,6 +60,7 @@
             </el-row>
           </div>
 
+          <!--实验详细信息-->
           <el-dialog :visible.sync="checkDialogVisible">
             <el-table>
               <el-table-column label="学号"></el-table-column>
@@ -98,6 +100,8 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "projects" });
       else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
+
+    //根据输入名称在卡片列表中搜索
     search() {
       if (this.input === "") this.tmpList = this.projectList;
       else {
@@ -109,17 +113,25 @@ export default {
         }
       }
     },
+
+    //查看实验信息
     checkProject() {
       this.checkDialogVisible = true;
     },
-    deleteProject() {},
+
+    //删除实验
+    deleteProject() {
+
+    },
+
     filterState(value, row) {
       return row.state === value;
     },
   },
   mounted() {
+    //调用api加载实验列表
     this.$axios
-      .get("/course/getProjectListByCourseId", {
+      .get("/project/getProjectListByCourseId", {
         params: {
           course_ID: this.$route.params.course_id,
         },

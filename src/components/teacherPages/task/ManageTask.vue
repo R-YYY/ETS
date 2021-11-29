@@ -8,12 +8,14 @@
         @tab-click="handleClick"
         value="task"
       >
+        <!--中间的大框框-->
         <el-tab-pane label="发布任务" name="task">
           <el-container style="height: 480px">
             <div class="typeCard">
+              <!--发布实验卡片-->
               <el-card
                 shadow="hover"
-                @click.native="addProject"
+                @click.native="projectDialogVisible = true"
                 style="cursor: pointer"
               >
                 <i class="el-icon-s-cooperation"></i><br />
@@ -23,6 +25,7 @@
               </el-card>
             </div>
             <div class="typeCard">
+              <!--发布考勤卡片-->
               <el-card
                 shadow="hover"
                 @click.native="attendanceDialogVisible = true"
@@ -40,48 +43,54 @@
         <el-tab-pane label="课程考勤" name="attendance"> </el-tab-pane>
       </el-tabs>
 
-      <!--      填写实验项目信息-->
+      <!--填写实验项目信息-->
       <el-dialog
         title="发布实验项目信息"
         :before-close="beforeCloseProject"
         :visible.sync="projectDialogVisible"
         width="680px"
       >
-        <el-form ref="newProject" :model="projectInfo" label-width="70px">
+        <!--实验信息表单-->
+        <el-form ref="newProject" :model="tmpInfo" label-width="70px">
           <el-form-item label="项目名称" prop="name">
             <el-input
-              v-model="projectInfo.name"
+              v-model="tmpInfo.name"
               autocomplete="off"
               style="width: 550px"
               @change="projectDialogChange = true"
             ></el-input>
           </el-form-item>
           <el-form-item label="有效时间" prop="time">
+            <!--开始时间-->
             <el-col style="width: 250px">
               <el-date-picker
-                v-model="projectInfo.start_time"
+                v-model="tmpInfo.start_time"
                 type="datetime"
                 placeholder="选择开始时间"
                 default-time="00:00:00"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 style="width: 210px"
               >
               </el-date-picker>
             </el-col>
             <el-col style="width: 50px; text-align: center">至 </el-col>
+            <!--结束时间-->
             <el-col style="width: 250px; text-align: right">
               <el-date-picker
-                v-model="projectInfo.end_time"
+                v-model="tmpInfo.end_time"
                 type="datetime"
                 placeholder="选择结束时间"
                 default-time="23:59:59"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 style="width: 210px"
+                @change="projectDialogChange = true"
               >
               </el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="项目描述" prop="description">
             <el-input
-              v-model="projectInfo.description"
+              v-model="tmpInfo.description"
               autocomplete="off"
               type="textarea"
               :rows="10"
@@ -90,19 +99,24 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="附加文件" prop="file">
+            <!--上传文件区域-->
             <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
+              ref="upload"
+              action="#"
               multiple
               :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
               :auto-upload="false"
+              :file-list="tmpFileList"
+              :on-change="handleChange"
+              :on-remove="handleRemove"
+              :on-exceed="handleExceed"
+              :on-success="fileUploadSuccess"
             >
-              <el-button size="mini" type="primary">选取文件</el-button>
+              <el-button slot="trigger" size="mini" type="primary"
+                >选取文件</el-button
+              >
               <div slot="tip" class="el-upload__tip">
-                最多上传*个文件，且每个文件大小不超过***
+                最多上传3个文件，且每个文件大小不超过5MB
               </div>
             </el-upload>
           </el-form-item>
@@ -113,7 +127,7 @@
         </div>
       </el-dialog>
 
-      <!--      考勤信息-->
+      <!--填写考勤信息-->
       <el-dialog
         title="发布考勤信息"
         :visible.sync="attendanceDialogVisible"
@@ -121,6 +135,7 @@
         style="margin-top: 100px"
       >
         <div>
+          <!--开始时间到结束时间-->
           <span style="margin-left: 20px; margin-right: 30px">考勤时间</span>
           <el-time-picker
             is-range
@@ -129,6 +144,7 @@
             start-placeholder="开始时间"
             end-placeholder="结束时间"
             placeholder="选择时间范围"
+            value-format="yyyy-MM-dd HH:mm:ss"
           >
           </el-time-picker>
         </div>
@@ -149,7 +165,6 @@ export default {
       projectDialogVisible: false,
       projectDialogChange: false,
       attendanceDialogVisible: false,
-      attendanceTime: null,
       projectInfo: {
         name: "",
         description: null,
@@ -157,24 +172,60 @@ export default {
         end_time: "",
         path_number: 0,
       },
-      attendanceInfo: {
+      tmpInfo: {
+        name: "",
+        description: null,
         start_time: null,
-        end_time: null,
+        end_time: "",
+        path_number: 0,
       },
       fileList: [],
+      tmpFileList: [],
+      attendanceTime: null,
     };
   },
   methods: {
-    handleClick(tab, event) {
+    handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "tasks" });
       else if (tab.index == 1) this.$router.push({ name: "projects" });
       else if (tab.index == 2) this.$router.push({ name: "attendances" });
     },
 
-    addProject() {
-      this.projectDialogVisible = true;
+    //调用api提交填写的考勤信息
+    submitAttendance() {
+      this.$axios
+        .post(
+          "/attend/addAttendance",
+          this.$qs.stringify({
+            course_ID: this.$route.params.course_id,
+            start_time: this.attendanceTime[0],
+            end_time: this.attendanceTime[1],
+          })
+        )
+        .then((response) => {
+          if (response.data === 1) {
+            this.attendanceTime = null;
+            this.attendanceDialogVisible = false;
+            this.$message({
+              type: "success",
+              message: "发布成功！",
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "已发布过此考勤！",
+            });
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "error",
+            message: "发布失败！请重试！",
+          });
+        });
     },
 
+    //当填写的实验信息改变，在关闭填写框前的触发事件
     beforeCloseProject() {
       if (this.projectDialogChange) {
         this.$confirm("是否保存已编辑内容?", "提示", {
@@ -184,13 +235,16 @@ export default {
           type: "warning",
         })
           .then(() => {
+            this.fileList = JSON.parse(JSON.stringify(this.tmpFileList));
+            this.projectInfo = JSON.parse(JSON.stringify(this.tmpInfo));
             this.projectDialogVisible = false;
             this.projectDialogChange = false;
           })
           .catch((action) => {
             if (action === "cancel") {
-              //  重置发布项目表单内容
-              this.$refs.newProject.resetFields();
+              //恢复原有内容
+              this.tmpFileList = JSON.parse(JSON.stringify(this.fileList));
+              this.tmpInfo = JSON.parse(JSON.stringify(this.projectInfo));
               this.projectDialogVisible = false;
               this.projectDialogChange = false;
             }
@@ -201,14 +255,49 @@ export default {
       }
     },
 
+    fileUploadSuccess() {
+      // this.uploadForm();
+    },
+
+    uploadForm() {
+      let data = new FormData();
+      data.append("project_ID", this.$route.params.course_id + "10");
+      data.append("course_ID", this.$route.params.course_id);
+      data.append("name", this.projectInfo.name);
+      data.append("description", this.projectInfo.description);
+      data.append("start_time", this.projectInfo.start_time);
+      data.append("end_time", this.projectInfo.end_time);
+      data.append("path_number", this.projectInfo.path_number);
+      data.append("teacher_ID", "10100");
+      this.$axios
+        .post("/project/add", data)
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "创建成功！",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "error",
+            message: "创建失败！",
+          });
+        });
+    },
+
+    //文件列表改变
+    handleChange(file, fileList) {
+      this.tmpFileList = fileList;
+      console.log(this.tmpFileList);
+    },
+
+    //文件列表移除文件
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.tmpFileList = fileList;
+      console.log(this.tmpFileList);
     },
 
-    handlePreview(file) {
-      console.log(file);
-    },
-
+    //文件超出可选范围
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
@@ -217,12 +306,30 @@ export default {
       );
     },
 
+    //调用api提交填写实验信息，发布实验
     submitProject() {
+      this.fileList = JSON.parse(JSON.stringify(this.tmpFileList));
+      this.projectInfo = JSON.parse(JSON.stringify(this.tmpInfo));
+      console.log(this.projectInfo.start_time);
+      console.log(this.projectInfo.end_time);
+      // this.uploadForm()
       this.projectDialogVisible = false;
-    },
 
-    submitAttendance() {
-      this.attendanceDialogVisible = false;
+      // 上传文件，未实现
+      // let fileData = new FormData()
+      // fileData.append("file",this.fileList[0].raw)
+      // this.$axios.post(
+      //     "/file/upload",
+      //     fileData
+      //     {
+      //       file:this.fileList[0].raw
+      //     }
+      //     this.$qs.stringify({
+      //       file:this.fileList[0].raw
+      //     })
+      // )
+      //  .then()
+      //  .catch()
     },
   },
 };

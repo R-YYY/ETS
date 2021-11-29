@@ -4,13 +4,16 @@
       <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
     <el-container>
+      <!--主页侧边栏-->
       <el-aside class="mainAside" width="170px">
+        <!--主页侧边栏课程头像-->
         <img
           id="courseImg"
           src="../../../src/assets/course.png"
           alt="加载失败"
         />
         <div>
+          <!--主页侧边栏选项卡-->
           <el-menu
             :default-active="activeIndex"
             background-color="#545c64"
@@ -80,10 +83,11 @@ export default {
     },
   },
   mounted() {
+    //刷新时保持侧边栏选中
     if (
       this.$route.name === "info" ||
       this.$route.name === "tas" ||
-      this.$route.name === "teacher"
+      this.$route.name === "teachers"
     ) {
       this.activeIndex = "1";
     } else if (this.$route.name === "students") {
