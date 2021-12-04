@@ -86,12 +86,13 @@ export default {
   },
   mounted() {
     let _this = this;
-    this.$axios
-      .get("/course/get", {
-        params: {
-          course_ID: this.$route.params.course_id,
-        },
-      })
+    this.$axios({
+      url: "/course/get",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      }
+    })
       .then(function (response) {
         _this.courseTeacherID = response.data.teacher_ID;
         _this.courseName = response.data.name;

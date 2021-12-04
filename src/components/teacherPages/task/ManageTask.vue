@@ -101,16 +101,15 @@
           <el-form-item label="附加文件" prop="file">
             <!--上传文件区域-->
             <el-upload
-              ref="upload"
               action="#"
               multiple
               :limit="3"
               :auto-upload="false"
-              :file-list="tmpFileList"
               :on-change="handleChange"
-              :on-remove="handleRemove"
               :on-exceed="handleExceed"
               :on-success="fileUploadSuccess"
+              :on-error="handleError"
+              :http-request="upLoadFile"
             >
               <el-button slot="trigger" size="mini" type="primary"
                 >选取文件</el-button
@@ -193,15 +192,15 @@ export default {
 
     //调用api提交填写的考勤信息
     submitAttendance() {
-      this.$axios
-        .post(
-          "/attend/addAttendance",
-          this.$qs.stringify({
-            course_ID: this.$route.params.course_id,
-            start_time: this.attendanceTime[0],
-            end_time: this.attendanceTime[1],
-          })
-        )
+      let data = new FormData();
+      data.append("course_ID", this.$route.params.course_id);
+      data.append("start_time", this.attendanceTime[0]);
+      data.append("end_time", this.attendanceTime[1]);
+      this.$axios({
+        url: "/attend/addAttendance",
+        method: "post",
+        data: data,
+      })
         .then((response) => {
           if (response.data === 1) {
             this.attendanceTime = null;
@@ -256,7 +255,66 @@ export default {
     },
 
     fileUploadSuccess() {
-      // this.uploadForm();
+      console.log("???");
+    },
+
+    handleError() {
+      console.log("!!!");
+    },
+
+    upLoadFile() {
+      console.log(this.tmpFileList);
+      let files = new FormData();
+      for (let i = 0; i < this.tmpFileList.length; i++) {
+        files.append("file", this.tmpFileList[i].raw);
+      }
+
+      if (this.fileList.length === 1) {
+        this.$axios({
+          url: "/file/upload",
+          method: "post",
+          data: files,
+        })
+          .then(() => {
+            console.log("成功上传一个文件");
+          })
+          .catch(() => {
+            console.log("上传一个，失败了");
+          });
+      } else {
+        this.$axios({
+          url: "/file/multiUpload",
+          method: "post",
+          data: files,
+        })
+          .then(() => {
+            console.log("成功上传多个文件");
+          })
+          .catch(() => {
+            console.log("上传多个，失败了");
+          });
+      }
+    },
+
+    //文件列表改变
+    handleChange(file, fileList) {
+      this.tmpFileList = fileList;
+      console.log(this.tmpFileList);
+    },
+
+    //文件列表移除文件
+    handleRemove(file, fileList) {
+      this.tmpFileList = fileList;
+      console.log(this.tmpFileList);
+    },
+
+    //文件超出可选范围
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      );
     },
 
     uploadForm() {
@@ -285,51 +343,14 @@ export default {
         });
     },
 
-    //文件列表改变
-    handleChange(file, fileList) {
-      this.tmpFileList = fileList;
-      console.log(this.tmpFileList);
-    },
-
-    //文件列表移除文件
-    handleRemove(file, fileList) {
-      this.tmpFileList = fileList;
-      console.log(this.tmpFileList);
-    },
-
-    //文件超出可选范围
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
-    },
-
     //调用api提交填写实验信息，发布实验
     submitProject() {
       this.fileList = JSON.parse(JSON.stringify(this.tmpFileList));
-      this.projectInfo = JSON.parse(JSON.stringify(this.tmpInfo));
-      console.log(this.projectInfo.start_time);
-      console.log(this.projectInfo.end_time);
-      // this.uploadForm()
-      this.projectDialogVisible = false;
-
-      // 上传文件，未实现
-      // let fileData = new FormData()
-      // fileData.append("file",this.fileList[0].raw)
-      // this.$axios.post(
-      //     "/file/upload",
-      //     fileData
-      //     {
-      //       file:this.fileList[0].raw
-      //     }
-      //     this.$qs.stringify({
-      //       file:this.fileList[0].raw
-      //     })
-      // )
-      //  .then()
-      //  .catch()
+      // this.projectInfo = JSON.parse(JSON.stringify(this.tmpInfo));
+      // console.log(this.projectInfo.start_time);
+      // console.log(this.projectInfo.end_time);
+      // this.projectDialogVisible = false;
+      this.upLoadFile();
     },
   },
 };

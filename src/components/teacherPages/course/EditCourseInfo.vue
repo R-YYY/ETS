@@ -103,15 +103,11 @@ export default {
       data.append("course_ID", this.$route.params.course_id);
       data.append("name", this.tmpName);
       data.append("description", this.tmpDes);
-      this.$axios
-        .post(
-          "/course/setInfo",
-          this.$qs.stringify({
-            course_ID: this.$route.params.course_id,
-            name: this.tmpName,
-            description: this.tmpDes,
-          })
-        )
+      this.$axios({
+        url: "/course/setInfo",
+        method: "post",
+        data:data
+      })
         .then((response) => {
           console.log(response.data);
           this.$message({

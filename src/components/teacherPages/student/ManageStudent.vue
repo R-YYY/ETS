@@ -70,15 +70,15 @@ export default {
 
     //调用api向后端发送删除学生的id
     deleteStudent(data) {
-      this.$axios
-        .post(
-          "take/deleteTakeCourse",
-          this.$qs.stringify({
-            student_ID: data.student_ID,
-            course_ID: this.$route.params.course_id,
-            is_student: 1,
-          })
-        )
+      let studentInfo = new FormData()
+      studentInfo.append("student_ID",data.student_ID)
+      studentInfo.append("course_ID",this.$route.params.course_id)
+      studentInfo.append("is_student","1")
+      this.$axios({
+        url:"take/deleteTakeCourse",
+        method:"post",
+        data:studentInfo
+      })
         .then(() => {
           this.studentList.splice(data, 1);
           this.$message({
@@ -115,15 +115,15 @@ export default {
 
     //调用api，像后端发送添加学生的id
     addStudent(data) {
-      this.$axios
-        .post(
-          "/take/addTakeCourse",
-          this.$qs.stringify({
-            student_ID: data,
-            course_ID: this.$route.params.course_id,
-            is_student: 1,
-          })
-        )
+      let studentInfo = new FormData()
+      studentInfo.append("student_ID",data)
+      studentInfo.append("course_ID",this.$route.params.course_id)
+      studentInfo.append("is_student","1")
+      this.$axios({
+        url:"/take/addTakeCourse",
+        method:"post",
+        data:studentInfo
+      })
         .then((response) => {
           if (response.data === 1) {
             this.loadData();
@@ -154,13 +154,14 @@ export default {
 
     //调用api，加载学生列表
     loadData() {
-      this.$axios
-        .get("/take/getStudentInfoList", {
-          params: {
-            course_ID: this.$route.params.course_id,
-            is_student: 1,
-          },
-        })
+      this.$axios({
+        url:"/take/getStudentInfoList",
+        method:"get",
+        params:{
+          course_ID: this.$route.params.course_id,
+          is_student: 1,
+        }
+      })
         .then((response) => {
           this.studentList = response.data;
         })

@@ -120,22 +120,22 @@ export default {
     },
 
     //删除实验
-    deleteProject() {
-
-    },
+    deleteProject() {},
 
     filterState(value, row) {
       return row.state === value;
     },
   },
+
   mounted() {
     //调用api加载实验列表
-    this.$axios
-      .get("/project/getProjectListByCourseId", {
-        params: {
-          course_ID: this.$route.params.course_id,
-        },
-      })
+    this.$axios({
+      url: "/project/getProjectListByCourseId",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+    })
       .then((response) => {
         this.projectList = response.data;
         this.tmpList = this.projectList;
