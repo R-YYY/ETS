@@ -238,7 +238,7 @@ export default {
           })
             .then((response) => {
               //后端更新成功
-              if (response.data === true) {
+              if (response.data === 1) {
                 this.$message({
                   type: "success",
                   message: "发布成功！",
@@ -248,10 +248,16 @@ export default {
                 this.projectDialogVisible = false;
               }
               //后端更新失败
-              else {
+              else if(response.data === -1) {
                 this.$message({
                   type: "error",
-                  message: "发布失败！请检查是否与往期项目名称有重复！",
+                  message: "发布失败！请检查实验名是否与往期实验名有重复！",
+                });
+              }
+              else if(response.data === -2) {
+                this.$message({
+                  type: "error",
+                  message: "文件上传失败！请重试！",
                 });
               }
             })
