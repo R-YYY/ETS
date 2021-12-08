@@ -39,7 +39,7 @@
             </div>
           </el-container>
         </el-tab-pane>
-        <el-tab-pane label="实验项目" anme="project"> </el-tab-pane>
+        <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance"> </el-tab-pane>
       </el-tabs>
 

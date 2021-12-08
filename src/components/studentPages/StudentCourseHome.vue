@@ -180,7 +180,7 @@ export default {
 }
 
 .stuOption{
-  font-size: 16px;
+  font-size: 18px;
   width: 150px;
   text-align: center;
 }
@@ -217,7 +217,6 @@ export default {
   font-size: 90px;
   margin-top: 17px;
   margin-left: 10px;
-
   margin-right: 0;
   border-width: 0;
   background-color: rgba(0,0,0,0%)

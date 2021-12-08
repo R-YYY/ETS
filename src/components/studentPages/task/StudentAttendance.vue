@@ -2,22 +2,13 @@
   <div id="stuAttendance">
     <div class="attendanceCard" v-for="attendance in attendance_list">
       <span class="time">{{attendance.start_time}}</span>
-      {{attendance.attend_type=='出勤'}}
-
       <div :class="[{'success':(attendance.attend_type == '出勤')},
-          {'danger':(attendance.attend_type === '缺勤')},
-          {'normal':(attendance.attend_type === '待考勤')}
-          ]">{{attendance.state}}
-      </div>
-    </div>
-    
-    <div class="attendanceCard" v-for="attendance in history_attendance">
-      <span class="time">{{attendance.start_time}}</span>
-      <div :class="[{'success':(attendance.state == 1)},
-          {'danger':(attendance.state == 2)},
-          {'normal':(attendance.state == 3)}
-          ]" @click="btnClick(attendance.state)">
-        {{attendance.state}}
+          {'danger':(attendance.attend_type == '缺勤')},
+          {'normal':(attendance.attend_type == '待考勤')}
+          ]"
+      @click="btnClick(attendance.attend_type,attendance.start_time)"
+      >
+        {{attendance.attend_type}}
       </div>
     </div>
   </div>
@@ -34,39 +25,12 @@ export default {
   },
   data(){
     return {
-      attendance_list:[
-
-      ],
-      history_attendance:[
-        {
-          start_time:'2021-11-01 14:40:00',
-          state:1,
-        },
-        {
-          start_time:'2021-12-01 14:40:00',
-          state:2,
-        },
-        {
-          start_time:'2021-12-08 14:40:00',
-          state:3,
-        },
-      ]
+      attendance_list:[],
     }
   },
   mounted(){
     let that=this;
     let id=that.course_id;
-    this.$axios.get('attend/getOnGoingAttendanceListByCourseId',
-        {
-          params:{
-            course_ID:id,
-          }
-        }
-    ).then(
-        (response)=>{
-          that.attendance_list=response.data;
-        }
-    );
     let student_id='1951014';
     this.$axios.get('attend/getAttendInfoList',
         {
@@ -82,8 +46,27 @@ export default {
     )
   },
   methods:{
-    btnClick(state) {
-      window.alert(state);
+    btnClick(type,start_time) {
+      if(type=='出勤'||type=='缺勤'){
+
+      }
+      else{
+        this.$alert('考勤成功！', '', {
+          confirmButtonText: '确定',
+          type: 'success'
+        });
+        let data = new FormData();
+        let id=this.course_id;
+        let student_id='1951014';
+        data.append("course_ID",id);
+        data.append("start_time",start_time);
+        data.append("student_ID",student_id);
+        this.$axios({
+          url:'',
+          method:"POST",
+          data:data,
+        })
+      }
     }
   }
 }

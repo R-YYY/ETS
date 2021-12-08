@@ -46,6 +46,7 @@ export default {
   margin-left: 250px;
   margin-right: 20px;
   background-color:white;
+  cursor: context-menu;
 }
 .stuTaskTab{
   height: 100%;
@@ -54,6 +55,6 @@ export default {
 .paneName{
   height: 100%;
   margin: auto 120px;
-  font-size: medium;
+  font-size: 17px;
 }
 </style>
