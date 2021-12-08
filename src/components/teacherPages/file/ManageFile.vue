@@ -4,7 +4,7 @@
       <el-input
         class="inputFileName"
         v-model="input"
-        placeholder="请输入查找项目名称"
+        placeholder="请输入查找文件名称"
       >
       </el-input>
       <el-button>搜索</el-button>
@@ -35,30 +35,40 @@
                 </el-breadcrumb>
               </div>
               <div>
-                <el-card class="fileTree" shadow="never">文件树</el-card>
+                <!--文件树区域-->
+                <el-card class="fileTree" shadow="never">
+                  <el-tree
+                    :data="totalFiles"
+                    default-expand-all
+                    :expand-on-click-node="false"
+                    @node-click="showFiles"
+                  >
+                    <!--树节点-->
+                    <span class="treeNode" slot-scope="{ node, data }">
+                      <span class="fileName"
+                        ><i class="el-icon-folder-opened"></i
+                        >{{ node.label }}</span
+                      >
+                    </span>
+                  </el-tree>
+                </el-card>
               </div>
             </div>
             <div class="fileList">
               <el-table
                 :data="fileList"
                 height="450px"
-                :row-style="{ height: '35px' }"
+                :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0' }"
               >
-                <el-table-column prop="name" label="文件名" width="300px">
+                <el-table-column prop="file_name" label="文件名" width="250px">
                 </el-table-column>
-                <el-table-column prop="time" label="创建时间" width="250px">
+                <el-table-column prop="submit_time" label="上传时间" width="200px">
                 </el-table-column>
-                <el-table-column width="50px">
-                  <el-button icon="el-icon-view" size="mini" circle>
+                <el-table-column width="250px" label="操作" align="center">
+                  <el-button icon="el-icon-download" size="small" circle style="margin-right: 20px">
                   </el-button>
-                </el-table-column>
-                <el-table-column width="50px">
-                  <el-button icon="el-icon-download" size="mini" circle>
-                  </el-button>
-                </el-table-column>
-                <el-table-column width="50px">
-                  <el-button icon="el-icon-delete" size="mini" circle>
+                  <el-button icon="el-icon-delete" size="small" circle type="danger" plain>
                   </el-button>
                 </el-table-column>
               </el-table>
@@ -74,14 +84,104 @@
 export default {
   name: "ManageFile",
   data() {
-    const item = {
-      name: "11111",
-      time: "0000-00-00 00:00:00",
-    };
     return {
       input: "",
-      fileList: Array(3).fill(item),
+      fileList: [],
+      totalFiles: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
     };
+  },
+  methods: {
+    append(data) {
+      const newChild = { id: id++, label: "testtest", children: [] };
+      if (!data.children) {
+        this.$set(data, "children", []);
+      }
+      data.children.push(newChild);
+    },
+
+    remove(node, data) {
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.id === data.id);
+      children.splice(index, 1);
+    },
+
+    showFiles(data, node) {
+      console.log(node)
+      let route = [];
+      while (node.parent !== null){
+        route.push(node.label)
+        node = node.parent
+      }
+      let path = ""
+      for (let i = route.length - 1; i >= 0 ; i--) {
+        path = path + "/" + route[i]
+      }
+      console.log(path)
+      this.$axios({
+        url:'/file/getFileList',
+        method:'get',
+        params:{
+          course_ID:this.$route.params.course_id,
+          path:path,
+        }
+      }).then((response)=>{
+        console.log(response.data)
+        this.fileList = response.data
+      })
+    },
+
+    childrenFiles(data) {
+      let result = [];
+      for (let i = 0; i < data.length; i++) {
+        result.push({
+          label: data[i],
+        });
+      }
+      return result;
+    },
+  },
+  mounted() {
+    //加载所有二级文件
+    //暂定资料库分为三级，course（projects）-> ×××（实验项目名）文件夹 -> ×××.×××
+    this.$axios({
+      url: "/file/getTotalFiles",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+    })
+      .then((response) => {
+        this.totalFiles.push(
+          {
+            label: "课程资料",
+            children: this.childrenFiles(response.data[0]),
+          },
+          {
+            label: "实验资料",
+            children: this.childrenFiles(response.data[1]),
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //默认选中节点
+    this.$axios({
+      url:'/file/getFileList',
+      method:'get',
+      params:{
+        course_ID:this.$route.params.course_id,
+        path:"/课程资料",
+      }
+    }).then((response)=>{
+      console.log(response.data)
+      this.fileList = response.data
+    })
   },
 };
 </script>
@@ -119,5 +219,9 @@ export default {
 .fileList {
   margin-top: 30px;
   height: 430px;
+}
+
+.treeNode {
+  font-size: 15px;
 }
 </style>
