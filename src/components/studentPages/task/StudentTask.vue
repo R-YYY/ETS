@@ -1,17 +1,18 @@
 <template>
-  <el-tabs class="stuTaskTab" v-model="activeName" @click="handleClick">
+  <div id="Task">
+      <el-tabs class="stuTaskTab" v-model="activeName" @click="handleClick">
 
-    <el-tab-pane name="project">
-      <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
-      <StudentProject v-bind:course_id="'42024401'"></StudentProject>
-    </el-tab-pane>
+        <el-tab-pane name="project">
+          <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
+          <StudentProject v-bind:course_id="course_ID"></StudentProject>
+        </el-tab-pane>
 
-    <el-tab-pane name="attendance">
-      <span slot="label" class="paneName"><i class="el-icon-location-outline"></i> 考勤</span>
-      <StudentAttendance></StudentAttendance>
-    </el-tab-pane>
-
-  </el-tabs>
+        <el-tab-pane name="attendance">
+          <span slot="label" class="paneName"><i class="el-icon-location-outline"></i> 考勤</span>
+          <StudentAttendance v-bind:course_id="course_ID"></StudentAttendance>
+        </el-tab-pane>
+      </el-tabs>
+  </div>
 </template>
 
 <script>
@@ -34,29 +35,25 @@ export default {
     handleClick(tab, event){
       console.log(tab, event);
     },
-    // goBack() {
-    //   window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
-    // },
-    // open(){
-    //   window.open()
-    // },
   },
 }
 </script>
 
 <style scoped>
-.stuTaskTab{
+#Task{
   height: 100%;
   margin-top: 30px;
-  margin-left: 170px;
+  margin-left: 250px;
   margin-right: 20px;
-  background-color: white;
+  background-color:white;
 }
-
+.stuTaskTab{
+  height: 100%;
+  margin:30px 20px;
+}
 .paneName{
   height: 100%;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin: auto 120px;
   font-size: medium;
 }
 </style>

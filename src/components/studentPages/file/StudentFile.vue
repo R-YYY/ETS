@@ -1,15 +1,18 @@
 <template>
-  <el-tabs class="stuFileTab" v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane name="courseFile">
-      <span slot="label" class="paneName"><i class="el-icon-document"></i> 课程参考资料</span>
-      <CourseFile v-bind:course_id="'42024401'"></CourseFile>
-    </el-tab-pane>
+  <div id="File">
+    <el-tabs class="stuFileTab" v-model="activeName" @tab-click="handleClick">
 
-    <el-tab-pane name="projectFile">
-      <span slot="label" class="paneName"><i class="el-icon-notebook-2"></i> 项目参考资料</span>
-      <ProjectFile v-bind:course_id="'42024401'"></ProjectFile>
-    </el-tab-pane>
-  </el-tabs>
+      <el-tab-pane name="courseFile">
+        <span slot="label" class="paneName"><i class="el-icon-document"></i> 课程参考资料</span>
+        <CourseFile v-bind:course_id="'42024401'"></CourseFile>
+      </el-tab-pane>
+
+      <el-tab-pane name="projectFile">
+        <span slot="label" class="paneName"><i class="el-icon-notebook-2"></i> 项目参考资料</span>
+        <ProjectFile v-bind:course_id="'42024401'"></ProjectFile>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 
 <script>
@@ -33,20 +36,20 @@ export default {
 </script>
 
 <style scoped>
-
-.stuFileTab{
+#File{
   height: 100%;
   margin-top: 30px;
-  margin-left: 170px;
+  margin-left: 250px;
   margin-right: 20px;
-  background-color: white;
+  background-color:white;
 }
-
+.stuFileTab{
+  height: 100%;
+  margin:30px 20px;
+}
 .paneName{
   height: 100%;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin: auto 120px;
   font-size: medium;
 }
-
 </style>

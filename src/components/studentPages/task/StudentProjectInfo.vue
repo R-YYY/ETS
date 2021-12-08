@@ -1,38 +1,36 @@
 <template>
-  <div class="stuProject">
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="breadCrumb">
-<!--      <el-breadcrumb-item :to="{ path: '/' }">课程</el-breadcrumb-item>-->
-      <el-breadcrumb-item>课程</el-breadcrumb-item>
-      <el-breadcrumb-item>学习任务</el-breadcrumb-item>
-      <el-breadcrumb-item >实验项目</el-breadcrumb-item>
-      <el-breadcrumb-item>
-        <label class="projectName">
-          {{project.name}}
-        </label>
-      </el-breadcrumb-item>
-    </el-breadcrumb>
+  <div id="projectInfo">
+    <div class="title">
+      {{project.name}}
+      <span class="end_time">截止时间 : {{project.end_time}}</span>
+    </div>
     <el-divider></el-divider>
     <div class="info">
-      <b class="item">实验项目 ： {{project.name}}</b>
-      <span class="item">发布老师 ： {{project.teacher_ID}}???</span>
-      <p id="end_time" class="item">截止时间 : {{project.end_time}}</p>
-      <p>实验项目说明 ： </p>
-      <p>文件 ： </p>
-      <el-button type="primary" icon="el-icon-edit" plain size="medium">填写实验报告</el-button>
+      <div class="description">
+        实验项目说明 ：
+        <el-divider></el-divider>
+        {{project.description}}
+      </div>
+      <div class="file">
+        <div class="description">
+          <p>文件 ： </p>
+          <el-button type="primary" icon="el-icon-edit" plain size="medium">填写实验报告</el-button>
 
-      <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="1"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
-      </el-upload>
+          <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              multiple
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
+          </el-upload>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,7 +68,8 @@ export default {
     this.$axios.get(
         'project/get',{
           params:{
-            project_ID: this.$route.params.project_ID,
+            course_ID: this.$route.params.course_ID,
+            name: this.$route.params.name,
           },
         })
     .then((response => _this.project = response.data))
@@ -79,35 +78,48 @@ export default {
 </script>
 
 <style scoped>
-.stuProject{
+#projectInfo{
   height: 100%;
   margin-top: 30px;
-  margin-left: 170px;
+  margin-left: 220px;
   margin-right: 20px;
   background-color: white;
+  padding:5px 10px;
 }
-
-.breadCrumb{
-  margin-top: 30px;
-  padding-top: 20px;
+.title{
+  height:28px;
+  font-size: 20px;
+  font-weight: bold;
   padding-left: 20px;
-  font-size: large;
+  padding-top: 13px;
+  /*border:1px solid rgba(24,207,201,1);*/
+  /*border-radius: 5px;*/
+  /*background-image: linear-gradient(to bottom right, rgba(24,207,201,0.5), rgba(255,255,255,1));*/
 }
-
 .info{
+  margin-top: 20px;
   padding-left: 30px;
   font-size: medium;
 }
-
-.item{
-  margin-right: 40px;
+.file{
+  margin-top: 20px;
 }
-
-.projectName{
-  color: turquoise;
+.end_time{
+  padding: 5px;
+  border: 1px solid rgba(255,0,0,0.2);
+  border-radius: 5px;
+  background: rgba(255,0,0,0.1);
+  color: rgba(240,0,0,1);
+  margin-right: 50px;
+  float: right;
+  font-size: medium;
+  font-weight: normal;
 }
-
-#end_time{
-  color: red;
+.description{
+  width: 90%;
+  border:1px solid rgba(24,207,201,0.5);
+  border-radius: 5px;
+  padding:10px;
+  font-weight: bolder;
 }
 </style>

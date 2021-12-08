@@ -78,19 +78,36 @@ export default {
   },
   methods:{
     toTask(){
-      this.$router.push({name:'stuTasks'})
+      this.$router.push({
+        name:'stuTasks',
+        params:{
+          course_id: this.courseID,
+        }
+      })
     },
     toFile(){
-      this.$router.push({name:'stuFiles'})
+      this.$router.push({name:'stuFiles',
+        params:{
+          course_id: this.courseID,
+        }})
     },
     toGrade(){
-      this.$router.push({name:'stuGrades'})
+      this.$router.push({name:'stuGrades',
+        params:{
+          course_id: this.courseID,
+        }})
     },
     toStudent(){
-      this.$router.push({name:'stuStudents'})
+      this.$router.push({name:'stuStudents',
+        params:{
+          course_id: this.courseID,
+        }})
     },
     toFeedback(){
-      this.$router.push({name:'stuFeedbacks'})
+      this.$router.push({name:'stuFeedbacks',
+        params:{
+          course_id: this.courseID,
+        }})
     }
   },
   mounted() {
@@ -98,7 +115,7 @@ export default {
     this.$router.push({
       name:'stuTasks',
       params:{
-        course_id: '42024401'
+        course_id: this.courseID,
       }
     })
     //创建定时器更新最新时间
@@ -159,7 +176,7 @@ export default {
 }
 
 .menu{
-  padding-left: 170px;
+  padding-left: 220px;
 }
 
 .stuOption{
@@ -197,9 +214,10 @@ export default {
 }
 
 .colon{
-  font-size: 100px;
-  margin-top: 35px;
+  font-size: 90px;
+  margin-top: 17px;
   margin-left: 10px;
+
   margin-right: 0;
   border-width: 0;
   background-color: rgba(0,0,0,0%)
