@@ -2,8 +2,7 @@
   <div id="StudentList">
     <el-table
         :data="student_list"
-        stripe
-        style="width: 100%">
+        stripe style="width: 100%;font-size: 16px">
       <el-table-column
           prop="student_ID"
           label="学号"
@@ -34,7 +33,6 @@ export default {
   data(){
     return{
       student_list:[],
-      ta_list:[],
     }
   },
   mounted() {

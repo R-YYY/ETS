@@ -54,10 +54,24 @@
           <div slot="header">
             <span style="font-size: 20px">授课教师</span>
           </div>
+
+          <el-card shadow="hover" v-for="info in teacher_list" style="margin-bottom: 14px">
+            <p>姓名：{{info.name}}</p>
+            <p>邮箱: {{info.email}}</p>
+          </el-card>
         </el-card>
+
+
         <el-card class="courseInfo" shadow="never">
           <div slot="header">
             <span style="font-size: 20px">课程信息</span>
+          </div>
+          <div>
+            <p>{{course.course_ID}}</p>
+            <p>{{course.name}}</p>
+            <p>{{course.description}}</p>
+            <p>{{course.attend_percentage}}</p>
+            <p>{{course.project_percentage}}</p>
           </div>
         </el-card>
       </div>
@@ -73,7 +87,9 @@ export default {
       date:new Date(),
       courseName:'软工',
       courseID: '42024401',
-      activeIndex: '1'
+      activeIndex: '1',
+      teacher_list:[],
+      course : null,
     }
   },
   methods:{
@@ -122,6 +138,28 @@ export default {
     this.timer = setInterval(() => {
       _this.date = new Date(); // 修改日期数据
     }, 1000);
+    // 获取课程的授课教师列表
+    let id=this.courseID;
+    this.$axios.get(
+        '/teach/getTeacherInfoList',{
+          params:{
+            course_ID:id,
+          }
+        }
+    ).then(
+        (response)=>{
+          _this.teacher_list=response.data;
+        }
+    )
+    this.$axios.get(
+        '/course/get',{
+          params:{
+            course_ID:id,
+          }
+        }
+    ).then((response)=>{
+      _this.course=response.data;
+    })
   },
   beforeDestroy() {
     //清除定时器
@@ -220,5 +258,14 @@ export default {
   margin-right: 0;
   border-width: 0;
   background-color: rgba(0,0,0,0%)
+}
+.teacher_info{
+  /*background: rgba(0,200,0,0.3);*/
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(125,125,125,0.5);
+  margin:5px 1px;
+  font-size: medium;
+  font-weight: normal;
 }
 </style>

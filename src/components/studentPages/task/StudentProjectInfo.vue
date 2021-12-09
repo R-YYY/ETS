@@ -92,9 +92,6 @@ export default {
   font-weight: bold;
   padding-left: 20px;
   padding-top: 13px;
-  /*border:1px solid rgba(24,207,201,1);*/
-  /*border-radius: 5px;*/
-  /*background-image: linear-gradient(to bottom right, rgba(24,207,201,0.5), rgba(255,255,255,1));*/
 }
 .info{
   margin-top: 20px;

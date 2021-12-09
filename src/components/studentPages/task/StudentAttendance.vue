@@ -1,22 +1,35 @@
 <template>
   <div id="stuAttendance">
-    <div class="attendanceCard" v-for="attendance in attendance_list">
-      <span class="time">{{attendance.start_time}}</span>
-      <div :class="[{'success':(attendance.attend_type == '出勤')},
-          {'danger':(attendance.attend_type == '缺勤')},
-          {'normal':(attendance.attend_type == '待考勤')}
-          ]"
-      @click="btnClick(attendance.attend_type,attendance.start_time)"
-      >
-        {{attendance.attend_type}}
-      </div>
-    </div>
+    <el-table
+        :data="attendance_list"
+        style="width: 100%;padding-left: 50px;font-size: 17px"
+        :default-sort = "{prop: 'start_time', order: 'descending'}"
+    >
+      <el-table-column style="padding-left: 20px;font-size: 17px" prop="start_time"
+          label="时间"
+          sortable
+          width="500">
+        <template slot-scope="scope">
+          <span class="time">{{ scope.row.start_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column>
+        <template slot-scope="scope">
+          <div :class="[{'success':(scope.row.attend_type === '出勤')},
+                {'danger':(scope.row.attend_type === '缺勤')},
+                {'normal':(scope.row.attend_type === '待考勤')}
+                ]"
+              @click="btnClick(scope.row.attend_type,scope.row.start_time)">{{ scope.row.attend_type }}</div>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
 export default {
   name: "StudentAttendance",
+  inject: ['reload'],     //注入依赖
   props:{
     course_id:{
       type: String,
@@ -47,7 +60,7 @@ export default {
   },
   methods:{
     btnClick(type,start_time) {
-      if(type=='出勤'||type=='缺勤'){
+      if(type==='出勤'||type==='缺勤'){
 
       }
       else{
@@ -68,12 +81,11 @@ export default {
             .then((response) => {
               console.log(response.data);
               if (response.data === 1) {
-                // this.attendanceTime = null;
-                // this.attendanceDialogVisible = false;
                 this.$alert('考勤成功！', '', {
                   confirmButtonText: '确定',
                   type: 'success'
                 });
+                this.reload();    //调用刷新
               } else {
                 this.$message({
                   type: "error",
@@ -96,25 +108,17 @@ export default {
 <style scoped>
 #stuAttendance{
   width: 90%;
-  margin: 25px 10px;
-}
-.attendanceCard{
-  width:100%;
-  height: 55px;
-  border-bottom: 2px solid rgba(0,0,0,0.2);
-  padding-top: 30px;
-  cursor: pointer;
+  margin-left: 15px;
+  margin-bottom: 50px;
 }
 .time{
   height: 40px;
-  margin-left: 70px;
   margin-top: 8px;
   font-size: 18px;
-  /*float: left;*/
 }
 .success{
   float: right;
-  margin-right: 30px;
+  margin-right: 120px;
   font-size: 17px;
   color: rgba(50,180,0,0.9);
   border: 1px solid rgba(0,255,0,0.1);
@@ -125,7 +129,7 @@ export default {
 
 .danger{
   float: right;
-  margin-right: 30px;
+  margin-right: 120px;
   font-size: 17px;
   color: red;
   border: 1px solid rgba(255,0,0,0.1);
@@ -135,7 +139,7 @@ export default {
 }
 .normal{
   float: right;
-  margin-right: 30px;
+  margin-right: 120px;
   font-size: 17px;
   color: rgba(24,207,201,1);
   border: 1px solid rgba(24,207,201,0.1);

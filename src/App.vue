@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+<!--    <router-view></router-view>-->
+    <router-view v-if="isRouterAlive" ></router-view>
+
     <el-button @click="hh" :style="{display:isShow}">老师课程主页</el-button>
     <el-button @click="studentCourseHome" :style="{display:isShow}">学生课程主页</el-button>
 
@@ -25,18 +27,33 @@
 </template>
 
 <script>
+import { reactive, nextTick, provide } from 'vue'
+
+
 export default {
   name:"APP",
+  provide() {
+    return {
+      reload: this.reload,
+    }
+  },
   data(){
     return{
+      isRouterAlive: true,
       isShow: '',
       account_ID:'',
       email:'',
       password:'',
-      code:''
+      code:'',
     }
   },
   methods:{
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(function() {
+        this.isRouterAlive = true
+      })
+    },
     hh(){
       this.isShow='none'
       this.$router.push({
