@@ -32,7 +32,7 @@ export default {
     let that=this;
     let id=that.course_id;
     let student_id='1951014';
-    this.$axios.get('attend/getAttendInfoList',
+    this.$axios.get('/attend/getAttendInfoList',
         {
           params:{
             course_ID:id,
@@ -51,21 +51,42 @@ export default {
 
       }
       else{
-        this.$alert('考勤成功！', '', {
-          confirmButtonText: '确定',
-          type: 'success'
-        });
         let data = new FormData();
         let id=this.course_id;
         let student_id='1951014';
         data.append("course_ID",id);
+        console.log(id);
+        console.log(start_time);
+        console.log(student_id);
         data.append("start_time",start_time);
         data.append("student_ID",student_id);
         this.$axios({
-          url:'',
+          url:'/attend/addAttend',
           method:"POST",
           data:data,
         })
+            .then((response) => {
+              console.log(response.data);
+              if (response.data === 1) {
+                // this.attendanceTime = null;
+                // this.attendanceDialogVisible = false;
+                this.$alert('考勤成功！', '', {
+                  confirmButtonText: '确定',
+                  type: 'success'
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "已考勤！",
+                });
+              }
+            })
+            .catch(() => {
+              this.$message({
+                type: "error",
+                message: "考勤失败！请重试！",
+              });
+            });
       }
     }
   }
