@@ -4,12 +4,12 @@
 
       <el-tab-pane name="courseFile">
         <span slot="label" class="paneName"><i class="el-icon-document"></i> 课程参考资料</span>
-        <CourseFile v-bind:course_id="'42024401'"></CourseFile>
+        <CourseFile v-bind:course_id="course_ID"></CourseFile>
       </el-tab-pane>
 
       <el-tab-pane name="projectFile">
         <span slot="label" class="paneName"><i class="el-icon-notebook-2"></i> 项目参考资料</span>
-        <ProjectFile v-bind:course_id="'42024401'"></ProjectFile>
+        <ProjectFile v-bind:course_id="course_ID"></ProjectFile>
       </el-tab-pane>
     </el-tabs>
   </div>

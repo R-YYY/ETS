@@ -5,31 +5,34 @@
       <span class="end_time">截止时间 : {{project.end_time}}</span>
     </div>
     <el-divider></el-divider>
-    <div class="info">
-      <div class="description">
-        实验项目说明 ：
-        <el-divider></el-divider>
-        {{project.description}}
-      </div>
-      <div class="file">
-        <div class="description">
-          <p>文件 ： </p>
-          <el-button type="primary" icon="el-icon-edit" plain size="medium">填写实验报告</el-button>
 
+    <div class="info">
+      <el-card class="box-card" shadow="never">
+        <div slot="header" class="clearfix">
+          <span style="font-weight: bolder">实验项目说明 ：</span>
+        </div>
+        <div class="text item">
+          {{project.description}}
+        </div>
+      </el-card>
+
+      <div class="file">
+        <el-card class="description" shadow="never">
+          <p style="font-weight: bold;">文件 ： </p>
+          <el-button type="primary" icon="el-icon-edit" plain size="medium">填写实验报告</el-button>
+<!--        action  必选参数，上传的地址-->
           <el-upload
               class="upload-demo"
               action="https://jsonplaceholder.typicode.com/posts/"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
-              multiple
-              :limit="1"
               :on-exceed="handleExceed"
               :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
           </el-upload>
-        </div>
+        </el-card>
       </div>
     </div>
   </div>
@@ -44,8 +47,8 @@ export default {
       fileList:[
         {
           name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        }
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+        },
       ]
     };
   },
@@ -103,20 +106,17 @@ export default {
 }
 .end_time{
   padding: 5px;
-  border: 1px solid rgba(255,0,0,0.2);
   border-radius: 5px;
-  background: rgba(255,0,0,0.1);
-  color: rgba(240,0,0,1);
-  margin-right: 50px;
+  margin-right: 70px;
   float: right;
-  font-size: medium;
-  font-weight: normal;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Microsoft YaHei UI Light";
 }
 .description{
-  width: 90%;
-  border:1px solid rgba(24,207,201,0.5);
-  border-radius: 5px;
-  padding:10px;
-  font-weight: bolder;
+  width: 95%;
+}
+.box-card {
+  width: 95%;
 }
 </style>
