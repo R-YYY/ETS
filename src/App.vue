@@ -27,9 +27,6 @@
 </template>
 
 <script>
-import { reactive, nextTick, provide } from 'vue'
-
-
 export default {
   name:"APP",
   provide() {

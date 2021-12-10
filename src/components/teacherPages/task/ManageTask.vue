@@ -95,7 +95,7 @@
               :file-list="projectInfo.fileList"
               :on-change="handleChange"
               :on-exceed="handleExceed"
-              :http-request="uploadFile"
+              :http-request="uploadProjectFile"
             >
               <el-button slot="trigger" size="mini" type="primary"
                 >选取文件</el-button
@@ -203,7 +203,7 @@ export default {
     },
 
     //重写el-upload的上传文件方法，将文件添加到FormData中，待上传
-    uploadFile(file) {
+    uploadProjectFile(file) {
       this.projectData.append("file", file.file);
     },
 

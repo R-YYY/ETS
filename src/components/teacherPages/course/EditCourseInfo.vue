@@ -22,7 +22,9 @@
               <!--上传课程头像-->
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="#"
+                :http-request="uploadPhoto"
+                :before-upload="beforeUpload"
                 :show-file-list="false"
               >
                 <img
@@ -127,6 +129,44 @@ export default {
     cancelEdit() {
       this.$router.push({ name: "info" });
     },
+
+    uploadPhoto(file){
+      console.log(file.file)
+      let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
+      data.append("photo",file.file)
+      this.$axios({
+        url:"/file/uploadPhoto",
+        method:"post",
+        data:data
+      }).then((response)=>{
+        if(response.data === 1){
+          this.$message({
+            type: "success",
+            message: "修改成功！",
+          });
+        }
+        else{
+          this.$message({
+            type: "error",
+            message: "修改失败！请重试！",
+          });
+        }
+      }).catch(()=>{
+        this.$message({
+          type: "error",
+          message: "修改失败！请重试！",
+        });
+      })
+    },
+
+    beforeUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      return isJPG;
+    }
   },
   mounted() {
     let _this = this;
