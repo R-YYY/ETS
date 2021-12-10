@@ -173,10 +173,6 @@ export default {
       data.append("course_ID", this.$route.params.course_id);
       data.append("path", this.filePath);
       data.append("file", file.file);
-      this.uploadFiles(data);
-    },
-
-    uploadFiles(data) {
       this.$axios({
         url: "file/uploadFile",
         method: "post",
@@ -258,11 +254,14 @@ export default {
         data: data,
         responseType: "blob",
       }).then((response) => {
-        console.log(response)
+        console.log(response);
         let blob = new Blob([response.data]);
-        const disposition = response.headers['content-disposition'];
+        const disposition = response.headers["content-disposition"];
         //获得文件名
-        let fileName = disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
+        let fileName = disposition.substring(
+          disposition.indexOf("filename=") + 9,
+          disposition.length
+        );
         //解码
         fileName = decodeURI(escape(fileName));
         if (window.navigator.msSaveOrOpenBlob) {
