@@ -1,15 +1,18 @@
 <template>
-  <el-tabs class="stuTab" v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane name="normalStudent">
-      <span slot="label" class="paneName"><i class="el-icon-user-solid"></i> 学生</span>
-      <NormalStudent v-bind:course_id="'42024401'"></NormalStudent>
-    </el-tab-pane>
+  <div id="Student">
+    <el-tabs class="stuTab" v-model="activeName" @tab-click="handleClick">
 
-    <el-tab-pane name="TA">
-      <span slot="label" class="paneName"><i class="el-icon-s-custom"></i> 助教</span>
-      <TA v-bind:course_id="'42024401'"></TA>
-    </el-tab-pane>
-  </el-tabs>
+      <el-tab-pane name="normalStudent">
+        <span slot="label" class="paneName"><i class="el-icon-user-solid"></i> 学生</span>
+        <NormalStudent v-bind:course_id="course_ID"></NormalStudent>
+      </el-tab-pane>
+
+      <el-tab-pane name="TA">
+        <span slot="label" class="paneName"><i class="el-icon-s-custom"></i> 助教</span>
+        <TA v-bind:course_id="course_ID"></TA>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 
 <script>
@@ -33,18 +36,22 @@ export default {
 </script>
 
 <style scoped>
-.stuTab{
+#Student{
   height: 100%;
   margin-top: 30px;
-  margin-left: 170px;
+  margin-left: 250px;
   margin-right: 20px;
-  background-color: white;
+  background-color:white;
+  cursor: context-menu;
+}
+.stuTab{
+  height: 100%;
+  margin:30px 20px;
 }
 
 .paneName{
   height: 100%;
-  margin-left: 50px;
-  margin-right: 50px;
-  font-size: medium;
+  margin: auto 120px;
+  font-size: 17px;
 }
 </style>

@@ -67,15 +67,15 @@ export default {
   },
   mounted() {
     //调用api加载考勤列表
-    this.$axios
-      .get("/attend/getAttendanceListByCourseId", {
-        params: {
-          course_ID: this.$route.params.course_id,
-        },
-      })
-      .then((response) => {
-        this.attendList = response.data;
-      });
+    this.$axios({
+      url: "/attend/getAttendanceListByCourseId",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+    }).then((response) => {
+      this.attendList = response.data;
+    });
   },
 };
 </script>

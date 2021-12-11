@@ -96,14 +96,14 @@ export default {
 
     //调用api向后端传输删除老师的id
     deleteTeacher(data) {
-      this.$axios
-        .post(
-          "teach/deleteTeachCourse",
-          this.$qs.stringify({
-            teacher_ID: data.teacher_ID,
-            course_ID: this.$route.params.course_id,
-          })
-        )
+      let teacherInfo = new FormData()
+      teacherInfo.append("teacher_ID",data.teacher_ID)
+      teacherInfo.append("course_ID",this.$route.params.course_id)
+      this.$axios({
+        url:"/teach/deleteTeachCourse",
+        method:"post",
+        data:teacherInfo
+      })
         .then(() => {
           this.teacherList.splice(data, 1);
           this.$message({
@@ -140,14 +140,14 @@ export default {
 
     //调用api向后端传输添加老师的id
     addTeacher(data) {
-      this.$axios
-        .post(
-          "/teach/addTeachCourse",
-          this.$qs.stringify({
-            teacher_ID: data,
-            course_ID: this.$route.params.course_id,
-          })
-        )
+      let teacherInfo = new FormData()
+      teacherInfo.append("teacher_ID",data)
+      teacherInfo.append("course_ID",this.$route.params.course_id)
+      this.$axios({
+        url:"/teach/addTeachCourse",
+        method:"post",
+        data:teacherInfo
+      })
         .then((response) => {
           if (response.data === 1) {
             this.loadData();
@@ -177,12 +177,13 @@ export default {
 
     //加载老师列表数据
     loadData() {
-      this.$axios
-        .get("/teach/getTeacherInfoList", {
-          params: {
-            course_ID: this.$route.params.course_id,
-          },
-        })
+      this.$axios({
+        url:"/teach/getTeacherInfoList",
+        method:"get",
+        params:{
+          course_ID: this.$route.params.course_id,
+        }
+      })
         .then((response) => {
           this.teacherList = response.data;
         })

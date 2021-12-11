@@ -81,15 +81,15 @@ export default {
 
     //调用api向后端发送删除助教的id
     deleteTa(data) {
-      this.$axios
-        .post(
-          "take/deleteTakeCourse",
-          this.$qs.stringify({
-            student_ID: data.student_ID,
-            course_ID: this.$route.params.course_id,
-            is_student: 0,
-          })
-        )
+      let taInfo = new FormData()
+      taInfo.append("student_ID",data.student_ID)
+      taInfo.append("course_ID",this.$route.params.course_id)
+      taInfo.append("is_student","0")
+      this.$axios({
+        url:"/take/deleteTakeCourse",
+        method:"post",
+        data:taInfo
+      })
         .then(() => {
           this.taList.splice(data, 1);
           this.$message({
@@ -126,15 +126,15 @@ export default {
 
     //调用api，向后端发送添加助教的id
     addTa(data) {
-      this.$axios
-        .post(
-          "/take/addTakeCourse",
-          this.$qs.stringify({
-            student_ID: data,
-            course_ID: this.$route.params.course_id,
-            is_student: 0,
-          })
-        )
+      let taInfo = new FormData()
+      taInfo.append("student_ID",data)
+      taInfo.append("course_ID",this.$route.params.course_id)
+      taInfo.append("is_student","0")
+      this.$axios({
+        url:"/take/addTakeCourse",
+        method:"post",
+        data:taInfo
+      })
         .then((response) => {
           if (response.data === 1) {
             this.loadDate();
@@ -164,13 +164,14 @@ export default {
 
     //加载助教列表数据
     loadDate() {
-      this.$axios
-        .get("/take/getStudentInfoList", {
-          params: {
-            course_ID: this.$route.params.course_id,
-            is_student: 0,
-          },
-        })
+      this.$axios({
+        url:"/take/getStudentInfoList",
+        method:"get",
+        params:{
+          course_ID: this.$route.params.course_id,
+          is_student: 0,
+        }
+      })
         .then((response) => {
           this.taList = response.data;
         })

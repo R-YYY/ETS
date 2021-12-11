@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="CourseFile">
     <div class="FileCard" v-for="file in course_files">
 <!--      <a :href="file.path" :download="file.name">-->
 <!--        <img :src="file.path" :alt="file.name">-->

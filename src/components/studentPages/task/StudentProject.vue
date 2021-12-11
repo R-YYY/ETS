@@ -3,11 +3,11 @@
     <div class="projectCard" v-for="project in project_list">
       <el-descriptions :title="project.name" :column="2">
         <template slot="extra">
-          <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium" @click="btnClick(project.start_time,project.project_ID)">去完成</el-button>
+          <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium" @click="btnClick(project.start_time,project.name)">去完成</el-button>
         </template>
         <el-descriptions-item label="开始时间">{{project.start_time}}</el-descriptions-item>
         <el-descriptions-item label="截止时间" id="redEndTime">{{project.end_time}}</el-descriptions-item>
-        <el-descriptions-item label="发布老师">待定</el-descriptions-item>
+        <el-descriptions-item label="发布老师">{{project.teacher_name}}</el-descriptions-item>
       </el-descriptions>
       <el-divider></el-divider>
     </div>
@@ -32,7 +32,7 @@ export default {
     }
   },
   methods:{
-    btnClick(start_time, project_ID){
+    btnClick(start_time, name){
       var moment=require('moment');
       // 格式化
       if(start_time > moment(new Date()).format('YYYY-MM-DD HH:mm:ss')){
@@ -42,15 +42,22 @@ export default {
         });
       }
       else{
-        router.push({name: 'stuProjectInfo', params: {project_ID: project_ID}})
+        console.log(this.course_id);
+        console.log(name);
+        router.push({name: 'stuProjectInfo',
+          params: {
+          course_ID: this.course_id,
+            name: name,
+          }});
       }
     },
   },
   mounted() {
     let _this=this
     let id = _this.course_id
+    // window.alert(id);
     this.$axios.get(
-        '/project/getProjectListByCourseId',{
+        '/project/getProjectInfoListByCourseId',{
           params: {
             course_ID: id,
           },
@@ -67,7 +74,7 @@ export default {
   margin-top: 30px;
   margin-left: 50px;
   margin-right: 50px;
-  cursor: pointer;
+  cursor: context-menu;
 }
 
 #redEndTime{
