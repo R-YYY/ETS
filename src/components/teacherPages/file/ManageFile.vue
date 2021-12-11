@@ -63,6 +63,7 @@
                 </el-card>
               </div>
             </div>
+            <!--文件列表-->
             <div class="fileList">
               <el-table
                 :data="fileList"
@@ -70,15 +71,28 @@
                 :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0' }"
               >
-                <el-table-column prop="file_name" label="文件名" width="300px">
+                <el-table-column
+                  prop="file_name"
+                  sortable
+                  label="文件名"
+                  width="300px"
+                >
                 </el-table-column>
                 <el-table-column
                   prop="submit_time"
                   label="上传时间"
-                  width="200px"
+                  width="180px"
+                  sortable
                 >
                 </el-table-column>
-                <el-table-column width="200px" label="操作" align="center">
+                <el-table-column
+                    prop="file_size"
+                    label="文件大小"
+                    width="100px"
+                    sortable
+                >
+                </el-table-column>
+                <el-table-column width="180px" label="操作" align="center">
                   <template slot-scope="scope">
                     <el-button
                       icon="el-icon-view"
@@ -186,7 +200,8 @@ export default {
             });
             this.fileList.push({
               file_name: file.file.name,
-              submit_time: new Date().getTime(),
+              submit_time: this.getDateYYYYMMddHHMMSS(),
+              file_size:Math.ceil(file.file.size * 10 / 1024) / 10 + " KB"
             });
           } else {
             this.$message({
@@ -201,6 +216,16 @@ export default {
             message: "上传失败！请重试！",
           });
         });
+    },
+
+    getDateYYYYMMddHHMMSS() {
+      const date = new Date();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const strDate = date.getDate().toString().padStart(2, "0");
+      const starHours = date.getHours().toString().padStart(2, "0");
+      const starMinutes = date.getMinutes().toString().padStart(2, "0");
+      const starSeconds = date.getSeconds().toString().padStart(2, "0");
+      return `${date.getFullYear()}-${month}-${strDate} ${starHours}:${starMinutes}:${starSeconds}`;
     },
 
     handleDelete(row) {
@@ -256,14 +281,14 @@ export default {
       }).then((response) => {
         console.log(response);
         let blob = new Blob([response.data]);
+        console.log(blob)
         const disposition = response.headers["content-disposition"];
         //获得文件名
         let fileName = disposition.substring(
           disposition.indexOf("filename=") + 9,
-          disposition.length
-        );
+          disposition.length);
         //解码
-        fileName = decodeURI(escape(fileName));
+        fileName = decodeURI(fileName);
         if (window.navigator.msSaveOrOpenBlob) {
           navigator.msSaveBlob(blob, fileName);
         } else {
@@ -281,7 +306,7 @@ export default {
     //加载所有二级文件
     //暂定资料库分为三级，course（projects）-> ×××（实验项目名）文件夹 -> ×××.×××
     this.$axios({
-      url: "/file/getTotalFiles",
+      url: "/file/getTotalFolders",
       method: "get",
       params: {
         course_ID: this.$route.params.course_id,
@@ -362,7 +387,7 @@ export default {
   margin-top: 20px;
   margin-left: 25px;
   margin-right: 50px;
-  width: 400px;
+  width: 350px;
   height: 420px;
 }
 
@@ -379,7 +404,4 @@ export default {
   margin-left: 20px;
 }
 
-.folderBtn {
-  margin-left: 50px;
-}
 </style>

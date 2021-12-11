@@ -32,26 +32,20 @@
               >
                 <div class="eachProject">
                   <el-card class="projectCard">
-                    <div slot="header">
-                      <span>项目名称：{{ item.name }}</span>
+                    <div slot="header" class="projectName">
+                      <span>实验名称：{{ item.name }}</span>
                     </div>
-                    <div>
+                    <div class="projectDes">
+                      <p>发布人：{{ item.teacher_name }}</p>
                       <p>发布时间：{{ item.start_time }}</p>
                       <p>截至时间：{{ item.end_time }}</p>
-                      <p>发布人：{{ item.teacher_ID }}</p>
-                      <br />
                     </div>
                     <div>
                       <el-button class="btn" @click="checkProject">
-                        <span>查看</span>
+                        <span>查看实验信息</span>
                       </el-button>
-                      <el-button
-                        class="btn"
-                        type="danger"
-                        plain
-                        @click="deleteProject"
-                      >
-                        <span>删除</span>
+                      <el-button class="btn" @click="checkReport">
+                        <span>查看提交情况</span>
                       </el-button>
                     </div>
                   </el-card>
@@ -115,12 +109,12 @@ export default {
     },
 
     //查看实验信息
-    checkProject() {
+    checkReport() {
       this.checkDialogVisible = true;
     },
 
     //删除实验
-    deleteProject() {},
+    checkProject() {},
 
     filterState(value, row) {
       return row.state === value;
@@ -130,7 +124,7 @@ export default {
   mounted() {
     //调用api加载实验列表
     this.$axios({
-      url: "/project/getProjectListByCourseId",
+      url: "/project/getProjectInfoListByCourseId",
       method: "get",
       params: {
         course_ID: this.$route.params.course_id,
@@ -163,12 +157,13 @@ export default {
 
 .projectCard {
   height: 300px;
-  width: 300px;
+  width: 460px;
 }
 
 .btn {
-  margin-left: 30px;
-  margin-right: 35px;
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .projectArea {
@@ -177,7 +172,16 @@ export default {
 }
 
 .eachProject {
-  margin-top: 30px;
-  margin-left: 70px;
+  margin: 30px 30px 20px 70px;
+}
+
+.projectDes{
+  margin-left: 30px;
+  font-size: 16px;
+}
+
+.projectName{
+  margin-left: 30px;
+  font-size: 18px;
 }
 </style>
