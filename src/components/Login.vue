@@ -37,11 +37,12 @@
             >
             </el-input>
           </el-form-item>
-          <el-form-item class="btns">
+          <el-form-item class="buttons">
             <el-button type="primary" @click="login" class="button1"
               >登录</el-button
             >
             <el-button type="info" @click="resetLoginForm">重置</el-button>
+            <el-button type="register">注册</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -116,24 +118,35 @@ export default {
         else this.getloginInfo();
       });
     },
-    getloginInfo(){
-      this.$axios.get(
-        "/idMatchPassword",{
-          params:{
-          account_ID:this.loginForm.id,
-          password:this.loginForm.password
-          }
-        }
-      )
-      .then
-    }
+    getloginInfo() {
+      console.log(this.loginForm.id);
+      var data = Qs.stringify({
+        account_ID: this.loginForm.id,
+        password: this.loginForm.password,
+      });
+      console.log(data);
+      this.$axios
+        .post("/account/idMatchPassword", data)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        console.log(this.response.data);
+      if (this.response.data !== true) return this.$message.error("登录失败");
+      this.$message.success("登录成功");
+      window.sessionStorage.setItem("id", this.response.data.account_ID);
+      if (window.sessionStorage.getItem("id").length == 5)
+        this.$router.push("/teacherhome");
+    },
 
     // async getloginInfo() {
     //   const getData = (data1) => {
     //     this.res = data1;
     //   };
 
-    //   await fetch("http://175.27.240.116:6060/api/Authorize/Login", {
+    //   await fetch("http://1.117.164.153:8888/account/idMatchPassword", {
     //     method: "POST",
     //     body: JSON.stringify(this.loginForm),
     //     headers: {
@@ -152,7 +165,7 @@ export default {
     //   //   1.1 项目中出现了登录之外的其他API接口，必须在登陆之后才能访问
     //   //   1.2 token 只应在当前网站打开期间生效，所以将token保存在sessionStorage中
     //   window.sessionStorage.setItem("token", this.res.data.token);
-    //   window.sessionStorage.setItem("id", this.res.data.id);
+    //   window.sessionStorage.setItem("id", this.res.data.id);1
     //   console.log(window.sessionStorage.setItem + "***");
 
     //   console.log(window.sessionStorage.getItem("id").length);
@@ -235,20 +248,15 @@ body {
   box-sizing: border-box;
 }
 
-.btns {
+.buttons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
 }
 
-.button1 {
-  position: relative;
-  right: 60px;
-}
-
-.info {
+/* .info {
   font-size: 13px;
   margin: 10px 15px;
-}
+} */
 
 .white_Item .el-form-item__label {
   color: white;
