@@ -70,18 +70,12 @@
                 :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0' }"
               >
-                <el-table-column
-                  prop="file_name"
-                  sortable
-                  label="文件名"
-                  width="300px"
-                >
+                <el-table-column prop="file_name" label="文件名" width="300px">
                 </el-table-column>
                 <el-table-column
                   prop="submit_time"
                   label="上传时间"
                   width="200px"
-                  sortable
                 >
                 </el-table-column>
                 <el-table-column width="200px" label="操作" align="center">
@@ -192,7 +186,7 @@ export default {
             });
             this.fileList.push({
               file_name: file.file.name,
-              submit_time: this.getDateYYYYMMddHHMMSS(),
+              submit_time: new Date().getTime(),
             });
           } else {
             this.$message({
@@ -207,16 +201,6 @@ export default {
             message: "上传失败！请重试！",
           });
         });
-    },
-
-    getDateYYYYMMddHHMMSS() {
-      const date = new Date();
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const strDate = date.getDate().toString().padStart(2, "0");
-      const starHours = date.getHours().toString().padStart(2, "0");
-      const starMinutes = date.getMinutes().toString().padStart(2, "0");
-      const starSeconds = date.getSeconds().toString().padStart(2, "0");
-      return `${date.getFullYear()}-${month}-${strDate} ${starHours}:${starMinutes}:${starSeconds}`;
     },
 
     handleDelete(row) {
