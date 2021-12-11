@@ -90,6 +90,12 @@ export default {
           } else if(response.data === -1) {
             this.$message({
               type: "error",
+              message: "学号或工号已注册！请重试",
+            });
+          }
+          else if(response.data === -2) {
+            this.$message({
+              type: "error",
               message: "学号或工号不存在！请重试",
             });
           }
