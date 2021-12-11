@@ -1,24 +1,24 @@
 <template>
   <div id="Task">
-      <el-tabs class="stuTaskTab" v-model="activeName" @click="handleClick">
+    <el-tabs class="stuTaskTab" v-model="activeName" @click="handleClick">
 
-        <el-tab-pane name="project">
-          <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
-          <StudentProject v-bind:course_id="course_ID"></StudentProject>
-        </el-tab-pane>
+      <el-tab-pane name="project">
+        <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
+        <StudentProject v-bind:course_id="course_ID"></StudentProject>
+      </el-tab-pane>
 
-        <el-tab-pane name="attendance">
-          <span slot="label" class="paneName"><i class="el-icon-location-outline"></i> 考勤</span>
-          <StudentAttendance v-bind:course_id="course_ID"></StudentAttendance>
-        </el-tab-pane>
-      </el-tabs>
+      <el-tab-pane name="attendance">
+        <span slot="label" class="paneName"><i class="el-icon-location-outline"></i> 考勤</span>
+        <StudentAttendance v-bind:course_id="course_ID"></StudentAttendance>
+      </el-tab-pane>
+
+    </el-tabs>
   </div>
 </template>
 
 <script>
 import StudentProject from "@/components/studentPages/task/StudentProject";
 import StudentAttendance from "@/components/studentPages/task/StudentAttendance";
-
 export default {
   name: "StudentTask",
   components:{
@@ -27,8 +27,9 @@ export default {
   },
   data(){
     return{
-      activeName: 'project',
+      // course_ID: this.$route.query.course_id,
       course_ID: this.$route.params.course_id,
+      activeName: 'project',
     }
   },
   methods:{
@@ -36,6 +37,9 @@ export default {
       console.log(tab, event);
     },
   },
+  mounted() {
+    console.log(this.course_ID);
+  }
 }
 </script>
 
@@ -52,6 +56,7 @@ export default {
   height: 100%;
   margin:30px 20px;
 }
+
 .paneName{
   height: 100%;
   margin: auto 120px;

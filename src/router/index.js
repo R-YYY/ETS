@@ -167,9 +167,6 @@ const routes = [
             path:'stuProject',
             name:'stuProject',
             component:StudentProject,
-            children:[
-
-            ]
           },
           {
             path:'stuAttendance',
@@ -177,11 +174,6 @@ const routes = [
             component: StudentAttendance,
           }
         ]
-      },
-      {
-        path: 'stuProjectInfo/:name',
-        name:'stuProjectInfo',
-        component: StudentProjectInfo
       },
       {
         path: 'stuFiles',
@@ -204,7 +196,12 @@ const routes = [
         component: StudentFeedback
       },
     ]
-  }
+  },
+  {
+    path: '/stuProjectInfo',
+    name:'stuProjectInfo',
+    component: StudentProjectInfo
+  },
 ]
 
 const router = new VueRouter({

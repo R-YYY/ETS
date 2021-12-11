@@ -29,13 +29,13 @@
 <script>
 export default {
   name: "StudentAttendance",
-  inject: ['reload'],     //注入依赖
   props:{
     course_id:{
       type: String,
       default: '',
     },
   },
+  inject: ['reload'],     //注入依赖
   data(){
     return {
       attendance_list:[],
@@ -65,7 +65,7 @@ export default {
       }
       else{
         let data = new FormData();
-        let id=this.course_id;
+        let id=this.course_ID;
         let student_id='1951014';
         data.append("course_ID",id);
         console.log(id);

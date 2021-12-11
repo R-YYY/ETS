@@ -94,12 +94,16 @@ export default {
   },
   methods:{
     toTask(){
-      this.$router.push({
-        name:'stuTasks',
+      this.$router.push({name:'stuTasks',
         params:{
           course_id: this.courseID,
-        }
-      })
+        }})
+      // this.$router.push({
+      //   path:`/stu/courseInfo/${this.courseID}/stuTasks`,
+      //   query:{
+      //     course_id: this.courseID,
+      //   }
+      // })
     },
     toFile(){
       this.$router.push({name:'stuFiles',

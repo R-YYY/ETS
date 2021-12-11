@@ -19,7 +19,6 @@
 import router from "@/router";
 
 export default {
-  name: "StudentProject",
   props:{
     course_id:{
       type: String,
@@ -44,11 +43,16 @@ export default {
       else{
         console.log(this.course_id);
         console.log(name);
-        router.push({name: 'stuProjectInfo',
-          params: {
-          course_ID: this.course_id,
-            name: name,
-          }});
+        this.$router.push(
+            {
+              path:`/stuProjectInfo`,
+              // name: 'stuProjectInfo',
+              query: {
+                course_ID: this.course_id,
+                name: name,
+              }
+            }
+        );
       }
     },
   },

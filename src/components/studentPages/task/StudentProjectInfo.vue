@@ -1,13 +1,14 @@
 <template>
   <div id="projectInfo">
-    <div class="title">
-      {{project.name}}
-      <span class="end_time">截止时间 : {{project.end_time}}</span>
-    </div>
-    <el-divider></el-divider>
 
-    <div class="info">
-      <el-card class="box-card" shadow="never">
+    <div class="title">{{project.name}}</div>
+    <div class="backButton">
+      <el-button type="primary" @click="goBack">返回</el-button>
+    </div>
+    <div class="end_time">截止时间 : {{project.end_time}}</div>
+
+    <div class="contents">
+      <el-card class="description" shadow="never">
         <div slot="header" class="clearfix">
           <span style="font-weight: bolder">实验项目说明 ：</span>
         </div>
@@ -16,24 +17,33 @@
         </div>
       </el-card>
 
-      <div class="file">
-        <el-card class="description" shadow="never">
-          <p style="font-weight: bold;">文件 ： </p>
-          <el-button type="primary" icon="el-icon-edit" plain size="medium">填写实验报告</el-button>
-<!--        action  必选参数，上传的地址-->
-          <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              :on-exceed="handleExceed"
-              :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
-          </el-upload>
-        </el-card>
-      </div>
+      <el-card class="description" shadow="never">
+        <div slot="header" class="clearfix">
+          <span style="font-weight: bolder">文件 ： </span>
+        </div>
+        <div class="text item" v-for="i in 4">
+          文件{{i}}
+        </div>
+      </el-card>
+
+      <el-card class="description" shadow="never">
+        <div slot="header" class="clearfix">
+          <span style="font-weight: bolder">实验报告 ： </span>
+        </div>
+        <el-button type="primary" icon="el-icon-edit" plain size="medium" style="float: right">填写实验报告</el-button>
+        <!--        action  必选参数，上传的地址-->
+        <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :on-exceed="handleExceed"
+            :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
+        </el-upload>
+      </el-card>
     </div>
   </div>
 </template>
@@ -43,6 +53,8 @@ export default {
   name: "StudentProjectInfo",
   data(){
     return{
+      course_ID: this.$route.query.course_ID,
+      name: this.$route.query.name,
       project : null,
       fileList:[
         {
@@ -64,15 +76,18 @@ export default {
     },
     beforeRemove(file, fileList){
       return this.$confirm('确定移除 ${file.name}?');
-    }
+    },
+    goBack(){
+      this.$router.go(-1);
+    },
   },
   mounted() {
     let _this = this
     this.$axios.get(
         'project/get',{
           params:{
-            course_ID: this.$route.params.course_ID,
-            name: this.$route.params.name,
+            course_ID: this.course_ID,
+            name: this.name,
           },
         })
     .then((response => _this.project = response.data))
@@ -82,19 +97,40 @@ export default {
 
 <style scoped>
 #projectInfo{
-  height: 100%;
-  margin-top: 30px;
+  width: 1150px;
+  height: 700px;
+  overflow: hidden;
+  margin-top: 25px;
   margin-left: 220px;
   margin-right: 20px;
-  background-color: white;
   padding:5px 10px;
+  /*border: 2px solid rgba(0,0,0,0.5);*/
+  border-radius: 5px;
+}
+.contents{
+  width: 1200px;
+  height: 600px;
+  overflow: auto;
+}
+.backButton{
+  margin-left: 60px;
+  margin-top: 15px;
+  float: left;
 }
 .title{
-  height:28px;
-  font-size: 20px;
+  text-align: center;
+  font-size: 27px;
   font-weight: bold;
-  padding-left: 20px;
-  padding-top: 13px;
+  margin-top: 10px;
+}
+.end_time{
+  float: right;
+  margin-right: 75px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Microsoft YaHei UI Light";
 }
 .info{
   margin-top: 20px;
@@ -104,19 +140,8 @@ export default {
 .file{
   margin-top: 20px;
 }
-.end_time{
-  padding: 5px;
-  border-radius: 5px;
-  margin-right: 70px;
-  float: right;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: "Microsoft YaHei UI Light";
-}
 .description{
-  width: 95%;
-}
-.box-card {
-  width: 95%;
+  width: 90%;
+  margin: 40px auto;
 }
 </style>
