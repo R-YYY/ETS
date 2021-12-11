@@ -24,6 +24,11 @@ import StudentFeedback from "@/components/studentPages/feedback/StudentFeedback"
 import StudentTaskProjectInfo from "@/components/studentPages/task/StudentProjectInfo";
 import StudentAttendance from "@/components/studentPages/task/StudentAttendance";
 import StudentProjectInfo from "@/components/studentPages/task/StudentProjectInfo";
+import AdminHome from "@/components/home/AdminHome";
+import StudentHome from "@/components/home/StudentHome";
+import TeacherHome from "@/components/home/TeacherHome";
+import Register from "@/components/Register";
+
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -42,6 +47,26 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: LogIn
+  },
+  {
+    path:'/adminhome',
+    name:'AdminHome',
+    component:AdminHome
+  },
+  {
+    path:'/studenthome',
+    name:'StudentHome',
+    component:StudentHome
+  },
+  {
+    path:'/teacherhome',
+    name:'TeacherHome',
+    component:TeacherHome
+  },
+  {
+    path:'/register',
+    name:'Register',
+    component:Register
   },
   {
     path: '/courses/:course_id',
