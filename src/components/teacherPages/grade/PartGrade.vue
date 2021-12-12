@@ -23,22 +23,22 @@
                   <el-table :data="projectGradeList">
                     <el-table-column
                       label="实验名称"
-                      prop="name"
+                      prop="project_name"
                       width="400px"
                     ></el-table-column>
                     <el-table-column
                       label="平均分"
-                      prop="average"
+                      prop="avg_score"
                       width="150px"
                     ></el-table-column>
                     <el-table-column
                       label="最低分"
-                      prop="low"
+                      prop="min_score"
                       width="150px"
                     ></el-table-column>
                     <el-table-column
                       label="最高分"
-                      prop="high"
+                      prop="max_score"
                       width="150px"
                     ></el-table-column>
                     <el-table-column width="180px">
@@ -93,26 +93,7 @@ export default {
   name: "PartGrade",
   data() {
     return {
-      projectGradeList: [
-        {
-          name: "实验一",
-          low: 0,
-          high: 100,
-          average: 50,
-        },
-        {
-          name: "实验一",
-          low: 0,
-          high: 100,
-          average: 50,
-        },
-        {
-          name: "实验一",
-          low: 0,
-          high: 100,
-          average: 50,
-        },
-      ],
+      projectGradeList: [],
       attendanceGradeList: [
         {
           startTime: "2020-11-11 11:11:11",
@@ -139,6 +120,17 @@ export default {
       else if (tab.index == 2) this.$router.push({ name: "setGrades" });
     },
   },
+  mounted() {
+    this.$axios({
+      url:"/score/getProjectScoreInfoList",
+      method:"get",
+      params:{
+        course_ID:this.$route.params.course_id
+      }
+    }).then((response)=>{
+      this.projectGradeList = response.data
+    })
+  }
 };
 </script>
 

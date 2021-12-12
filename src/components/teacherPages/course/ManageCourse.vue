@@ -32,7 +32,7 @@
             <!--课程信息-->
             <div class="infoArea">
               <h2>课程信息</h2>
-              <el-form label-position="left" label-width="80px">
+              <el-form label-position="left" label-width="80px" style="width: 480px">
                 <el-form-item label="课程编号">
                   <span class="info">{{ this.$route.params.course_id }}</span>
                 </el-form-item>
@@ -123,9 +123,9 @@ export default {
 }
 
 .infoArea {
-  margin-left: 130px;
+  margin-left: 100px;
   margin-top: 30px;
-  line-height: 70px;
+  line-height: 50px;
 }
 
 .btn {
