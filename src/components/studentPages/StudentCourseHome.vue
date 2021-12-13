@@ -20,7 +20,7 @@
       </el-container>
     </div>
 
-    <el-menu class="menu" default-active="activeIndex" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
+    <el-menu class="menu" :default-active="activeIndex" mode="horizontal" background-color="#746ec9" text-color="#fff" active-text-color="#fff">
 
       <el-menu-item index="1" class="stuOption" @click="toTask">
         <span>学习任务</span>
@@ -87,57 +87,59 @@ export default {
       date:new Date(),
       courseName:'软工',
       courseID: '42024401',
-      activeIndex: '1',
+      activeIndex: '',
       teacher_list:[],
       course : null,
     }
   },
   methods:{
     toTask(){
-      this.$router.push({name:'stuTasks',
-        params:{
-          course_id: this.courseID,
-        }})
-      // this.$router.push({
-      //   path:`/stu/courseInfo/${this.courseID}/stuTasks`,
-      //   query:{
-      //     course_id: this.courseID,
-      //   }
-      // })
+      this.$router.push({name:'stuTasks'})
     },
     toFile(){
-      this.$router.push({name:'stuFiles',
-        params:{
-          course_id: this.courseID,
-        }})
+      this.$router.push({name:'stuFiles'})
     },
     toGrade(){
-      this.$router.push({name:'stuGrades',
-        params:{
-          course_id: this.courseID,
-        }})
+      this.$router.push({name:'stuGrades'})
     },
     toStudent(){
-      this.$router.push({name:'stuStudents',
-        params:{
-          course_id: this.courseID,
-        }})
+      this.$router.push({name:'stuStudents'})
     },
     toFeedback(){
-      this.$router.push({name:'stuFeedbacks',
-        params:{
-          course_id: this.courseID,
-        }})
+      this.$router.push({name:'stuFeedbacks'})
     }
   },
   mounted() {
+    //刷新时保持侧边栏选中
+    if (
+        this.$route.name === "stuTasks"
+    ) {
+      this.activeIndex = "1";
+    }
+    else if (this.$route.name === "stuFiles") {
+      this.activeIndex = "2";
+    }
+    else if (
+        this.$route.name === "stuStudents"
+    ) {
+      this.activeIndex = "3";
+    }
+    else if (
+        this.$route.name === "stuGrades"
+    ) {
+      this.activeIndex = "4";
+    }
+    else if (this.$route.name === "stuFeedbacks") {
+      this.activeIndex = "5";
+    }
+
     let _this = this;
-    this.$router.push({
-      name:'stuTasks',
-      params:{
-        course_id: this.courseID,
-      }
-    })
+    // this.$router.push({
+    //   name:'stuTasks',
+    //   params:{
+    //     course_id: this.courseID,
+    //   }
+    // })
     //创建定时器更新最新时间
     this.timer = setInterval(() => {
       _this.date = new Date(); // 修改日期数据

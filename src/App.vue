@@ -66,7 +66,7 @@ export default {
       this.$router.push({
         name:'stuTasks',
         params:{
-          course_id:'42014603'
+          course_id:'42024401'
         }
       })
     },
