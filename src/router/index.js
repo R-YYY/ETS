@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LogIn from '../components/Login.vue'
+import Register from '../components/Register.vue'
 import CourseHome from "@/components/teacherPages/CourseHome";
 import ManageStudent from "@/components/teacherPages/student/ManageStudent";
 import ManageTask from "@/components/teacherPages/task/ManageTask";
@@ -27,7 +28,6 @@ import StudentProjectInfo from "@/components/studentPages/task/StudentProjectInf
 import AdminHome from "@/components/home/AdminHome";
 import StudentHome from "@/components/home/StudentHome";
 import TeacherHome from "@/components/home/TeacherHome";
-import Register from "@/components/Register";
 
 import StudentProject from "../components/studentPages/task/StudentProject";
 
@@ -42,12 +42,17 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'/',
-    // redirect: {name: 'LogIn'},
+    redirect: {name: 'LogIn'},
   },
   {
     path: '/login',
     name: 'LogIn',
     component: LogIn
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path:'/adminhome',

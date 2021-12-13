@@ -42,7 +42,7 @@
               >登录</el-button
             >
             <el-button type="info" @click="resetLoginForm">重置</el-button>
-            <el-button type="register">注册</el-button>
+            <el-button type="register" @click="register">注册</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -109,6 +109,9 @@ export default {
       // resetFields：element-ui提供的表单方法
       this.$refs.loginFormRef.resetFields();
     },
+    register() {
+      this.$router.push("/register");
+    },
     async login() {
       // 表单预验证
       // valid：bool类型
@@ -133,7 +136,7 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-        console.log(this.response.data);
+      console.log(this.response.data);
       if (this.response.data !== true) return this.$message.error("登录失败");
       this.$message.success("登录成功");
       window.sessionStorage.setItem("id", this.response.data.account_ID);
