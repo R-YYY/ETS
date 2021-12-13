@@ -101,7 +101,7 @@ export default {
   height: 700px;
   overflow: hidden;
   margin-top: 25px;
-  margin-left: 220px;
+  margin-left: 210px;
   margin-right: 20px;
   padding:5px 10px;
   /*border: 2px solid rgba(0,0,0,0.5);*/
