@@ -45,18 +45,6 @@
                   placeholder="请输入姓名"
                 ></el-input>
               </el-form-item>
-              <!-- 邮箱 -->
-              <el-form-item
-                prop="email"
-                label="邮箱"
-                style="white-space: nowrap"
-              >
-                <el-input
-                  v-model="loginForm1.email"
-                  prefix-icon="el-icon-message"
-                  placeholder="请输入邮箱"
-                ></el-input>
-              </el-form-item>
               <!-- 密码 -->
               <el-form-item prop="password" label="密码">
                 <el-input
@@ -77,29 +65,39 @@
                   placeholder="请再次输入密码"
                 ></el-input>
               </el-form-item>
-              <!-- 验证码 -->
+              <!-- 邮箱 -->
               <el-form-item
-                prop="code"
-                label="验证码"
+                prop="email"
+                label="邮箱"
                 style="width: 100%; white-space: nowrap"
                 :inline="false"
               >
                 <el-input
-                  v-model="loginForm1.code"
-                  prefix-icon="el-icon-chat-round"
+                  v-model="loginForm1.email"
+                  prefix-icon="el-icon-message"
                   style="width: 55%"
-                  placeholder="请输入验证码"
+                  placeholder="请输入邮箱"
                 ></el-input>
-                <el-button
+                <el-button @click="getCode()" style="width: 40%; float: right">
+                  <!-- <el-button
                   @click="getCode()"
                   :disabled="!show"
                   style="width: 40%; float: right"
-                >
-                  <span v-show="show">发送邮箱验证码</span>
-                  <span v-show="!show" class="count"
+                > -->
+                  <span>发送邮箱验证码</span>
+                  <!-- <span v-show="show">发送邮箱验证码</span> -->
+                  <!-- <span v-show="!show" class="count"
                     >{{ count }} s后可点击重发</span
-                  >
+                  > -->
                 </el-button>
+              </el-form-item>
+              <!-- 验证码 -->
+              <el-form-item prop="code" label="验证码">
+                <el-input
+                  v-model="loginForm1.code"
+                  prefix-icon="el-icon-chat-round"
+                  placeholder="请输入验证码"
+                ></el-input>
               </el-form-item>
               <!-- 按钮区域 -->
               <el-form-item style="margin-right=0;width:100%" align="right">
@@ -113,7 +111,6 @@
                 <el-button type="info" @click="resetloginForm1">重置</el-button>
               </el-form-item>
             </el-form>
-            <!-- </div> -->
           </div>
         </el-tab-pane>
 
@@ -189,13 +186,10 @@
                   placeholder="请输入验证码"
                 ></el-input>
                 <el-button
-                  @click="getCode()"
-                  :disabled="!show"
+                  @click="getCode2()"
                   style="width: 40%; float: right"
                 >
-                  <span v-show="show">发送邮箱验证码</span>
-                  <span v-show="!show" class="count"
-                    >{{ count }} s后可点击重发</span
+                  <span>发送邮箱验证码</span>
                   >
                 </el-button>
               </el-form-item>
@@ -275,9 +269,7 @@ export default {
           },
           {
             validator: function (rule, value, callback) {
-              if (
-                /(^\d{6,7}$)/.test(value) == false
-              ) {
+              if (/(^\d{6,7}$)/.test(value) == false) {
                 callback(new Error("请输入正确的账号"));
               } else {
                 //校验通过
@@ -390,16 +382,6 @@ export default {
       console.log(tab, event);
     },
 
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`);
-    // },
-
     //跳转到登录界面
     toLogin() {
       this.$router.push("/");
@@ -413,42 +395,122 @@ export default {
       this.$refs.loginForm2.resetFields();
     },
     //向邮箱发送验证码
-    getCode() {
+    getCode1() {
       // console.log("eess6@163.com");
-      // if (this.loginForm.email === "") {
-      //   this.$message.error("请先输入邮箱再点击获取验证码");
-      // } else {
-      //   let regemail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-      //   if (!regemail.test(this.loginForm.email)) {
-      //     this.$message({
-      //       showClose: true,
-      //       message: "请输入格式正确有效的邮箱号!",
-      //       type: "error",
-      //     });
-      //   } else {
-      //     console.log("经过检验格式正确");//已执行
-      //     request.post("/email", this.loginForm).then((res) => {
-      //       console.log("2222222");//未执行
-      //       if (res.code === "0") {
-      //         this.$message({
-      //           showClose: true,
-      //           type: "success",
-      //           message: "验证码已发送",
-      //         });
-      //         console.log("3333333");//未执行
-      //         this.Ecode = res.Ecode;
-      //         console.log(res.Ecode);
-      //       } else {
-      //         console.log("4444444");//未执行
-      //         this.$message({
-      //           message: res.msg,
-      //           type: "error",
-      //           showClose: true,
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
+      if (this.loginForm1.email === "") {
+        this.$message.error("请先输入邮箱再点击获取验证码");
+      } else {
+        let regemail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        if (!regemail.test(this.loginForm1.email)) {
+          this.$message({
+            showClose: true,
+            message: "请输入格式正确有效的邮箱号!",
+            type: "error",
+          });
+        } else {
+          console.log("经过检验格式正确"); //已执行
+          this.$axios({
+            url: "/account/sendEmail",
+            method: "post",
+            data: data,
+          })
+            .then((response) => {
+              if (response.data === 1) {
+                this.$message({
+                  type: "success",
+                  message: "发送成功！",
+                });
+              } else if (response.data === -1) {
+                this.$message({
+                  type: "error",
+                  message: "学号或工号已注册！请重试",
+                });
+              } else if (response.data === -2) {
+                this.$message({
+                  type: "error",
+                  message: "学号或工号不存在！请重试",
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "发送失败！请重试",
+                });
+              }
+            })
+            .catch(() => {
+              this.$message({
+                type: "error",
+                message: "发送失败！请重试",
+              });
+            });
+        }
+      }
+      console.log("55555"); //执行
+      // 验证码倒计时
+      if (!this.timer) {
+        this.count = TIME_COUNT;
+        this.show = false;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--;
+          } else {
+            this.show = true;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    },
+    getCode2() {
+      // console.log("eess6@163.com");
+      if (this.loginForm2.email === "") {
+        this.$message.error("请先输入邮箱再点击获取验证码");
+      } else {
+        let regemail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        if (!regemail.test(this.loginForm1.email)) {
+          this.$message({
+            showClose: true,
+            message: "请输入格式正确有效的邮箱号!",
+            type: "error",
+          });
+        } else {
+          console.log("经过检验格式正确"); //已执行
+          this.$axios({
+            url: "/account/sendEmail",
+            method: "post",
+            data: data,
+          })
+            .then((response) => {
+              if (response.data === 1) {
+                this.$message({
+                  type: "success",
+                  message: "发送成功！",
+                });
+              } else if (response.data === -1) {
+                this.$message({
+                  type: "error",
+                  message: "学号或工号已注册！请重试",
+                });
+              } else if (response.data === -2) {
+                this.$message({
+                  type: "error",
+                  message: "学号或工号不存在！请重试",
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "发送失败！请重试",
+                });
+              }
+            })
+            .catch(() => {
+              this.$message({
+                type: "error",
+                message: "发送失败！请重试",
+              });
+            });
+        }
+      }
       console.log("55555"); //执行
       // 验证码倒计时
       if (!this.timer) {
@@ -470,43 +532,29 @@ export default {
       this.$refs[loginForm1].validate((valid, wrongstring) => {
         // 获取loginform的实例（el-form），找到validate方法，根据验证规则rules校验是否valid
         if (valid) {
-          //this.loading = true;
-          registerPFun({
-            name: this.loginForm1.username,
-            password: this.loginForm1.password,
-            tel: this.loginForm1.telephone,
-            identification: this.loginForm1.identification,
-            sex: this.loginForm1.sex,
+          this.$axios({
+            url: "/account/register",
+            method: "post",
+            data: data,
           })
-            .then((res) => {
-              if (res.result === false) {
-                this.$notify({
-                  title: "提示",
-                  message: "用户已注册过账号，无须再注册！",
-                  type: "warning",
-                  duration: 3000,
+            .then((response) => {
+              if (response.data === 1) {
+                this.$message({
+                  type: "success",
+                  message: "注册成功！",
                 });
               } else {
-                this.$store.commit("editPatientId", res.result);
-                this.$router.push("/Home"); //注册成功路由实现跳转
-                this.$store.commit("getAllPro", res.result);
                 this.$message({
-                  showClose: true,
-                  message: `注册成功！请记住您的ID：${res.result}`,
-                  type: "success",
-                  duration: 0,
+                  type: "error",
+                  message: "填写信息错误！请重试",
                 });
               }
-              console.log(res);
             })
-            .catch((err) => {
-              this.$notify({
-                title: "提示",
-                message: "用户访问错误",
+            .catch(() => {
+              this.$message({
                 type: "error",
-                duration: 0,
+                message: "注册失败！请重试",
               });
-              console.log(err);
             });
         } else {
           console.log(valid, wrongstring);
@@ -515,50 +563,34 @@ export default {
         }
       });
     },
-
     //学生注册功能
     register2(loginForm2) {
       this.$refs[loginForm2].validate((valid, wrongstring) => {
-        // 获取loginform2的实例（el-form），找到validate方法，根据验证规则rules校验是否valid
+        // 获取loginform的实例（el-form），找到validate方法，根据验证规则rules校验是否valid
         if (valid) {
-          registerDFun({
-            name: this.loginForm2.username,
-            password: this.loginForm2.password,
-            identification: this.loginForm2.identification,
-            sex: this.loginForm2.sex,
-            workingAge: this.loginForm2.workingAge,
-            title: this.loginForm2.title,
-            hosname: this.loginForm2.hospital,
-            department: this.loginForm2.department,
+          this.$axios({
+            url: "/account/register",
+            method: "post",
+            data: data,
           })
-            .then((res) => {
-              if (res.result === false) {
-                this.$notify({
-                  title: "提示",
-                  message: "用户已注册过账号，无须再注册！",
-                  type: "warning",
-                  duration: 3000,
+            .then((response) => {
+              if (response.data === 1) {
+                this.$message({
+                  type: "success",
+                  message: "注册成功！",
                 });
               } else {
-                this.$store.commit("editDoctorId", res.result);
-                this.$router.push("/homepage"); //注册成功路由实现跳转
                 this.$message({
-                  showClose: true,
-                  message: `注册成功！请记住您的ID：${res.result}`,
-                  type: "success",
-                  duration: 0,
+                  type: "error",
+                  message: "填写信息错误！请重试",
                 });
               }
-              console.log(res);
             })
-            .catch((err) => {
-              this.$notify({
-                title: "提示",
-                message: "用户访问错误",
+            .catch(() => {
+              this.$message({
                 type: "error",
-                duration: 3000,
+                message: "注册失败！请重试",
               });
-              console.log(err);
             });
         } else {
           console.log(valid, wrongstring);
