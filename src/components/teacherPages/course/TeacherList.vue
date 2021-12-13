@@ -15,19 +15,24 @@
         <el-tab-pane label="课程设置"> </el-tab-pane>
         <el-tab-pane label="教师团队">
           <div>
-            <el-table class="memberTab" :data="teacherList" height="480px">
+            <el-table
+                class="memberTab"
+                :data="teacherList"
+                height="480px"
+                :row-style="{ height: '50px' }"
+                :cell-style="{ padding: '0' }">
               <el-table-column
                 class="teacherID"
                 prop="teacher_ID"
                 label="工号"
-                width="270px"
+                width="250px"
               >
               </el-table-column>
               <el-table-column
                 class="name"
                 prop="name"
                 label="姓名"
-                width="270px"
+                width="250px"
               >
               </el-table-column>
               <el-table-column
@@ -37,15 +42,12 @@
                 width="400px"
               >
               </el-table-column>
-              <el-table-column width="100px">
+              <el-table-column width="120px">
                 <template slot-scope="scope">
                   <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    plain
+                    type="text"
                     @click="open(scope.row)"
-                  >
+                  >删除
                   </el-button>
                 </template>
               </el-table-column>

@@ -35,12 +35,10 @@
             <div>
               <div class="pathArea">
                 <el-breadcrumb class="filePath" separator="/">
-                  <el-breadcrumb-item>
-                    <span>软件工程</span>
-                  </el-breadcrumb-item>
-                  <el-breadcrumb-item v-for="item in pathArray()">
-                    <span>{{ item }}</span>
-                  </el-breadcrumb-item>
+                  <el-breadcrumb-item>{{ courseName }}</el-breadcrumb-item>
+                  <el-breadcrumb-item v-for="item in pathArray()">{{
+                    item
+                  }}</el-breadcrumb-item>
                 </el-breadcrumb>
               </div>
               <div>
@@ -86,41 +84,83 @@
                 >
                 </el-table-column>
                 <el-table-column
-                    prop="file_size"
-                    label="文件大小"
-                    width="100px"
-                    sortable
+                  prop="file_size"
+                  label="文件大小"
+                  width="100px"
+                  sortable
                 >
                 </el-table-column>
                 <el-table-column width="180px" label="操作" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      icon="el-icon-view"
-                      size="small"
-                      circle
-                      v-if="!showOperation()"
-                      @click="showFiles(scope.row)"
+                        type="text"
+                        v-if="!showOperation()"
+                        @click="showFiles(scope.row)"
                     >
+                      打开文件夹
                     </el-button>
+<!--                    <el-tooltip-->
+<!--                      class="item"-->
+<!--                      effect="dark"-->
+<!--                      content="打开文件夹"-->
+<!--                      placement="right"-->
+<!--                    >-->
+<!--                      <el-button-->
+<!--                        icon="el-icon-view"-->
+<!--                        size="small"-->
+<!--                        circle-->
+<!--                        v-if="!showOperation()"-->
+<!--                        @click="showFiles(scope.row)"-->
+<!--                      >-->
+<!--                      </el-button>-->
+<!--                    </el-tooltip>-->
                     <el-button
-                      icon="el-icon-download"
-                      size="small"
-                      circle
-                      v-if="showOperation()"
-                      style="margin-right: 20px"
-                      @click="handleDownload(scope.row)"
+                        type="text"
+                        v-if="showOperation()"
+                        style="margin-right: 20px"
+                        @click="handleDownload(scope.row)"
                     >
+                      下载文件
                     </el-button>
+<!--                    <el-tooltip-->
+<!--                      class="item"-->
+<!--                      effect="dark"-->
+<!--                      content="下载"-->
+<!--                      placement="left"-->
+<!--                    >-->
+<!--                      <el-button-->
+<!--                        icon="el-icon-download"-->
+<!--                        size="small"-->
+<!--                        circle-->
+<!--                        v-if="showOperation()"-->
+<!--                        style="margin-right: 20px"-->
+<!--                        @click="handleDownload(scope.row)"-->
+<!--                      >-->
+<!--                      </el-button>-->
+<!--                    </el-tooltip>-->
                     <el-button
-                      icon="el-icon-delete"
-                      size="small"
-                      circle
-                      v-if="showOperation()"
-                      type="danger"
-                      plain
-                      @click="handleDelete(scope.row)"
-                    >
+                        type="text"
+                        v-if="showOperation()"
+                        @click="handleDelete(scope.row)"
+                    >删除文件
                     </el-button>
+<!--                    <el-tooltip-->
+<!--                      class="item"-->
+<!--                      effect="dark"-->
+<!--                      content="删除"-->
+<!--                      placement="right"-->
+<!--                    >-->
+<!--                      <el-button-->
+<!--                        icon="el-icon-delete"-->
+<!--                        size="small"-->
+<!--                        circle-->
+<!--                        v-if="showOperation()"-->
+<!--                        type="danger"-->
+<!--                        plain-->
+<!--                        @click="handleDelete(scope.row)"-->
+<!--                      >-->
+<!--                      </el-button>-->
+<!--                    </el-tooltip>-->
                   </template>
                 </el-table-column>
               </el-table>
@@ -138,6 +178,7 @@ export default {
   data() {
     return {
       input: "",
+      courseName: "",
       filePath: "/课程资料",
       fileList: [],
       totalFiles: [],
@@ -201,7 +242,7 @@ export default {
             this.fileList.push({
               file_name: file.file.name,
               submit_time: this.getDateYYYYMMddHHMMSS(),
-              file_size:Math.ceil(file.file.size * 10 / 1024) / 10 + " KB"
+              file_size: Math.ceil((file.file.size * 10) / 1024) / 10 + " KB",
             });
           } else {
             this.$message({
@@ -281,12 +322,13 @@ export default {
       }).then((response) => {
         console.log(response);
         let blob = new Blob([response.data]);
-        console.log(blob)
+        console.log(blob);
         const disposition = response.headers["content-disposition"];
         //获得文件名
         let fileName = disposition.substring(
           disposition.indexOf("filename=") + 9,
-          disposition.length);
+          disposition.length
+        );
         //解码
         fileName = decodeURI(fileName);
         if (window.navigator.msSaveOrOpenBlob) {
@@ -303,6 +345,19 @@ export default {
     },
   },
   mounted() {
+    //加载课程名
+    this.$axios({
+      url: "/course/get",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+    })
+      .then((response) => {
+        this.courseName = response.data.name;
+      })
+      .catch();
+
     //加载所有二级文件
     //暂定资料库分为三级，course（projects）-> ×××（实验项目名）文件夹 -> ×××.×××
     this.$axios({
@@ -403,5 +458,4 @@ export default {
 .uploadFile {
   margin-left: 20px;
 }
-
 </style>

@@ -16,22 +16,21 @@
         <el-tab-pane label="教师团队"> </el-tab-pane>
         <el-tab-pane label="助教团队">
           <div>
-            <el-table class="memberTab" :data="taList" height="480px">
-              <el-table-column prop="student_ID" label="学号" width="270px">
+            <el-table class="memberTab" :data="taList" height="480px"
+                      :row-style="{ height: '50px' }"
+                      :cell-style="{ padding: '0' }">
+              <el-table-column prop="student_ID" label="学号" width="250px">
               </el-table-column>
-              <el-table-column prop="name" label="姓名" width="270px">
+              <el-table-column prop="name" label="姓名" width="250px">
               </el-table-column>
               <el-table-column prop="email" label="邮箱" width="400px">
               </el-table-column>
-              <el-table-column width="100px">
+              <el-table-column width="120px">
                 <template slot-scope="scope">
                   <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    plain
+                    type="text"
                     @click="open(scope.row)"
-                  >
+                  >删除
                   </el-button>
                 </template>
               </el-table-column>

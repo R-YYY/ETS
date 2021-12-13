@@ -12,22 +12,25 @@
       <el-tabs class="studentTab" type="border-card">
         <el-tab-pane label="课程学生">
           <div style="height: 480px">
-            <el-table class="memberTable" :data="studentList" height="470px">
+            <el-table
+              class="memberTable"
+              :data="studentList"
+              height="470px"
+              :row-style="{ height: '50px' }"
+              :cell-style="{ padding: '0' }"
+            >
               <el-table-column prop="student_ID" label="学号" width="250px">
               </el-table-column>
               <el-table-column prop="name" label="姓名" width="250px">
               </el-table-column>
-              <el-table-column prop="email" label="邮箱" width="420px">
+              <el-table-column prop="email" label="邮箱" width="400px">
               </el-table-column>
               <el-table-column width="120px">
                 <template slot-scope="scope">
                   <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    plain
+                    type="text"
                     @click="open(scope.row)"
-                  >
+                  >删除
                   </el-button>
                 </template>
               </el-table-column>
@@ -70,14 +73,14 @@ export default {
 
     //调用api向后端发送删除学生的id
     deleteStudent(data) {
-      let studentInfo = new FormData()
-      studentInfo.append("student_ID",data.student_ID)
-      studentInfo.append("course_ID",this.$route.params.course_id)
-      studentInfo.append("is_student","1")
+      let studentInfo = new FormData();
+      studentInfo.append("student_ID", data.student_ID);
+      studentInfo.append("course_ID", this.$route.params.course_id);
+      studentInfo.append("is_student", "1");
       this.$axios({
-        url:"take/deleteTakeCourse",
-        method:"post",
-        data:studentInfo
+        url: "take/deleteTakeCourse",
+        method: "post",
+        data: studentInfo,
       })
         .then(() => {
           this.studentList.splice(data, 1);
@@ -115,14 +118,14 @@ export default {
 
     //调用api，像后端发送添加学生的id
     addStudent(data) {
-      let studentInfo = new FormData()
-      studentInfo.append("student_ID",data)
-      studentInfo.append("course_ID",this.$route.params.course_id)
-      studentInfo.append("is_student","1")
+      let studentInfo = new FormData();
+      studentInfo.append("student_ID", data);
+      studentInfo.append("course_ID", this.$route.params.course_id);
+      studentInfo.append("is_student", "1");
       this.$axios({
-        url:"/take/addTakeCourse",
-        method:"post",
-        data:studentInfo
+        url: "/take/addTakeCourse",
+        method: "post",
+        data: studentInfo,
       })
         .then((response) => {
           if (response.data === 1) {
@@ -155,12 +158,12 @@ export default {
     //调用api，加载学生列表
     loadData() {
       this.$axios({
-        url:"/take/getStudentInfoList",
-        method:"get",
-        params:{
+        url: "/take/getStudentInfoList",
+        method: "get",
+        params: {
           course_ID: this.$route.params.course_id,
           is_student: 1,
-        }
+        },
       })
         .then((response) => {
           this.studentList = response.data;

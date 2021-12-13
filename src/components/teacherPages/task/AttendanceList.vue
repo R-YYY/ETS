@@ -12,7 +12,12 @@
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance">
           <div style="height: 480px">
-            <el-table class="attendTable" :data="attendList" height="480px">
+            <el-table
+                class="attendTable"
+                :data="attendList"
+                height="480px"
+                :row-style="{ height: '50px' }"
+                :cell-style="{ padding: '0' }">
               <el-table-column label="序号" type="index" width="200px">
               </el-table-column>
               <el-table-column
@@ -30,7 +35,7 @@
               >
               </el-table-column>
               <el-table-column width="150px">
-                <el-button @click="drawer = true" plain>查看</el-button>
+                <el-button type="text" @click="drawer = true">查看详情</el-button>
               </el-table-column>
             </el-table>
             <div>

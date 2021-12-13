@@ -55,7 +55,11 @@
           </div>
 
           <!--实验详细信息-->
-          <el-dialog :visible.sync="checkDialogVisible">
+          <el-dialog :visible.sync="infoDialogVisible">
+          </el-dialog>
+
+          <!--实验提交情况-->
+          <el-dialog :visible.sync="reportDialogVisible">
             <el-table>
               <el-table-column label="学号"></el-table-column>
               <el-table-column label="姓名"></el-table-column>
@@ -67,6 +71,7 @@
                   { text: '未批改', value: '未批改' },
                 ]"
                 :filter-method="filterState"
+                sortable
               ></el-table-column>
             </el-table>
           </el-dialog>
@@ -85,7 +90,8 @@ export default {
       input: "",
       projectList: null,
       tmpList: null,
-      checkDialogVisible: false,
+      reportDialogVisible: false,
+      infoDialogVisible:false,
     };
   },
   methods: {
@@ -110,11 +116,13 @@ export default {
 
     //查看实验信息
     checkReport() {
-      this.checkDialogVisible = true;
+      this.reportDialogVisible = true;
     },
 
     //删除实验
-    checkProject() {},
+    checkProject() {
+      this.infoDialogVisible = true;
+    },
 
     filterState(value, row) {
       return row.state === value;

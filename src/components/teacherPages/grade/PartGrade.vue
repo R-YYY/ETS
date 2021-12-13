@@ -18,9 +18,14 @@
               <el-card class="gradeCard">
                 <el-collapse-item>
                   <template slot="title">
-                    <span style="font-size: 17px">实验项目</span>
+                    <span style="font-size: 20px"><b>实验项目</b></span>
                   </template>
-                  <el-table :data="projectGradeList">
+                  <el-table
+                    :data="projectInfoList"
+                    border
+                    :row-style="{ height: '50px' }"
+                    :cell-style="{ padding: '0' }"
+                  >
                     <el-table-column
                       label="实验名称"
                       prop="project_name"
@@ -30,19 +35,22 @@
                       label="平均分"
                       prop="avg_score"
                       width="150px"
+                      sortable
                     ></el-table-column>
                     <el-table-column
                       label="最低分"
                       prop="min_score"
                       width="150px"
+                      sortable
                     ></el-table-column>
                     <el-table-column
                       label="最高分"
                       prop="max_score"
                       width="150px"
+                      sortable
                     ></el-table-column>
-                    <el-table-column width="180px">
-                      <el-button>查看详情</el-button>
+                    <el-table-column align="center">
+                      <el-button type="text">查看详情</el-button>
                     </el-table-column>
                   </el-table>
                 </el-collapse-item>
@@ -50,21 +58,26 @@
               <el-card class="gradeCard">
                 <el-collapse-item>
                   <template slot="title">
-                    <span style="font-size: 17px">考勤</span>
+                    <span style="font-size: 20px"><b>考勤</b></span>
                   </template>
-                  <el-table :data="attendanceGradeList">
+                  <el-table
+                      :data="attendanceInfoList"
+                      border
+                      :row-style="{ height: '50px' }"
+                      :cell-style="{ padding: '0' }">
                     <el-table-column
                       type="index"
                       label="序号"
                       width="150px"
                     ></el-table-column>
                     <el-table-column
-                      prop="startTime"
+                      prop="start_time"
                       label="开始时间"
                       width="250px"
+                      sortable
                     ></el-table-column>
                     <el-table-column
-                      prop="endTime"
+                      prop="end_time"
                       label="结束时间"
                       width="250px"
                     ></el-table-column>
@@ -73,8 +86,8 @@
                       label="考勤人数"
                       width="200px"
                     ></el-table-column>
-                    <el-table-column width="150px">
-                      <el-button>查看详情</el-button>
+                    <el-table-column align="center">
+                      <el-button type="text">查看详情</el-button>
                     </el-table-column>
                   </el-table>
                 </el-collapse-item>
@@ -93,24 +106,8 @@ export default {
   name: "PartGrade",
   data() {
     return {
-      projectGradeList: [],
-      attendanceGradeList: [
-        {
-          startTime: "2020-11-11 11:11:11",
-          endTime: "2020-11-17 11:11:11",
-          number: "11/12",
-        },
-        {
-          startTime: "2020-11-11 11:11:11",
-          endTime: "2020-11-17 11:11:11",
-          number: "11/12",
-        },
-        {
-          startTime: "2020-11-11 11:11:11",
-          endTime: "2020-11-17 11:11:11",
-          number: "11/12",
-        },
-      ],
+      projectInfoList: [],
+      attendanceInfoList: [],
     };
   },
   methods: {
@@ -121,16 +118,36 @@ export default {
     },
   },
   mounted() {
+    //实验成绩
     this.$axios({
-      url:"/score/getProjectScoreInfoList",
-      method:"get",
-      params:{
-        course_ID:this.$route.params.course_id
-      }
-    }).then((response)=>{
-      this.projectGradeList = response.data
+      url: "/score/getProjectScoreInfoList",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
     })
-  }
+      .then((response) => {
+        this.projectInfoList = response.data;
+      })
+      .catch();
+    //考勤信息
+    this.$axios({
+      url: "/attend/getAttendanceInfoList",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+    }).then((response) => {
+      console.log(response.data);
+      for (let i = 0; i < response.data.length; i++) {
+        this.attendanceInfoList.push({
+          start_time: response.data[i].start_time,
+          end_time: response.data[i].end_time,
+          number: response.data[i].number + "/" + response.data[i].total,
+        });
+      }
+    });
+  },
 };
 </script>
 
