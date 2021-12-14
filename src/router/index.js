@@ -57,7 +57,15 @@ const routes = [
   {
     path:'/adminhome',
     name:'AdminHome',
-    component:AdminHome
+    component:AdminHome,
+    children:[{
+      path:'/teacherlist',
+      component:()=>import('@/components/adminPages/teacherlist.vue'),
+    },
+    {
+      path:'/stulist',
+      component:()=>import('@/components/adminPages/stulist.vue'),
+    }]
   },
   {
     path:'/studenthome',

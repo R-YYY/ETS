@@ -40,18 +40,6 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-s-check"></i>
-              <span>新用户审核</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/message">
-                <i class="el-icon-chat-dot-square"></i>
-                <span slot="title">申请列表</span>
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
         </el-menu>
       </el-aside>
       <el-main>
