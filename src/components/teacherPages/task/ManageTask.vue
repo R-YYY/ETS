@@ -65,14 +65,15 @@
           </el-form-item>
           <el-form-item label="有效时间" required prop="time">
             <el-date-picker
-                v-model="projectInfo.time"
-                type="datetimerange"
-                align="right"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                :default-time="['00:00:00', '23:59:59']"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="width: 550px">
+              v-model="projectInfo.time"
+              type="datetimerange"
+              align="right"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              :default-time="['00:00:00', '23:59:59']"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              style="width: 550px"
+            >
             </el-date-picker>
           </el-form-item>
           <el-form-item label="项目描述" prop="description">
@@ -165,7 +166,9 @@ export default {
       projectRules: {
         //实验项目表单验证规则
         name: [{ required: true, message: "请填写项目名称", trigger: "blur" }],
-        time:[{ required: true, message: "请选择项目有效时间", trigger: "blur" }],
+        time: [
+          { required: true, message: "请选择项目有效时间", trigger: "blur" },
+        ],
         description: [
           { required: true, message: "请填写项目描述", trigger: "blur" },
         ],
@@ -248,13 +251,12 @@ export default {
                 this.projectDialogVisible = false;
               }
               //后端更新失败
-              else if(response.data === -1) {
+              else if (response.data === -1) {
                 this.$message({
                   type: "error",
                   message: "发布失败！请检查实验名是否与往期实验名有重复！",
                 });
-              }
-              else if(response.data === -2) {
+              } else if (response.data === -2) {
                 this.$message({
                   type: "error",
                   message: "文件上传失败！请重试！",
