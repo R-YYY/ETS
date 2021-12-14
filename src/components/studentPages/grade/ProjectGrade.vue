@@ -39,8 +39,9 @@ export default {
     }
   },
   mounted() {
-    var projects=['实验一', '实验二', '实验三', '实验四', '实验五', '实验六', '实验七'];
-    var scores=[60, 98, 90, 86, 100, 89, 92];
+    var projects=['实验一', '实验二', '实验三', '实验四', '实验五', '实验六', '实验七',
+      '实验一', '实验二', '实验三', '实验四', '实验五'];
+    var scores=[60, 98, 90, 86, 100, 89, 92, 60, 98, 90, 86, 100];
     // 基于准备好的dom，初始化echarts实例
     var projectChart = echarts.init(document.getElementById('shape2'),'infographic');
     window.onresize = function() {

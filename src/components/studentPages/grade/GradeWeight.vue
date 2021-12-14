@@ -1,10 +1,7 @@
 <template>
   <div id="TotalGrade">
     <div id="shape">
-      
     </div>
-
-
   </div>
 </template>
 
@@ -12,50 +9,68 @@
 import * as echarts from 'echarts';
 export default {
   name: "TotalGrade",
+  data(){
+    return{
+      // course:null,
+      // percentage:0,
+    }
+  },
   mounted() {
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('shape'));
-    window.onresize = function() {
-      myChart.resize();
-    };
-    myChart.setOption({
-      title: {
-        text: '课程成绩比例',
-        // subtext: 'Fake Data',
-        left: 'center'
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        orient: 'vertical',
-        left: 'left'
-      },
-      series: [
-        {
-          name: '比例（%）',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: 10, name: '考勤' },
-            { value: 90, name: '实验' },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
+    let id=this.$route.params.course_id;
+    this.$axios.get(
+        '/course/get',{
+          params:{
+            course_ID:id,
           }
         }
-      ],
-      color:[
-        'rgba(255, 218, 255, 1)',
-        'rgba(195, 255, 255, 1)',
-        'rgba(255, 225, 159, 1)',
-        'rgba(195, 172, 250, 1)',
-      ]
-    })
+    ).then((response)=>{
+      var a_percentage=100*response.data.attend_percentage;
+      let p_percentage=100-a_percentage;
+      console.log(p_percentage);
+      var myChart = echarts.init(document.getElementById('shape'));
+      window.onresize = function() {
+        myChart.resize();
+      };
+      myChart.setOption({
+        title: {
+          text: '课程成绩比例',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            name: '比例（%）',
+            type: 'pie',
+            radius: '50%',
+            data: [
+              { value: a_percentage, name: '考勤' },
+              { value: p_percentage, name: '实验' },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ],
+        color:[
+          'rgba(255, 218, 255, 1)',
+          'rgba(195, 255, 255, 1)',
+          'rgba(255, 225, 159, 1)',
+          'rgba(195, 172, 250, 1)',
+        ]
+      })
+    });
+  },
+  methods:{
   }
 }
 </script>
