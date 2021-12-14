@@ -26,7 +26,7 @@ export default {
     ).then((response)=>{
       var a_percentage=100*response.data.attend_percentage;
       let p_percentage=100-a_percentage;
-      console.log(p_percentage);
+      // console.log(p_percentage);
       var myChart = echarts.init(document.getElementById('shape'));
       window.onresize = function() {
         myChart.resize();
