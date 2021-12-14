@@ -10,7 +10,7 @@
         </el-input>
         <el-button>搜索</el-button>
         <el-tooltip
-          class="item"
+          class="item"`
           effect="dark"
           content="仅可在二级目录内上传文件"
           placement="right"
@@ -24,6 +24,7 @@
             :http-request="handleUpload"
           >
             <el-button :disabled="!showOperation()">上传文件</el-button>
+
           </el-upload>
         </el-tooltip>
       </el-container>

@@ -1,6 +1,5 @@
 <template>
   <div id="projectInfo">
-
     <div class="title">{{project.name}}</div>
     <div class="backButton">
       <el-button type="primary" @click="goBack">返回</el-button>
@@ -30,17 +29,20 @@
         <div slot="header" class="clearfix">
           <span style="font-weight: bolder">实验报告 ： </span>
         </div>
-        <el-button type="primary" icon="el-icon-edit" plain size="medium" style="float: right">填写实验报告</el-button>
-        <!--        action  必选参数，上传的地址-->
+        <el-button type="primary" icon="el-icon-upload2" plain size="medium" style="float: right">上传</el-button>
         <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-          <el-button size="small" type="primary">点击上传</el-button>
+            action="#"
+            ref="upload"
+            :auto-upload="false"
+            :show-file-list="true"
+            :http-request="handleUpload"
+            :multiple="false"
+            :file-list="fileList"
+            :limit="1"
+            >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+
           <div slot="tip" class="el-upload__tip">只能上传docx/doc文件，且不超过10Mb</div>
         </el-upload>
       </el-card>
@@ -56,26 +58,48 @@ export default {
       course_ID: this.$route.query.course_ID,
       name: this.$route.query.name,
       project : null,
-      fileList:[
-        {
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        },
-      ]
+      fileList: [],
     };
   },
   methods:{
-    handleRemove(file, fileList){
-      console.log(file, fileList);
-    },
-    handlePreview(file){
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning('最多上传1个文件，本次选择了${files.length}个文件，共选择了${files.length + fileList.length}个文件');
-    },
-    beforeRemove(file, fileList){
-      return this.$confirm('确定移除 ${file.name}?');
+    handleUpload(file) {
+      let data = new FormData();
+      console.log(this.course_ID);
+      console.log(this.project.name);
+      data.append("course_ID", this.course_ID);
+      data.append("student_ID", '1951014');
+      data.append("project_name", this.project.name);
+      data.append("file", file.file);
+      this.$axios({
+        url: "report/add",
+        method: "post",
+        data: data,
+      })
+          .then((response) => {
+            if (response.data === 1) {
+              this.$message({
+                type: "success",
+                message: file.file.name + " 上传成功！",
+              });
+              this.fileList.push({
+                file_name: file.file.name,
+                submit_time: this.getDateYYYYMMddHHMMSS(),
+                file_size: Math.ceil((file.file.size * 10) / 1024) / 10 + " KB",
+              });
+            }
+            else {
+              this.$message({
+                type: "error",
+                message: "上传失败！请重试！",
+              });
+            }
+          })
+          // .catch(() => {
+          //   this.$message({
+          //     type: "error",
+          //     message: "上传失败！请重试！",
+          //   });
+          // });
     },
     goBack(){
       this.$router.go(-1);

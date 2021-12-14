@@ -180,6 +180,9 @@ const routes = [
             path:'stuProject',
             name:'stuProject',
             component:StudentProject,
+            children:[
+
+            ]
           },
           {
             path:'stuAttendance',

@@ -87,6 +87,7 @@ export default {
       date:new Date(),
       courseName:'软工',
       courseID: '42024401',
+      student_ID:'1951014',
       activeIndex: '',
       teacher_list:[],
       course : null,
@@ -142,7 +143,7 @@ export default {
     // })
     //创建定时器更新最新时间
     this.timer = setInterval(() => {
-      _this.date = new Date(); // 修改日期数据
+      this.date = new Date(); // 修改日期数据
     }, 1000);
     // 获取课程的授课教师列表
     let id=this.courseID;
@@ -154,7 +155,7 @@ export default {
         }
     ).then(
         (response)=>{
-          _this.teacher_list=response.data;
+          this.teacher_list=response.data;
         }
     )
     this.$axios.get(
@@ -164,7 +165,7 @@ export default {
           }
         }
     ).then((response)=>{
-      _this.course=response.data;
+      this.course=response.data;
     })
   },
   beforeDestroy() {

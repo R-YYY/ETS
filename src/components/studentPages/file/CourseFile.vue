@@ -1,6 +1,6 @@
 <template>
   <div id="CourseFile">
-    <div class="FolderCard" v-for="info in course_files">
+    <div class="FolderCard" v-for="info in course_files" v-if="show_folderName(info.fileName)">
       <div class="projectName" style="font-size: 18px;">【{{info.folderName}}】</div>
       <div v-for="file in info.fileName" class="fileName" @click="handleDownload(info.folderName,file)">
         {{file}}
@@ -23,8 +23,6 @@ export default {
   data(){
     return{
       course_files: [],
-      directory_list:[],
-      file_list:[],
     }
   },
     mounted() {
@@ -39,6 +37,14 @@ export default {
     });
   },
   methods: {
+    show_folderName(fileName_list){
+      if(fileName_list.length>0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    },
     handleChange(val) {
       console.log(val);
     },
@@ -92,7 +98,7 @@ export default {
   margin-right: 50px;
 }
 .fileName{
-  margin-top: 13px;
+  margin-top: 15px;
   margin-left: 30px;
   color: rgba(11,159,250,1);
   cursor: context-menu;

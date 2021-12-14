@@ -3,14 +3,6 @@
     <div class="projectCard" v-for="item in project_list">
       <div>{{item.name}}</div>
       <div>{{item.percentage}}</div>
-<!--      <el-descriptions :title="project.name" :column="1">-->
-<!--        <template slot="extra">-->
-<!--          <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium">去完成</el-button>-->
-<!--        </template>-->
-<!--        <el-descriptions-item label="总分数">100分</el-descriptions-item>-->
-<!--        <el-descriptions-item label="占课程成绩比重">{{project.percentage}}</el-descriptions-item>-->
-<!--        <el-descriptions-item label="实验成绩">{{project.score}}</el-descriptions-item>-->
-<!--      </el-descriptions>-->
       <el-divider></el-divider>
     </div>
   </div>
@@ -32,6 +24,11 @@ export default {
           name:'实验一',
           percentage:0.1,
           score:99,
+        },
+        {
+          name:'实验二',
+          percentage:0.1,
+          score:85,
         }
       ],
     }
