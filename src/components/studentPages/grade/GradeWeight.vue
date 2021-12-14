@@ -1,34 +1,27 @@
 <template>
-  <div id="shape3">
+  <div id="TotalGrade">
+    <div id="shape">
+      
+    </div>
+
 
   </div>
 </template>
 
 <script>
-import * as echarts from "echarts";
-
+import * as echarts from 'echarts';
 export default {
-  name: "AttendanceGrade",
-  data(){
-    return{
-      project_totalScore:60,
-      attendance_score:30,
-    }
-  },
+  name: "TotalGrade",
   mounted() {
-    let a_score=this.attendance_score;
-    let p_score=this.project_totalScore;
-    let total=a_score+p_score;
-    let remain=100-a_score-p_score;
-
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('shape3'));
+    var myChart = echarts.init(document.getElementById('shape'));
     window.onresize = function() {
       myChart.resize();
     };
     myChart.setOption({
       title: {
-        text: '总成绩   ' + total,
+        text: '课程成绩比例',
+        // subtext: 'Fake Data',
         left: 'center'
       },
       tooltip: {
@@ -40,13 +33,12 @@ export default {
       },
       series: [
         {
-          // name: '比例（%）',
+          name: '比例（%）',
           type: 'pie',
           radius: '50%',
           data: [
-            { value: a_score, name: '考勤分数'+a_score },
-            { value: p_score, name: '实验分数'+p_score },
-            { value: remain, name: '未得分数' },
+            { value: 10, name: '考勤' },
+            { value: 90, name: '实验' },
           ],
           emphasis: {
             itemStyle: {
@@ -60,9 +52,8 @@ export default {
       color:[
         'rgba(255, 218, 255, 1)',
         'rgba(195, 255, 255, 1)',
-        'rgba(230, 230, 230, 1)',
-        // 'rgba(255, 225, 159, 1)',
-        // 'rgba(195, 172, 250, 1)',
+        'rgba(255, 225, 159, 1)',
+        'rgba(195, 172, 250, 1)',
       ]
     })
   }
@@ -70,10 +61,17 @@ export default {
 </script>
 
 <style scoped>
-#shape3{
-  width: 550px;
-  height: 440px;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.15), 0 6px 15px 0 rgba(0, 0, 0, 0.14);
+#TotalGrade{
+  height: 100%;
+  margin-left: 30px;
+  margin-right: 20px;
+  background-color: white;
+}
+#shape{
+  width: 520px;
+  height: 430px;
+  /*border: 1px solid black;*/
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 15px 0 rgba(0, 0, 0, 0.14);
   border-radius: 10px;
   margin:5px auto;
   padding-top: 10px;
