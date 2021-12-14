@@ -53,10 +53,7 @@
         </el-table-column>
         <el-table-column label="操作" width="150">
           <div slot-scope="scope" v-if="scope.row.is_active != '0'">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="ban(scope.$index, scope.row)"
+            <el-button size="mini" type="danger" @click="ban(scope.row)"
               >封禁</el-button
             >
           </div>
@@ -88,7 +85,8 @@
         </el-table-column>
         <el-table-column align="right">
           <template slot="header" slot-scope="scope">
-            <el-input @click="handleSerach(scope.$index, scope.row)"
+            <el-input
+              @click="handleSerach(scope.$index, scope.row)"
               v-model="search"
               size="mini"
               placeholder="输入账号ID搜索"
@@ -129,53 +127,67 @@ export default {
         delivery: false,
       },
       formLabelWidth: "120px",
-      search:'',
+      search: "",
     };
   },
   methods: {
     //封禁，封禁接口
     ban(data) {
+      console.log(data.account_ID);
       let taInfo = new FormData();
-      taInfo.append("userid", data.userid);
+      taInfo.append("account_ID", data.account_ID);
       this.$axios({
-        url: "",
+        url: "/account/ban",
         method: "post",
         data: taInfo,
       })
-        .then(() => {
-          this.taList.splice(data, 1);
-          this.$message({
-            type: "success",
-            message: "封禁成功!",
-          });
+        .then((res) => {
+          console.log(res.data);
+          if (res.data !== 1)
+            this.$message({
+              type: "error",
+              message: "封禁失败!请重试！",
+            });
+          else
+            this.$message({
+              type: "success",
+              message: "封禁成功!",
+            });
         })
         .catch(() => {
           this.$message({
             type: "error",
-            message: "封禁失败!请重试！",
+            message: "error!",
           });
         });
     },
     //激活，激活接口
     activation(data) {
-      let taInfo = new FormData();
-      taInfo.append("userid", data.userid);
+      console.log(data.account_ID);
+      let taInfo1 = new FormData();
+      taInfo1.append("account_ID", data.account_ID);
       this.$axios({
-        url: "",
+        url: "/account/active",
         method: "post",
-        data: taInfo,
+        data: taInfo1,
       })
-        .then(() => {
-          this.taList.splice(data, 1);
-          this.$message({
-            type: "success",
-            message: "激活成功!",
-          });
+        .then((res) => {
+          console.log("传出的" + res.data);
+          if (res.data !== 1)
+            this.$message({
+              type: "error",
+              message: "激活失败!请重试！",
+            });
+          else
+            this.$message({
+              type: "success",
+              message: "激活成功!",
+            });
         })
         .catch(() => {
           this.$message({
             type: "error",
-            message: "激活失败!请重试！",
+            message: "error!",
           });
         });
     },
@@ -278,9 +290,9 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
     },
-    handleSerach(row){
-        console.log('为了让scope不报错的函数'+ row);
-    }
+    handleSerach(row) {
+      console.log("为了让scope不报错的函数" + row);
+    },
   },
   mounted() {
     let _this = this;
@@ -292,7 +304,7 @@ export default {
         _this.tableData = response.data;
       })
       .catch(function (error) {
-          console.log('Get Nothing!'+ error);
+        console.log("Get Nothing!" + error);
       });
   },
 };

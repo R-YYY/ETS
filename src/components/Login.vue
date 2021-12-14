@@ -138,10 +138,11 @@ export default {
               type: "error",
               message: "登录失败",
             });
-          this.$message({
-            type: "success",
-            message: "登录成功",
-          });
+          else
+            this.$message({
+              type: "success",
+              message: "登录成功",
+            });
           window.sessionStorage.setItem("id", response.data.account_ID);
           if (window.sessionStorage.getItem("id").length == 5)
             this.$router.push("/teacherhome");
