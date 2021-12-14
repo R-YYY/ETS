@@ -37,9 +37,7 @@
               <div class="pathArea">
                 <el-breadcrumb class="filePath" separator="/">
                   <el-breadcrumb-item>{{ courseName }}</el-breadcrumb-item>
-                  <el-breadcrumb-item v-for="item in pathArray()">{{
-                    item
-                  }}</el-breadcrumb-item>
+                  <el-breadcrumb-item v-for="item in pathArray()">{{item }}</el-breadcrumb-item>
                 </el-breadcrumb>
               </div>
               <div>
@@ -100,21 +98,6 @@
                     >
                       打开文件夹
                     </el-button>
-<!--                    <el-tooltip-->
-<!--                      class="item"-->
-<!--                      effect="dark"-->
-<!--                      content="打开文件夹"-->
-<!--                      placement="right"-->
-<!--                    >-->
-<!--                      <el-button-->
-<!--                        icon="el-icon-view"-->
-<!--                        size="small"-->
-<!--                        circle-->
-<!--                        v-if="!showOperation()"-->
-<!--                        @click="showFiles(scope.row)"-->
-<!--                      >-->
-<!--                      </el-button>-->
-<!--                    </el-tooltip>-->
                     <el-button
                         type="text"
                         v-if="showOperation()"
@@ -123,45 +106,12 @@
                     >
                       下载文件
                     </el-button>
-<!--                    <el-tooltip-->
-<!--                      class="item"-->
-<!--                      effect="dark"-->
-<!--                      content="下载"-->
-<!--                      placement="left"-->
-<!--                    >-->
-<!--                      <el-button-->
-<!--                        icon="el-icon-download"-->
-<!--                        size="small"-->
-<!--                        circle-->
-<!--                        v-if="showOperation()"-->
-<!--                        style="margin-right: 20px"-->
-<!--                        @click="handleDownload(scope.row)"-->
-<!--                      >-->
-<!--                      </el-button>-->
-<!--                    </el-tooltip>-->
                     <el-button
                         type="text"
                         v-if="showOperation()"
                         @click="handleDelete(scope.row)"
                     >删除文件
                     </el-button>
-<!--                    <el-tooltip-->
-<!--                      class="item"-->
-<!--                      effect="dark"-->
-<!--                      content="删除"-->
-<!--                      placement="right"-->
-<!--                    >-->
-<!--                      <el-button-->
-<!--                        icon="el-icon-delete"-->
-<!--                        size="small"-->
-<!--                        circle-->
-<!--                        v-if="showOperation()"-->
-<!--                        type="danger"-->
-<!--                        plain-->
-<!--                        @click="handleDelete(scope.row)"-->
-<!--                      >-->
-<!--                      </el-button>-->
-<!--                    </el-tooltip>-->
                   </template>
                 </el-table-column>
               </el-table>

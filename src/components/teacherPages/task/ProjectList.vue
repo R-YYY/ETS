@@ -41,10 +41,10 @@
                       <p>截至时间：{{ item.end_time }}</p>
                     </div>
                     <div>
-                      <el-button class="btn" @click="checkProject">
+                      <el-button class="btn" @click="checkProject(item.name)">
                         <span>查看实验信息</span>
                       </el-button>
-                      <el-button class="btn" @click="checkReport">
+                      <el-button class="btn" @click="checkReport(item.name)">
                         <span>查看提交情况</span>
                       </el-button>
                     </div>
@@ -55,24 +55,44 @@
           </div>
 
           <!--实验详细信息-->
-          <el-dialog :visible.sync="infoDialogVisible">
-          </el-dialog>
+          <el-dialog :visible.sync="infoDialogVisible"> </el-dialog>
 
           <!--实验提交情况-->
           <el-dialog :visible.sync="reportDialogVisible">
-            <el-table>
-              <el-table-column label="学号"></el-table-column>
-              <el-table-column label="姓名"></el-table-column>
-              <el-table-column label="提交时间"></el-table-column>
+            <el-table :data="reportList">
+              <el-table-column label="学号" prop="student_ID"></el-table-column>
+              <el-table-column label="姓名" prop="name"></el-table-column>
               <el-table-column
-                label="批改时间"
+                label="提交时间"
+                prop="submit_time"
+                sortable
+              ></el-table-column>
+              <el-table-column
+                label="批改状态"
+                prop="correct_state"
+                align="center"
+                sortable
                 :filters="[
                   { text: '已批改', value: '已批改' },
                   { text: '未批改', value: '未批改' },
-                ]"
-                :filter-method="filterState"
-                sortable
-              ></el-table-column>
+                  ]"
+                :filter-method="filterState">
+                <template slot-scope="scope">
+                  <el-tag
+                    :type="scope.row.correct_state === '已批改'? 'success': 'danger'"
+                    disable-transitions
+                    >{{ scope.row.correct_state }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column width="120px">
+                <template slot-scope="scope">
+                  <el-button
+                      type="text"
+                      @click="open(scope.row)"
+                  >查看
+                  </el-button>
+                </template>
+              </el-table-column>
             </el-table>
           </el-dialog>
         </el-tab-pane>
@@ -88,10 +108,11 @@ export default {
   data() {
     return {
       input: "",
-      projectList: null,
-      tmpList: null,
+      projectList: [],
+      tmpList: [],
+      reportList: [],
       reportDialogVisible: false,
-      infoDialogVisible:false,
+      infoDialogVisible: false,
     };
   },
   methods: {
@@ -114,18 +135,41 @@ export default {
       }
     },
 
-    //查看实验信息
-    checkReport() {
+    //查看实验报告
+    checkReport(data) {
+      this.$axios({
+        url: "/report/getTotalReport",
+        method: "get",
+        params: {
+          course_ID: this.$route.params.course_id,
+          project_name: data,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          this.reportList = [];
+          for (let i = 0; i < response.data.length; i++) {
+            this.reportList.push({
+              student_ID: response.data[i].student_ID,
+              name: response.data[i].name,
+              submit_time: response.data[i].submit_time,
+              correct_state:
+                response.data[i].correct_time === null ? "未批改" : "已批改",
+            });
+          }
+          // this.reportList = response.data;
+        })
+        .catch();
       this.reportDialogVisible = true;
     },
 
-    //删除实验
-    checkProject() {
+    //查看实验信息
+    checkProject(data) {
       this.infoDialogVisible = true;
     },
 
     filterState(value, row) {
-      return row.state === value;
+      return row.correct_state === value;
     },
   },
 
@@ -183,12 +227,12 @@ export default {
   margin: 30px 30px 20px 70px;
 }
 
-.projectDes{
+.projectDes {
   margin-left: 30px;
   font-size: 16px;
 }
 
-.projectName{
+.projectName {
   margin-left: 30px;
   font-size: 18px;
 }
