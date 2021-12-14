@@ -75,7 +75,7 @@ export default {
       this.$router.push("/login");
     },
     toset(){
-        this.$router.push('/set');
+        this.$router.push('/stuinfoset');
     },
   },
 };

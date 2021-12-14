@@ -83,6 +83,16 @@ const routes = [
     component:Register
   },
   {
+    path:'/stuinfoset',
+    name:'StudentInfoSet',
+    component:()=>import('@/components/studentPages/StudentInfoSet.vue'),
+  },
+  {
+    path:'/teainfoset',
+    name:'TeacherInfoSet',
+    component:()=>import('@/components/teacherPages/TeacherInfoSet.vue'),
+  },
+  {
     path: '/courses/:course_id',
     name: 'CourseHome',
     component: CourseHome,
