@@ -122,26 +122,35 @@ export default {
       });
     },
     getloginInfo() {
-      console.log(this.loginForm.id);
-      var data = Qs.stringify({
-        account_ID: this.loginForm.id,
-        password: this.loginForm.password,
-      });
-      console.log(data);
-      this.$axios
-        .post("/account/idMatchPassword", data)
-        .then(function (response) {
-          console.log(response.data);
+      let data = new FormData();
+      data.append("account_ID", this.loginForm.id);
+      data.append("password", this.loginForm.password);
+      console.log("传入的" + data);
+      this.$axios({
+        url: "/account/login",
+        method: "post",
+        data: data,
+      })
+        .then((response) => {
+          console.log("传出的" + response.data);
+          if (response.data !== true)
+            this.$message({
+              type: "error",
+              message: "登录失败",
+            });
+          this.$message({
+            type: "success",
+            message: "登录成功",
+          });
+          window.sessionStorage.setItem("id", response.data.account_ID);
+          if (window.sessionStorage.getItem("id").length == 5)
+            this.$router.push("/teacherhome");
+          else if (window.sessionStorage.getItem("id").length == 6)
+            this.$router.push("/studenthome");
         })
         .catch(function (error) {
           console.log(error);
         });
-      console.log(this.response.data);
-      if (this.response.data !== true) return this.$message.error("登录失败");
-      this.$message.success("登录成功");
-      window.sessionStorage.setItem("id", this.response.data.account_ID);
-      if (window.sessionStorage.getItem("id").length == 5)
-        this.$router.push("/teacherhome");
     },
 
     // async getloginInfo() {
