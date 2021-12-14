@@ -16,20 +16,6 @@ import * as echarts from "echarts";
 
 export default {
   name: "ProjectGrade",
-  data(){
-    return{
-      project_list:[
-        {
-          name:'实验一',
-          score:99,
-        },
-        {
-          name:'实验二',
-          score:85,
-        }
-      ],
-    }
-  },
   mounted() {
     let id=this.$route.params.course_id;
     let student_id='1951014';

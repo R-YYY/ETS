@@ -9,61 +9,74 @@ import * as echarts from "echarts";
 
 export default {
   name: "AttendanceGrade",
-  data(){
-    return{
-      project_totalScore:60,
-      attendance_score:30,
-    }
-  },
   mounted() {
-    let a_score=this.attendance_score;
-    let p_score=this.project_totalScore;
-    let total=a_score+p_score;
-    let remain=100-a_score-p_score;
-
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('shape3'));
-    window.onresize = function() {
-      myChart.resize();
-    };
-    myChart.setOption({
-      title: {
-        text: '总成绩   ' + total,
-        left: 'center'
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        orient: 'vertical',
-        left: 'left'
-      },
-      series: [
-        {
-          // name: '比例（%）',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: a_score, name: '考勤分数'+a_score },
-            { value: p_score, name: '实验分数'+p_score },
-            { value: remain, name: '未得分数' },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
+    let id=this.$route.params.course_id;
+    let student_id='1951014';
+    this.$axios.get('/score/getPartScore',{
+      params:{
+        course_ID:id,
+        student_ID:student_id,
+      }
+    }).then((response)=>{
+      console.log('begin');
+      console.log(response.data);
+      var t=response.data;
+      let a_score=parseFloat(t.attend_score);
+      let p_score=parseFloat(t.project_score);
+      let total=a_score+p_score;
+      console.log('begin');
+      console.log(total);
+      let remain=100-a_score-p_score;
+      var data_list=[];
+      if(a_score>0){
+        var obj={ value: a_score, name: '考勤分数'+a_score };
+        data_list.push(obj);
+      }
+      if(p_score>0){
+        var obj={ value: p_score, name: '实验分数'+p_score };
+        data_list.push(obj);
+      }
+      data_list.push({ value: remain, name: '未得分数' });
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('shape3'));
+      window.onresize = function() {
+        myChart.resize();
+      };
+      myChart.setOption({
+        title: {
+          text: '总成绩   ' + total,
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            // name: '比例（%）',
+            type: 'pie',
+            radius: '50%',
+            data: data_list,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
             }
           }
-        }
-      ],
-      color:[
-        'rgba(255, 218, 255, 1)',
-        'rgba(195, 255, 255, 1)',
-        'rgba(230, 230, 230, 1)',
-        // 'rgba(255, 225, 159, 1)',
-        // 'rgba(195, 172, 250, 1)',
-      ]
+        ],
+        color:[
+          'rgba(255, 218, 255, 1)',
+          'rgba(195, 255, 255, 1)',
+          'rgba(230, 230, 230, 1)',
+          // 'rgba(255, 225, 159, 1)',
+          // 'rgba(195, 172, 250, 1)',
+        ]
+      })
     })
   }
 }
