@@ -72,6 +72,10 @@ const routes = [
     component:()=>import('@/components/adminPages/teachEmpty.vue'),
   },
   {
+    path:'/stuempty',
+    component:()=>import('@/components/adminPages/stuEmpty.vue'),
+  },
+  {
     path:'/studenthome',
     name:'StudentHome',
     component:StudentHome
