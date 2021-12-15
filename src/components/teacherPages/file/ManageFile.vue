@@ -287,7 +287,10 @@ export default {
         console.log(response);
         let blob = new Blob([response.data]);
         console.log(blob);
+
         const disposition = response.headers["content-disposition"];
+        console.log(disposition)
+        console.log('hello')
         //获得文件名
         let fileName = disposition.substring(
           disposition.indexOf("filename=") + 9,

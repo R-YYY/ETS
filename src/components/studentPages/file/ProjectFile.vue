@@ -45,7 +45,7 @@ export default {
       console.log(val);
     },
     handleDownload(folderName,fileName) {
-      var id=this.course_id;
+      var id=this.$route.params.course_id;
       var path='/实验资料/'+folderName;
       let data = new FormData();
       data.append("course_ID", id);

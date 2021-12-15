@@ -46,7 +46,7 @@ export default {
       console.log(val);
     },
     handleDownload(folderName,fileName) {
-      var id=this.course_id;
+      var id=this.$route.params.course_id;
       var path='/课程资料/'+folderName;
       let data = new FormData();
       data.append("course_ID", id);
@@ -64,18 +64,19 @@ export default {
         },
         responseType: "blob",
       }).then((response) => {
-        console.log(response);
+        console.log(response.data);
         let blob = new Blob([response.data]);
         console.log(blob);
         var disposition = response.headers["content-disposition"];
+        console.log(disposition)
+        console.log('hello')
         //获得文件名
-        // let fileName='';
-        // fileName=fileName+
+
         let fileName = disposition.substring(
             disposition.indexOf("filename=") + 9,
             disposition.length
         );
-        console.log(fileName)
+        // console.log(fileName)
         //解码
         fileName = decodeURI(fileName);
         if (window.navigator.msSaveOrOpenBlob) {
