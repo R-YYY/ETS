@@ -13,6 +13,7 @@
         "
         style="width: 100%"
       >
+        <!-- 账户id -->
         <el-table-column
           prop="account_ID"
           label="账号id"
@@ -21,8 +22,10 @@
           column-key="id"
         >
         </el-table-column>
+        <!-- 姓名 -->
         <el-table-column prop="name" label="姓名" width="150" column-key="name">
         </el-table-column>
+        <!-- 邮箱 -->
         <el-table-column
           prop="email"
           label="邮箱"
@@ -30,6 +33,7 @@
           column-key="email"
         >
         </el-table-column>
+        <!-- 账户状态 -->
         <el-table-column
           prop="is_active"
           label="账户状态"
@@ -51,6 +55,7 @@
             </el-tag>
           </template>
         </el-table-column>
+        <!-- 封禁or激活 -->
         <el-table-column label="操作" width="150">
           <div slot-scope="scope" v-if="scope.row.is_active != '0'">
             <el-button size="mini" type="danger" @click="ban(scope.row)"
@@ -63,6 +68,7 @@
             >
           </div>
         </el-table-column>
+        <!-- 重置密码 -->
         <el-table-column label="重置">
           <el-button
             size="mini"
@@ -72,6 +78,7 @@
             >重置密码</el-button
           >
         </el-table-column>
+        <!-- 删除账户 -->
         <el-table-column>
           <el-button
             type="danger"
@@ -215,32 +222,43 @@ export default {
           });
         });
     },
-    // 重置密码的接口？
+    //重置密码的接口
     resetPsd(data) {
+      console.log(data.account_ID);
       let taInfo = new FormData();
-      taInfo.append("userid", data.userid);
+      taInfo.append("account_ID", data.account_ID);
       this.$axios({
-        url: "",
+        url: "/account/resetPassword",
         method: "post",
         data: taInfo,
       })
-        .then(() => {
-          this.taList.splice(data, 1);
-          this.$message({
-            type: "success",
-            message: "重置成功!",
-          });
+        .then((res) => {
+          console.log("传出的" + res.data);
+          if (res.data !== 1)
+            this.$message({
+              type: "error",
+              message: "重置失败!请重试！",
+            });
+          else
+            this.$message({
+              type: "success",
+              message: "重置成功!",
+            });
         })
         .catch(() => {
           this.$message({
             type: "error",
-            message: "重置失败!请重试！",
+            message: "error!",
           });
         });
+      //刷新页面
+      this.$router.push({
+        path: "/teachempty",
+      });
     },
     //删除账户确认
     startdeleteu(row) {
-      this.$confirm("此操作将永久删除该账户，是否继续？", "提示", {
+      this.$confirm("此操作将删除该账户，是否继续？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -257,26 +275,37 @@ export default {
     },
     //删除账户接口
     deleteu(data) {
+      console.log(data.account_ID);
       let taInfo = new FormData();
-      taInfo.append("userid", data.userid);
+      taInfo.append("account_ID", data.account_ID);
       this.$axios({
-        url: "",
+        url: "/account/delete",
         method: "post",
         data: taInfo,
       })
-        .then(() => {
-          this.taList.splice(data, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+        .then((res) => {
+          console.log("传出的" + res.data);
+          if (res.data !== 1)
+            this.$message({
+              type: "error",
+              message: "删除失败!请重试！",
+            });
+          else
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
         })
         .catch(() => {
           this.$message({
             type: "error",
-            message: "删除失败!请重试！",
+            message: "error!",
           });
         });
+      //刷新页面
+      this.$router.push({
+        path: "/teachempty",
+      });
     },
 
     filterHandler(value, row, column) {
@@ -284,7 +313,7 @@ export default {
       return row[property] === value;
     },
     filterStatus(value, row) {
-      return row.status === value;
+      return row.is_active === value;
     },
     //每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
