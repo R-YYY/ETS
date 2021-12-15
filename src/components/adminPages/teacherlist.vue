@@ -58,10 +58,7 @@
             >
           </div>
           <div v-else>
-            <el-button
-              size="mini"
-              type="success"
-              @click="activation(scope.$index, scope.row)"
+            <el-button size="mini" type="success" @click="activation(scope.row)"
               >激活</el-button
             >
           </div>
@@ -80,7 +77,8 @@
             type="danger"
             icon="el-icon-delete"
             circle
-            @click="startdeleteu"
+            slot-scope="scope"
+            @click="startdeleteu(scope.row)"
           ></el-button>
         </el-table-column>
         <el-table-column align="right">
@@ -148,11 +146,12 @@ export default {
               type: "error",
               message: "封禁失败!请重试！",
             });
-          else
+          else {
             this.$message({
               type: "success",
               message: "封禁成功!",
             });
+          }
         })
         .catch(() => {
           this.$message({
@@ -160,6 +159,10 @@ export default {
             message: "error!",
           });
         });
+      //刷新页面
+      this.$router.push({
+        path: "/teachempty",
+      });
     },
     //激活，激活接口
     activation(data) {
@@ -190,6 +193,10 @@ export default {
             message: "error!",
           });
         });
+      //刷新页面
+      this.$router.push({
+        path: "/teachempty",
+      });
     },
     //重置密码确认
     startreset(row) {
