@@ -133,7 +133,7 @@ export default {
       })
         .then((response) => {
           console.log("传出的" + response.data);
-          if (response.data !== true)
+          if (response.data === "1")
             this.$message({
               type: "error",
               message: "登录失败",
