@@ -8,9 +8,6 @@
       <el-button class="btn">
         <span>结束课程</span>
       </el-button>
-      <el-button class="btn" type="danger" plain>
-        <span>删除课程</span>
-      </el-button>
     </div>
     <div>
       <el-tabs
