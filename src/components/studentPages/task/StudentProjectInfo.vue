@@ -258,9 +258,7 @@ export default {
           }
           else{
             this.report_name=response.data;
-            if(response.data!=''||response.data!=null){
-              this.has_submitted=true;
-            }
+            this.has_submitted=true;
           }
         });
 
