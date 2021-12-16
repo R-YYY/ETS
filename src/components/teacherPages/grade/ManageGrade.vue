@@ -60,8 +60,6 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="单项成绩" name="part"></el-tab-pane>
-        <el-tab-pane label="设置成绩权重" name="set"></el-tab-pane>
-
         <el-dialog
         :visible.sync="scoreVisible">
           <el-table>
@@ -86,7 +84,6 @@ export default {
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "totalGrades" });
       else if (tab.index == 1) this.$router.push({ name: "partGrades" });
-      else if (tab.index == 2) this.$router.push({ name: "setGrades" });
     },
 
     scoreInfo(row){

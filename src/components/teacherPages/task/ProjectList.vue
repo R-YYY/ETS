@@ -36,14 +36,12 @@
                       <span>实验名称：{{ item.name }}</span>
                     </div>
                     <div class="projectDes">
-                      <p>发布人：{{ item.teacher_name }}</p>
+                      <p>发布教师：{{ item.teacher_name }}</p>
                       <p>发布时间：{{ item.start_time }}</p>
                       <p>截至时间：{{ item.end_time }}</p>
+                      <p>实验说明：{{ item.description }}</p>
                     </div>
                     <div>
-                      <el-button class="btn" @click="checkProject(item.name)">
-                        <span>查看实验信息</span>
-                      </el-button>
                       <el-button class="btn" @click="checkReport(item.name)">
                         <span>查看提交情况</span>
                       </el-button>
@@ -53,32 +51,6 @@
               </el-col>
             </el-row>
           </div>
-
-          <!--实验详细信息-->
-          <el-dialog
-              title="实验项目详细信息"
-              :visible.sync="infoDialogVisible">
-            <el-form
-                class="projectInfo"
-                label-width="120px"
-                :model="projectInfo"
-            >
-              <el-form-item label="项目名称">
-                <span>{{projectInfo.name}}</span>
-              </el-form-item>
-              <el-form-item label="开始时间">
-                <span>{{projectInfo.start_time}}</span>
-              </el-form-item>
-              <el-form-item label="结束时间">
-                <span>{{projectInfo.start_time}}</span>
-              </el-form-item>
-              <el-form-item label="项目描述">
-                <span>{{projectInfo.description}}</span>
-              </el-form-item>
-              <el-form-item label="附加文件">
-              </el-form-item>
-            </el-form>
-          </el-dialog>
 
           <!--实验提交情况-->
           <el-drawer
@@ -293,32 +265,6 @@ export default {
       this.reportDialogVisible = true;
     },
 
-    //查看实验信息
-    checkProject(data) {
-      this.projectInfo = {
-        name:"",
-        start_time:"",
-        end_time:"",
-        description:""
-      }
-      this.$axios(({
-        url:"/project/get",
-        method:"get",
-        params:{
-          course_ID:this.$route.params.course_id,
-          name:data
-        },
-        headers: {
-          token:
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-        },
-      })).then((response)=>{
-        console.log(response.data)
-        this.projectInfo = response.data
-      }).catch()
-      this.infoDialogVisible = true;
-    },
-
     filterCorrect(value, row) {
       return row.correct_state === value;
     },
@@ -458,13 +404,13 @@ export default {
 }
 
 .projectCard {
-  height: 300px;
+  height: 350px;
   width: 460px;
 }
 
 .btn {
-  margin-top: 20px;
-  margin-left: 50px;
+  margin-top: 40px;
+  margin-left: 130px;
   margin-right: 50px;
 }
 

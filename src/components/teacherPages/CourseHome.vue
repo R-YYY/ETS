@@ -40,10 +40,10 @@
               <i class="el-icon-folder-opened"></i>
               <span>学习资料</span>
             </el-menu-item>
-            <el-menu-item class="option" index="6" @click="toFeedback">
-              <i class="el-icon-edit-outline"></i>
-              <span>课程反馈</span>
-            </el-menu-item>
+<!--            <el-menu-item class="option" index="6" @click="toFeedback">-->
+<!--              <i class="el-icon-edit-outline"></i>-->
+<!--              <span>课程反馈</span>-->
+<!--            </el-menu-item>-->
           </el-menu>
         </div>
       </el-aside>
@@ -106,9 +106,10 @@ export default {
       this.activeIndex = "4";
     } else if (this.$route.name === "files") {
       this.activeIndex = "5";
-    } else if (this.$route.name === "feedbacks") {
-      this.activeIndex = "6";
     }
+    // else if (this.$route.name === "feedbacks") {
+    //   this.activeIndex = "6";
+    // }
   },
 };
 </script>
