@@ -122,8 +122,9 @@ export default {
 }
 
 #courseImg {
-  margin-top: 5px;
-  width: 170px;
+  margin-top: 20px;
+  width: 160px;
+  margin-bottom: 20px;
 }
 
 .mainAside {
