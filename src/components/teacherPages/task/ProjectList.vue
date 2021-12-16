@@ -55,7 +55,30 @@
           </div>
 
           <!--实验详细信息-->
-          <el-dialog :visible.sync="infoDialogVisible"> </el-dialog>
+          <el-dialog
+              title="实验项目详细信息"
+              :visible.sync="infoDialogVisible">
+            <el-form
+                class="projectInfo"
+                label-width="120px"
+                :model="projectInfo"
+            >
+              <el-form-item label="项目名称">
+                <span>{{projectInfo.name}}</span>
+              </el-form-item>
+              <el-form-item label="开始时间">
+                <span>{{projectInfo.start_time}}</span>
+              </el-form-item>
+              <el-form-item label="结束时间">
+                <span>{{projectInfo.start_time}}</span>
+              </el-form-item>
+              <el-form-item label="项目描述">
+                <span>{{projectInfo.description}}</span>
+              </el-form-item>
+              <el-form-item label="附加文件">
+              </el-form-item>
+            </el-form>
+          </el-dialog>
 
           <!--实验提交情况-->
           <el-drawer
@@ -200,6 +223,12 @@ export default {
       projectList: [],
       tmpList: [],
       reportList: [],
+      projectInfo:{
+        name:"",
+        start_time:"",
+        end_time:"",
+        description:""
+      },
       projectName: "",
       direction: "ltr",
       inputScore: "",
@@ -266,6 +295,27 @@ export default {
 
     //查看实验信息
     checkProject(data) {
+      this.projectInfo = {
+        name:"",
+        start_time:"",
+        end_time:"",
+        description:""
+      }
+      this.$axios(({
+        url:"/project/get",
+        method:"get",
+        params:{
+          course_ID:this.$route.params.course_id,
+          name:data
+        },
+        headers: {
+          token:
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+      })).then((response)=>{
+        console.log(response.data)
+        this.projectInfo = response.data
+      }).catch()
       this.infoDialogVisible = true;
     },
 
@@ -461,5 +511,9 @@ export default {
 .inputScore {
   height: 25px;
   width: 60px;
+}
+
+.projectInfo{
+  /*margin-left: 50px;*/
 }
 </style>
