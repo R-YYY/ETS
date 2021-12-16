@@ -9,28 +9,20 @@
           <!-- 头像部分 -->
           <div>
             <el-menu
-              :default-active="activeIndex"
               class="port_box"
               mode="horizontal"
               @select="handleSelect"
+              :router="true"
             >
-              <el-submenu class="sub">
+              <el-submenu index="1">
                 <template slot="title" class="subtitle">
                   <img src="@/assets/port.png" />
                 </template>
-                <el-menu-item>
-                  <el-button type="text" @click="toset" icon="el-icon-s-tools">
-                    账号设置
-                  </el-button>
-                </el-menu-item>
-                <el-menu-item>
-                  <el-button
-                    type="text"
-                    @click="logout"
-                    icon="el-icon-switch-button"
-                  >
-                    安全退出
-                  </el-button>
+                <!-- <el-menu-item index="/stuinfoset">
+                  <i class="el-icon-s-tools"> 账号设置 </i>
+                </el-menu-item> -->
+                <el-menu-item index="/login">
+                  <i class="el-icon-switch-button"> 安全退出 </i>
                 </el-menu-item>
               </el-submenu>
             </el-menu>
@@ -41,7 +33,7 @@
         <div class="headRight">
           <div class="headbox1">
             <div style="font-size: 60px">
-              {{ count }}
+              {{ courseData.length }}
             </div>
             <div style="font-size: 20px">实验课程/门</div>
           </div>
@@ -52,43 +44,177 @@
       <div class="mainDiv">
         <el-card class="mainLeft">
           <div class="ing">
-            <div class="title">
-              <h2>进行中的课程</h2>
-            </div>
+            <h2>进行中的课程</h2>
             <div class="content">
-              <div class="course1">课程1</div>
-              <div class="course2">课程2</div>
-              <div class="course3">课程3</div>
-              <div class="course4">课程4</div>
+              <cardList ref="listItem" :dataList="courseData">
+                <!-- <el-button @click="formore">查看</el-button> -->
+              </cardList>
             </div>
           </div>
-          <div class="finish"></div>
+          <div class="finish">
+            <h2>已完成的课程</h2>
+            <div class="content">
+              <cardList ref="listItem" :dataList="endCourseData">
+                <!-- <el-button @click="formore">查看</el-button> -->
+              </cardList>
+            </div>
+          </div>
         </el-card>
-        <el-card class="mainRight">????</el-card>
+        <!-- 公告板 -->
+        <!-- <el-card class="mainRight">????</el-card> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import cardList from "@/components/cardList.vue";
 export default {
+  // props: {
+  //   cardList: {
+  //     type: Array,
+  //     default: function () {
+  //       return [
+  //         {
+  //           course_ID: "42024401",
+  //           course_name: "rjgc",
+  //           teacher_name: "fdfd",
+  //           is_student: "0",
+  //         },
+  //         {
+  //           course_ID: "42024401",
+  //           course_name: "rjgc",
+  //           teacher_name: "fdfd",
+  //           is_student: "0",
+  //         },
+  //       ];
+  //     },
+  //   },
+  // },
+  components: {
+    cardList,
+  },
   data() {
     return {
-      name: "刘某某",
+      account_ID: window.sessionStorage.getItem("account_ID"),
+      name: "",
       count: "0",
+      currentPage: 1,
+      pagesize: 8,
+      store: {
+        id: "",
+      },
+      courseData: [],
+      endCourseData: [],
     };
   },
   methods: {
-    logout() {
-      this.$router.push("/login");
+    showForm(mes) {
+      this.$refs.listItem.recordLocation(mes); //告知卡片列表子组件 要求对本页面的点击事件mes进行定位
     },
-    toset() {
-      this.$router.push("/stuinfoset");
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
     },
+    handleSizeChange(page_size) {
+      this.pagesize = page_size;
+    },
+    handleCurrentChange(current_page) {
+      this.currentPage = current_page;
+    },
+    getName() {
+      this.store.id = window.sessionStorage.getItem("account_ID");
+      console.log("id:" + this.store.id);
+      console.log("token:" + window.sessionStorage.getItem("token"));
+      let _this = this;
+      this.$axios({
+        url: "/student/get",
+        method: "get",
+        params: {
+          student_ID: this.store.id,
+        },
+        headers: {
+          token: window.sessionStorage.getItem("token"),
+        },
+      })
+        .then(function (res) {
+          console.log(res.data);
+          _this.name = res.data.name;
+        })
+        .catch(function (error) {
+          console.log("Get Nothing!" + error);
+        });
+    },
+    getCourse() {
+      this.store.id = window.sessionStorage.getItem("account_ID");
+      let _this = this;
+      this.$axios({
+        url: "/course/getTotalCourse",
+        method: "get",
+        params: {
+          account_ID: this.store.id,
+        },
+        headers: {
+          token: window.sessionStorage.getItem("token"),
+        },
+      })
+        .then(function (res) {
+          console.log("res.data[0].length:");
+          console.log(res.data[0].length);
+          _this.courseData = res.data;
+        })
+        .catch(function (error) {
+          console.log("Get Nothing!" + error);
+        });
+    },
+    getEndCourse() {
+      this.store.id = window.sessionStorage.getItem("account_ID");
+      let _this = this;
+      this.$axios({
+        url: "/course/getTotalEndCourse",
+        method: "get",
+        params: {
+          account_ID: this.store.id,
+        },
+        headers: {
+          token: window.sessionStorage.getItem("token"),
+        },
+      })
+        .then(function (res) {
+          console.log("res.data[0].length:");
+          console.log(res.data[0].length);
+          _this.endCourseData = res.data;
+        })
+        .catch(function (error) {
+          console.log("Get Nothing!" + error);
+        });
+    },
+  },
+  created() {
+    this.getName();
+    this.getCourse();
+    this.getEndCourse();
+  },
+  mounted() {
+    // let _this = this;
+    // let taInfo = new FormData();
+    // taInfo.append("account_ID", account_ID);
+    // this.$axios({
+    //   url: "/course/getTotalCourse",
+    //   method: "get",
+    //   data: taInfo,
+    //   headers: {
+    //     token: window.sessionStorage.getItem("token"),
+    //   },
+    // })
+    //   .then(function (response) {
+    //     _this.cardList = response.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Get Nothing!" + error);
+    //   });
   },
 };
 </script>
-
 
 <style scoped>
 .headStu {
@@ -99,7 +225,7 @@ export default {
   align-items: center;
 }
 .headDiv {
-  width: 70%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
 }
@@ -118,7 +244,7 @@ export default {
   border-bottom: none;
 }
 .el-menu--horizontal > .el-submenu /deep/ .el-submenu__title {
-  /* 去子菜单颜色 */
+  /* 去子菜单标题颜色 */
   height: 100px;
   display: flex;
   align-items: center;
@@ -141,17 +267,23 @@ export default {
 }
 
 .mainStu {
+  position: absolute;
   display: flex;
   justify-content: center;
-  top:220px;
-  z-index: 2;
+  top: 200px;
+  height: 600px;
+  width: 100%;
+  /* z-index: 2; */
 }
-.mainDiv{
-  width: 70%;
+.mainDiv {
+  width: 80%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
-.mainleft {
-  width: 50%;
+.content {
+  width: 1000px;
+}
+.block {
+  margin: 80px;
 }
 </style>
