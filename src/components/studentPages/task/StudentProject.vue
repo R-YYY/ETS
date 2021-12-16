@@ -6,7 +6,9 @@
           <el-descriptions :title="project.name" :column="2">
             <template slot="extra">
               <router-link :to="{path:`/stuProjectInfo`,query:{course_ID: course_id,name: project.name}}" target="_blank">
-                <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium">去完成</el-button>
+                <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium">
+                  <span id="buttonText">去完成</span>
+                </el-button>
               </router-link>
             </template>
             <el-descriptions-item label="开始时间">{{project.start_time}}</el-descriptions-item>

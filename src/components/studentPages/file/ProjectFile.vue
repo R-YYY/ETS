@@ -45,6 +45,8 @@ export default {
       console.log(val);
     },
     handleDownload(folderName,fileName) {
+      // console.log('begin?')
+      // console.log(folderName)
       var id=this.$route.params.course_id;
       var path='/实验资料/'+folderName;
       let data = new FormData();
@@ -63,9 +65,9 @@ export default {
         },
         responseType: "blob",
       }).then((response) => {
-        console.log(response);
+        // console.log(response);
         let blob = new Blob([response.data]);
-        console.log(blob);
+        // console.log(blob);
         const disposition = response.headers["content-disposition"];
         //获得文件名
         let fileName = disposition.substring(
