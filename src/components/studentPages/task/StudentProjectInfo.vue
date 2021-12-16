@@ -30,23 +30,26 @@
         </div>
 
         <el-upload
-            class="upload-demo"
             action="#"
             multiple
             :show-file-list="false"
             ref="projectUploadFile"
             :http-request="handleUpload"
             >
-          <el-button slot="trigger" size="medium" type="primary" id="button_selectFile">选取文件</el-button>
+          <el-button slot="trigger" size="medium" type="primary" id="button_selectFile">
+            <span style="font-size: 16px">选取文件</span>
+          </el-button>
+          <el-button type="primary" icon="el-icon-upload2"
+                     plain size="medium" style="margin-left: 700px;margin-bottom: 10px"
+                     @click="submit" id="button_uploadFile">
+            <span style="font-size: 17px">确认上传</span>
+          </el-button>
 
           <div class="el-upload__tip"  id="label_fileLimits">
-            只能上传docx/doc/pdf文件，且不超过10Mb</div>
+            只能上传docx/doc/pdf文件，且不超过10Mb
+          </div>
 
-          <el-button type="primary" icon="el-icon-upload2"
-                     plain size="medium" style="float: right;margin-right: 100px"
-                     @click="submit" id="button_uploadFile">
-            确认上传
-          </el-button>
+
           
           <div v-if="has_submitted" style="margin-top: 20px">
             <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
@@ -229,9 +232,9 @@ export default {
           message: '已过截止时间，你只能查看实验，不能提交实验报告！',
           type: 'error'
         });
-        document.getElementById('button_selectFile').style.visibility='hidden';
-        document.getElementById('button_uploadFile').style.visibility='hidden';
-        document.getElementById('label_fileLimits').style.visibility='hidden';
+        document.getElementById('button_selectFile').style.display='none';
+        document.getElementById('button_uploadFile').style.display='none';
+        document.getElementById('label_fileLimits').style.display='none';
       }
     });
 
@@ -250,9 +253,14 @@ export default {
         })
         .then((response)=>{
           // console.log(response.data);
-          this.report_name=response.data;
-          if(response.data!=''||response.data!=null){
-            this.has_submitted=true;
+          // 没提交，返回-1
+          if(response.data==-1||response.data=='-1'){
+          }
+          else{
+            this.report_name=response.data;
+            if(response.data!=''||response.data!=null){
+              this.has_submitted=true;
+            }
           }
         });
 
