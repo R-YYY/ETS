@@ -216,7 +216,7 @@ export default {
         ],
       },
       passwordType: "password",
-      imgSrc: require("../assets/ga.jpg"),
+      imgSrc: require("../assets/tj1.jpg"),
       radio: "1",
       show: true,
     };

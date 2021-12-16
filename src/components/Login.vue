@@ -1,7 +1,7 @@
 <template>
   <div class="login_container">
     <div class="background">
-      <img src="../assets/ga.jpg" width="100%" height="100%" alt="" />
+      <img src="../assets/tj1.jpg" width="100%" height="100%" alt="" />
     </div>
     <div class="login_box">
       <!-- 头像区 -->

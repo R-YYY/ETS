@@ -22,7 +22,13 @@
                   <i class="el-icon-s-tools"> 账号设置 </i>
                 </el-menu-item> -->
                 <el-menu-item index="/login">
-                  <i class="el-icon-switch-button"> 安全退出 </i>
+                  <el-button
+                    type="text"
+                    icon="el-icon-switch-button"
+                    @click="logout()"
+                  >
+                    安全退出
+                  </el-button>
                 </el-menu-item>
               </el-submenu>
             </el-menu>
@@ -187,6 +193,11 @@ export default {
         .catch(function (error) {
           console.log("Get Nothing!" + error);
         });
+    },
+    logout() {
+      sessionStorage.clear();
+      this.$router.push("/login");
+      location.reload();
     },
   },
   created() {
