@@ -45,7 +45,10 @@
                      @click="submit" id="button_uploadFile">
             确认上传
           </el-button>
-          <div v-if="has_submitted">已提交： {{this.report_name}}</div>
+          <div v-if="has_submitted">
+            <el-tag type="success" style="font-size: 16px">已提交</el-tag>：
+            <span class="fileName" @click="downloadReport">{{this.report_name}}</span>
+            </div>
         </el-upload>
       </el-card>
     </div>
@@ -91,7 +94,6 @@ export default {
             type: "success",
             message: file.file.name + " 上传成功！",
           });
-          this.has_submitted=true;
         }
         else {
           this.$message({
@@ -120,13 +122,14 @@ export default {
       var folderName=this.project_name;
       // console.log('begin?')
       // console.log(folderName)
-      var id=this.$route.params.course_id;
+      var id=this.course_ID;
       var path='/实验资料/'+folderName;
       let data = new FormData();
       data.append("course_ID", id);
       data.append("path", path);
       data.append("file_name", fileName);
-      this.downloadFile(data, fileName);
+      this.downloadFile(data);
+      // this.downloadFile(data, fileName);
     },
     downloadFile(data) {
       this.$axios({
@@ -141,6 +144,44 @@ export default {
         // console.log(response);
         let blob = new Blob([response.data]);
         // console.log(blob);
+        const disposition = response.headers["content-disposition"];
+        //获得文件名
+        let fileName = disposition.substring(
+            disposition.indexOf("filename=") + 9,
+            disposition.length
+        );
+        //解码
+        fileName = decodeURI(fileName);
+        if (window.navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, fileName);
+        } else {
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = fileName;
+          link.click();
+          //释放内存
+          window.URL.revokeObjectURL(link.href);
+        }
+      });
+    },
+    downloadReport() {
+      var id=this.course_ID;
+      console.log('begin')
+      console.log(id)
+      let data = new FormData();
+      data.append("course_ID", this.course_ID);
+      data.append("project_name", this.project_name);
+      data.append("report_name", this.report_name);
+      this.$axios({
+        url: "/file/downloadReport",
+        method: "post",
+        data: data,
+        headers:{
+          token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+        responseType: "blob",
+      }).then((response) => {
+        let blob = new Blob([response.data]);
         const disposition = response.headers["content-disposition"];
         //获得文件名
         let fileName = disposition.substring(
@@ -191,9 +232,10 @@ export default {
       }
     });
 
+    // console.log(this.student_ID)
     // 获取实验报告的名字
     this.$axios.get(
-        'report/getName',{
+        '/report/getName',{
           params:{
             course_ID: this.course_ID,
             project_name: this.project_name,
@@ -206,6 +248,9 @@ export default {
         .then((response)=>{
           // console.log(response.data);
           this.report_name=response.data;
+          if(response.data!=''||response.data!=null){
+            this.has_submitted=true;
+          }
         });
 
     //获取实验的FileInfoList
