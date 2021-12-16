@@ -22,17 +22,22 @@
               <el-table-column
                 prop="start_time"
                 label="开始时间"
-                width="350px"
+                width="250px"
                 sortable
               >
               </el-table-column>
               <el-table-column
                 prop="end_time"
                 label="结束时间"
-                width="350px"
+                width="250px"
                 sortable
               >
               </el-table-column>
+              <el-table-column
+                  prop="number"
+                  label="考勤人数"
+                  width="200px"
+              ></el-table-column>
               <el-table-column width="150px">
                 <template slot-scope="scope">
                 <el-button type="text" @click="attendInfo(scope.row)"
@@ -143,7 +148,7 @@ export default {
   mounted() {
     //调用api加载考勤列表
     this.$axios({
-      url: "/attend/getAttendanceListByCourseId",
+      url: "/attend/getAttendanceInfoList",
       method: "get",
       params: {
         course_ID: this.$route.params.course_id,
@@ -153,7 +158,14 @@ export default {
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     }).then((response)=>{
-      this.attendList = response.data
+      // this.attendList = response.data
+      for (let i = 0; i < response.data.length; i++) {
+        this.attendList.push({
+          start_time: response.data[i].start_time,
+          end_time: response.data[i].end_time,
+          number: response.data[i].number + "/" + response.data[i].total,
+        });
+      }
     });
   },
 };
