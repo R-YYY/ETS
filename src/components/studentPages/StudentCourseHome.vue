@@ -86,7 +86,7 @@ export default {
   data(){
     return {
       date:new Date(),
-      courseID: '42024401',
+      courseID: this.$route.params.course_id,
       student_ID:'1951014',
       activeIndex: '',
       teacher_list:[],

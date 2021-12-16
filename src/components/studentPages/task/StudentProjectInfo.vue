@@ -44,7 +44,7 @@
           <div slot="tip" class="el-upload__tip">只能上传docx/doc/pdf文件，且不超过10Mb</div>
           <el-button type="primary" icon="el-icon-upload2"
                      plain size="medium" style="float: right;margin-right: 100px"
-                     @click="submit">上传</el-button>
+                     @click="submit">确认上传</el-button>
         </el-upload>
       </el-card>
     </div>
@@ -60,6 +60,7 @@ export default {
       name: this.$route.query.name,
       project : {},
       fileList: [],
+      student_ID: '1951014',
     };
   },
   methods:{
@@ -68,18 +69,18 @@ export default {
     },
     handleUpload(file) {
       let data = new FormData();
-      // console.log(this.course_ID);
-      // console.log(this.project.name);
       data.append("course_ID", this.course_ID);
-      data.append("student_ID", '1951014');
+      data.append("student_ID", this.student_ID);
       data.append("project_name", this.project.name);
       data.append("file", file.file);
-      console.log(file.file);
       if(this.fileList.length>0){
         this.$axios({
           url: "report/update",
           method: "post",
           data: data,
+          headers:{
+            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+          }
         }).then((response)=>{
           console.log(response.data);
           if (response.data === 1) {
@@ -111,6 +112,9 @@ export default {
           url: "report/add",
           method: "post",
           data: data,
+          headers:{
+            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+          }
         }).then((response) => {
               console.log(response.data);
               if (response.data === 1) {
@@ -153,7 +157,6 @@ export default {
     },
   },
   mounted() {
-    let _this = this
     this.$axios.get(
         'project/get',{
           params:{
@@ -164,7 +167,23 @@ export default {
             token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
-    .then((response => _this.project = response.data))
+    .then((response => this.project = response.data));
+
+    this.$axios.get(
+        'report/getName',{
+          params:{
+            course_ID: this.course_ID,
+            project_name: this.name,
+            student_ID: this.student_ID,
+          },
+          headers:{
+            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+          }
+        })
+        .then((response)=>{
+          console.log(response.data);
+        });
+
   }
 }
 </script>
