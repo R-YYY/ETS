@@ -28,6 +28,7 @@
         <div slot="header" class="clearfix">
           <span style="font-weight: bolder">实验报告 ： </span>
         </div>
+
         <el-upload
             class="upload-demo"
             action="#"
@@ -38,17 +39,19 @@
             >
           <el-button slot="trigger" size="medium" type="primary" id="button_selectFile">选取文件</el-button>
 
-          <div slot="tip" class="el-upload__tip" id="label_fileLimits">只能上传docx/doc/pdf文件，且不超过10Mb</div>
+          <div class="el-upload__tip"  id="label_fileLimits">
+            只能上传docx/doc/pdf文件，且不超过10Mb</div>
 
           <el-button type="primary" icon="el-icon-upload2"
                      plain size="medium" style="float: right;margin-right: 100px"
                      @click="submit" id="button_uploadFile">
             确认上传
           </el-button>
-          <div v-if="has_submitted">
-            <el-tag type="success" style="font-size: 16px">已提交</el-tag>：
+          
+          <div v-if="has_submitted" style="margin-top: 20px">
+            <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
             <span class="fileName" @click="downloadReport">{{this.report_name}}</span>
-            </div>
+          </div>
         </el-upload>
       </el-card>
     </div>
