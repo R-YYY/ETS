@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%">
-    <el-header style="height: 10%">
+    <el-header style="height: 8%">
       <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
     <el-container>
@@ -40,10 +40,10 @@
               <i class="el-icon-folder-opened"></i>
               <span>学习资料</span>
             </el-menu-item>
-<!--            <el-menu-item class="option" index="6" @click="toFeedback">-->
-<!--              <i class="el-icon-edit-outline"></i>-->
-<!--              <span>课程反馈</span>-->
-<!--            </el-menu-item>-->
+            <el-menu-item class="option" index="6" @click="toFeedback">
+              <i class="el-icon-edit-outline"></i>
+              <span>课程反馈</span>
+            </el-menu-item>
           </el-menu>
         </div>
       </el-aside>
@@ -107,9 +107,9 @@ export default {
     } else if (this.$route.name === "files") {
       this.activeIndex = "5";
     }
-    // else if (this.$route.name === "feedbacks") {
-    //   this.activeIndex = "6";
-    // }
+    else if (this.$route.name === "feedbacks") {
+      this.activeIndex = "6";
+    }
   },
 };
 </script>
@@ -134,7 +134,7 @@ export default {
 
 .title {
   font-size: 35px;
-  line-height: 10px;
+  line-height: 0;
   text-align: left;
 }
 </style>

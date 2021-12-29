@@ -151,7 +151,7 @@ export default {
     let id=this.courseID;
     console.log(id)
     this.$axios.get(
-        '/teach/getTeacherInfoList',{
+        '/course/getTeacherInfoList',{
           params:{
             course_ID:id,
           },
@@ -190,8 +190,7 @@ export default {
 
 <style scoped>
 .pageContainer{
-  /*background-color: whitesmoke;*/
-  background-color: white;
+  background-color: whitesmoke;
   height:100%;
   overflow:auto
 }

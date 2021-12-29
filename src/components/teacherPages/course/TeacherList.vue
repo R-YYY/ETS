@@ -102,7 +102,7 @@ export default {
       teacherInfo.append("teacher_ID",data.teacher_ID)
       teacherInfo.append("course_ID",this.$route.params.course_id)
       this.$axios({
-        url:"/teach/deleteTeachCourse",
+        url:"/course/deleteTeach",
         method:"post",
         data:teacherInfo,
         headers: {
@@ -157,7 +157,7 @@ export default {
       teacherInfo.append("teacher_ID",data)
       teacherInfo.append("course_ID",this.$route.params.course_id)
       this.$axios({
-        url:"/teach/addTeachCourse",
+        url:"/course/addTeach",
         method:"post",
         data:teacherInfo,
         headers: {
@@ -195,7 +195,7 @@ export default {
     //加载老师列表数据
     loadData() {
       this.$axios({
-        url:"/teach/getTeacherInfoList",
+        url:"/course/getTeacherInfoList",
         method:"get",
         params:{
           course_ID: this.$route.params.course_id,

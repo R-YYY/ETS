@@ -33,7 +33,7 @@ export default {
     let that=this
     let id = this.$route.params.course_id;
     this.$axios.get(
-        '/take/getStudentInfoList',{
+        '/course/getStudentInfoList',{
           params: {
             course_ID: id,
             is_student: 0,

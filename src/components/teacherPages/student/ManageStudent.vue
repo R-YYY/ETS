@@ -78,7 +78,7 @@ export default {
       studentInfo.append("course_ID", this.$route.params.course_id);
       studentInfo.append("is_student", "1");
       this.$axios({
-        url: "take/deleteTakeCourse",
+        url: "course/deleteTake",
         method: "post",
         data: studentInfo,
         headers: {
@@ -127,7 +127,7 @@ export default {
       studentInfo.append("course_ID", this.$route.params.course_id);
       studentInfo.append("is_student", "1");
       this.$axios({
-        url: "/take/addTakeCourse",
+        url: "/course/addTake",
         method: "post",
         data: studentInfo,
         headers: {
@@ -166,7 +166,7 @@ export default {
     //调用api，加载学生列表
     loadData() {
       this.$axios({
-        url: "/take/getStudentInfoList",
+        url: "/course/getStudentInfoList",
         method: "get",
         params: {
           course_ID: this.$route.params.course_id,

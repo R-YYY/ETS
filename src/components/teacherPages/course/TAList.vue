@@ -85,7 +85,7 @@ export default {
       taInfo.append("course_ID",this.$route.params.course_id)
       taInfo.append("is_student","0")
       this.$axios({
-        url:"/take/deleteTakeCourse",
+        url:"/course/deleteTake",
         method:"post",
         data:taInfo,
         headers: {
@@ -134,7 +134,7 @@ export default {
       taInfo.append("course_ID",this.$route.params.course_id)
       taInfo.append("is_student","0")
       this.$axios({
-        url:"/take/addTakeCourse",
+        url:"/course/addTake",
         method:"post",
         data:taInfo,
         headers: {
@@ -172,7 +172,7 @@ export default {
     //加载助教列表数据
     loadDate() {
       this.$axios({
-        url:"/take/getStudentInfoList",
+        url:"/course/getStudentInfoList",
         method:"get",
         params:{
           course_ID: this.$route.params.course_id,

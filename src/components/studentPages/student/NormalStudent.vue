@@ -34,7 +34,7 @@ export default {
     let id = this.$route.params.course_id;
     // window.alert(id);
     this.$axios.get(
-        '/take/getStudentInfoList',{
+        '/course/getStudentInfoList',{
           params: {
             course_ID: id,
             is_student: 1,

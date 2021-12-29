@@ -22,6 +22,7 @@ import StudentGrade from "@/components/studentPages/grade/StudentGrade";
 import StudentFeedback from "@/components/studentPages/feedback/StudentFeedback";
 import StudentAttendance from "@/components/studentPages/task/StudentAttendance";
 import StudentProjectInfo from "@/components/studentPages/task/StudentProjectInfo";
+import Feedback from "@/components/teacherPages/feedback/Feedback";
 
 import AdminHome from "@/components/home/AdminHome";
 import StudentHome from "@/components/home/StudentHome";
@@ -168,11 +169,11 @@ const routes = [
         name: 'files',
         component: ManageFile
       },
-      // {
-      //   path: 'feedbacks',
-      //   name: 'feedbacks',
-      //   component: Feedback
-      // },
+      {
+        path: 'feedbacks',
+        name: 'feedbacks',
+        component: Feedback
+      },
     ],
   },
   {
