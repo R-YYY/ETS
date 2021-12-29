@@ -1,15 +1,15 @@
 <template>
   <el-container style="height: 100%">
-    <el-header style="height: 8%">
+    <el-header style="height: 7%">
       <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
     </el-header>
     <el-container>
       <!--主页侧边栏-->
-      <el-aside class="mainAside" width="170px">
+      <el-aside class="mainAside" width="150px">
         <!--主页侧边栏课程头像-->
         <img
           id="courseImg"
-          src="../../../src/assets/course.png"
+          src="../../../src/assets/course2.png"
           alt="加载失败"
         />
         <div>
@@ -47,7 +47,7 @@
           </el-menu>
         </div>
       </el-aside>
-      <el-main style="background-color: #f5f5f5">
+      <el-main style="background-color: whitesmoke">
         <router-view style="height: 100%"></router-view>
       </el-main>
     </el-container>
@@ -116,15 +116,15 @@ export default {
 
 <style scoped>
 .option {
-  width: 170px;
+  width: 150px;
   height: 70px;
   font-size: 17px;
 }
 
 #courseImg {
-  margin-top: 20px;
-  width: 160px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  width: 140px;
+  margin-bottom: 30px;
 }
 
 .mainAside {
@@ -133,7 +133,7 @@ export default {
 }
 
 .title {
-  font-size: 35px;
+  font-size: 30px;
   line-height: 0;
   text-align: left;
 }

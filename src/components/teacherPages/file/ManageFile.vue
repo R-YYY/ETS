@@ -32,7 +32,7 @@
     <div>
       <el-tabs class="fileTab" type="border-card">
         <el-tab-pane label="课程资料">
-          <el-container style="height: 480px">
+          <el-container style="height: 500px">
             <div>
               <div class="pathArea">
                 <el-breadcrumb class="filePath" separator="/">
@@ -64,7 +64,7 @@
             <div class="fileList">
               <el-table
                 :data="fileList"
-                height="450px"
+                height="470px"
                 :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0' }"
               >
@@ -422,11 +422,11 @@ export default {
 }
 
 .fileTree {
-  margin-top: 20px;
+  margin-top: 30px;
   margin-left: 25px;
   margin-right: 50px;
   width: 350px;
-  height: 420px;
+  height: 430px;
 }
 
 .fileList {

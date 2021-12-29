@@ -18,7 +18,7 @@
             <el-table
                 class="memberTab"
                 :data="teacherList"
-                height="480px"
+                height="500px"
                 :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0' }">
               <el-table-column

@@ -10,7 +10,7 @@
       >
         <!--中间的大框框-->
         <el-tab-pane label="发布任务" name="task">
-          <el-container style="height: 480px">
+          <el-container style="height: 500px">
             <div class="typeCard">
               <!--发布实验卡片-->
               <el-card
@@ -342,7 +342,7 @@ export default {
 .typeCard {
   width: 300px;
   border-width: 2px;
-  margin-top: 90px;
+  margin-top: 100px;
   margin-left: 170px;
   margin-right: 30px;
 }

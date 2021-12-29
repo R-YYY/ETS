@@ -11,11 +11,11 @@
     <div>
       <el-tabs class="studentTab" type="border-card">
         <el-tab-pane label="课程学生">
-          <div style="height: 480px">
+          <div style="height: 500px">
             <el-table
               class="memberTable"
               :data="studentList"
-              height="470px"
+              height="500px"
               :row-style="{ height: '50px' }"
               :cell-style="{ padding: '0' }"
             >

@@ -12,7 +12,7 @@
     <div>
       <el-tabs class="feedbackTab" type="border-card">
         <el-tab-pane label="课程反馈">
-          <el-empty description="没有反馈" style="height: 480px"></el-empty>
+          <el-empty description="没有反馈" style="height: 500px"></el-empty>
         </el-tab-pane>
       </el-tabs>
     </div>

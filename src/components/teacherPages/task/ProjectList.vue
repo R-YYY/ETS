@@ -415,7 +415,7 @@ export default {
 }
 
 .projectArea {
-  height: 480px;
+  height: 500px;
   overflow: auto;
 }
 

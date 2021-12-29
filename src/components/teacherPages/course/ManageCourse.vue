@@ -17,11 +17,11 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container style="height: 480px">
+          <el-container style="height: 500px">
             <!--课程头像-->
             <div class="imgArea">
               <img
-                src="../../../assets/course.png"
+                src="../../../assets/course2.png"
                 alt="加载失败"
                 style="width: 260px"
               />
@@ -119,13 +119,13 @@ export default {
 
 .imgArea {
   margin-left: 170px;
-  margin-top: 100px;
+  margin-top: 120px;
   margin-right: 100px;
 }
 
 .infoArea {
-  margin-left: 100px;
-  margin-top: 30px;
+  margin-left: 110px;
+  margin-top: 50px;
   line-height: 50px;
 }
 

@@ -17,7 +17,7 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container style="height: 480px">
+          <el-container style="height: 500px">
             <div class="uploadArea">
               <!--上传课程头像-->
               <el-upload
@@ -28,7 +28,7 @@
                 :show-file-list="false"
               >
                 <img
-                  src="../../../assets/course.png"
+                  src="../../../assets/course2.png"
                   alt="加载失败"
                   style="width: 260px"
                 />
@@ -195,7 +195,7 @@ export default {
 
 .uploadArea {
   margin-left: 170px;
-  margin-top: 70px;
+  margin-top: 100px;
   margin-right: 100px;
   font-size: 12px;
   text-align: center;

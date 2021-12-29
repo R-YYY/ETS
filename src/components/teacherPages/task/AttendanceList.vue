@@ -11,11 +11,11 @@
         <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
         <el-tab-pane label="课程考勤" name="attendance">
-          <div style="height: 480px">
+          <div style="height: 500px">
             <el-table
               class="attendTable"
               :data="attendList"
-              height="480px"
+              height="500px"
             >
               <el-table-column label="序号" type="index" width="200px">
               </el-table-column>

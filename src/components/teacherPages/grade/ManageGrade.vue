@@ -13,11 +13,11 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="总成绩" name="total">
-          <div style="height: 480px">
+          <div style="height: 500px">
             <el-table
               :data="totalGradeList"
               class="totalGradeTable"
-              height="470px"
+              height="500px"
               :row-style="{ height: '50px' }"
               :cell-style="{ padding: '0' }"
             >

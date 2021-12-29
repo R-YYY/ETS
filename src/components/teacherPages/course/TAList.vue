@@ -16,7 +16,7 @@
         <el-tab-pane label="教师团队"> </el-tab-pane>
         <el-tab-pane label="助教团队">
           <div>
-            <el-table class="memberTab" :data="taList" height="480px"
+            <el-table class="memberTab" :data="taList" height="500px"
                       :row-style="{ height: '50px' }"
                       :cell-style="{ padding: '0' }">
               <el-table-column prop="student_ID" label="学号" width="250px">
