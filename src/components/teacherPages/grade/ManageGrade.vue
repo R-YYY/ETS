@@ -170,7 +170,7 @@ export default {
   },
   mounted() {
     this.$axios({
-      url: "/score/getTotalScore",
+      url: "/score/getTotalScoreList",
       method: "get",
       params: {
         course_ID: this.$route.params.course_id,
