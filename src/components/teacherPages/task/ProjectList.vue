@@ -89,7 +89,7 @@
                 sortable
               ></el-table-column>
               <el-table-column
-                label="批改状态"
+                label="提交状态"
                 prop="submit_state"
                 align="center"
                 width="90px"

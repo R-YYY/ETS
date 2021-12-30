@@ -4,6 +4,7 @@
       <el-input class="inputProject" placeholder="请输入学生姓名"></el-input>
       <el-button>搜索</el-button>
       <el-button>导出成绩</el-button>
+      <el-button>设置成绩权重</el-button>
     </div>
     <div>
       <el-tabs
