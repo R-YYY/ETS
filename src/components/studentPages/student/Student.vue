@@ -39,13 +39,13 @@ export default {
 #Student{
   height: 100%;
   margin-top: 30px;
-  margin-left: 250px;
+  margin-left: 150px;
   margin-right: 20px;
   background-color:white;
   cursor: context-menu;
 }
 .stuTab{
-  height: 100%;
+  height: 830px;
   margin:30px 20px;
 }
 

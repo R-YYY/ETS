@@ -1,5 +1,8 @@
 <template>
   <div id="CourseFile">
+    <div>
+      无
+    </div>
     <div class="FolderCard" v-for="info in project_files" v-if="show_folderName(info.fileName)">
       <div class="projectName" style="font-size: 18px;">【{{info.folderName}}】</div>
       <div v-for="file in info.fileName" class="fileName" @click="handleDownload(info.folderName,file)">
@@ -30,6 +33,7 @@ export default {
       }
     }).then((response)=>{
       this.project_files=response.data;
+      console.log(response.data)
     })
   },
   methods: {

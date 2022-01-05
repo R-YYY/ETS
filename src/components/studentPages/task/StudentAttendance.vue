@@ -38,7 +38,7 @@ export default {
   mounted(){
     let that=this;
     let id=this.$route.params.course_id;
-    let student_id='1951014';
+    let student_id=window.sessionStorage.getItem('account_ID')
     this.$axios.get('/attend/getAttendInfoList',
         {
           params:{
@@ -51,7 +51,7 @@ export default {
         }
     ).then(
         (response)=>{
-          // console.log(response.data);
+          console.log(response.data);
           that.attendance_list=response.data;
         }
     )
@@ -66,9 +66,6 @@ export default {
         let id=this.$route.params.course_id;
         let student_id=window.sessionStorage.getItem('account_ID')
         data.append("course_ID",id);
-        console.log(id);
-        console.log(start_time);
-        console.log(student_id);
         data.append("start_time",start_time);
         data.append("student_ID",student_id);
         this.$axios({

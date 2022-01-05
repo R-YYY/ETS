@@ -83,15 +83,15 @@ export default {
 
 <style scoped>
 #feedback{
-  height: 100%;
+  height: 830px;
   margin-top: 30px;
-  margin-left: 170px;
+  margin-left: 150px;
   margin-right: 20px;
   background-color: white;
   padding: 0px 38px;
 }
 .stuFeedbackTab{
-  height: 100%;
+  height: 830px;
   margin-top: 30px;
   margin-left: 170px;
   margin-right: 20px;

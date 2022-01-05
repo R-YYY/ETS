@@ -1,6 +1,6 @@
 <template>
   <div id="Task">
-    <el-tabs class="stuTaskTab" v-model="activeName">
+    <el-tabs class="stuTaskTab" v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="project" >
         <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
@@ -31,11 +31,15 @@ export default {
     }
   },
   mounted() {
-
+    if(window.sessionStorage.getItem('stuTaskName')!=null){
+      this.activeName=window.sessionStorage.getItem('stuTaskName')
+    }
   },
 
   methods:{
-
+    handleClick(tab) {
+      window.sessionStorage.setItem('stuTaskName',tab.name)
+    }
   }
 }
 </script>
@@ -44,13 +48,13 @@ export default {
 #Task{
   height: 100%;
   margin-top: 30px;
-  margin-left: 250px;
+  margin-left: 150px;
   margin-right: 20px;
   background-color:white;
   cursor: context-menu;
 }
 .stuTaskTab{
-  height: 100%;
+  height: 830px;
   margin:30px 20px;
 }
 

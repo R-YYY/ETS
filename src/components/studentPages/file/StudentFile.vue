@@ -1,6 +1,6 @@
 <template>
   <div id="File">
-    <el-tabs class="stuFileTab" v-model="activeName">
+    <el-tabs class="stuFileTab" v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="courseFile">
         <span slot="label" class="paneName"><i class="el-icon-document"></i> 课程参考资料</span>
@@ -26,6 +26,16 @@ export default {
       activeName:'courseFile',
     }
   },
+  mounted() {
+    if(window.sessionStorage.getItem('stuFileName')!=null){
+      this.activeName=window.sessionStorage.getItem('stuFileName')
+    }
+  },
+  methods:{
+    handleClick(tab) {
+      window.sessionStorage.setItem('stuFileName',tab.name)
+    }
+  }
 }
 </script>
 
@@ -33,12 +43,13 @@ export default {
 #File{
   height: 100%;
   margin-top: 30px;
-  margin-left: 250px;
+  margin-left: 150px;
   margin-right: 20px;
   background-color:white;
 }
 .stuFileTab{
-  height: 100%;
+  height: 830px;
+
   margin:30px 20px;
   border: 1px solid red;
 }

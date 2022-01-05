@@ -146,7 +146,7 @@ export default {
     }, 1000);
     // 获取课程的授课教师列表
     let id=this.courseID;
-    console.log(id)
+    // console.log(id)
     this.$axios.get(
         '/course/getTeacherInfoList',{
           params:{
@@ -229,7 +229,7 @@ export default {
 }
 
 .menu{
-  padding-left: 220px;
+  padding-left: 150px;
 }
 
 .stuOption{

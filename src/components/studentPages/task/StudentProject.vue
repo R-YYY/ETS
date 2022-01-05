@@ -62,13 +62,13 @@ export default {
 }
 .box{
   width: 800px;
-  height: 400px;
+  height: 800px;
   /*border: 2px solid red;*/
   overflow: hidden;
 }
 .inner{
   width: 815px;
-  height: 380px;
+  height: 780px;
   overflow: auto;
   padding-right: 10px;
 }
