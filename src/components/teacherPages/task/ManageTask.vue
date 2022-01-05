@@ -85,7 +85,11 @@
               style="width: 550px"
             ></el-input>
           </el-form-item>
-          <el-form-item label="附加文件">
+          <el-form-item label="实验类型" prop="is_file">
+            <el-radio v-model="projectInfo.is_file" label="0" border>固定模板</el-radio>
+            <el-radio v-model="projectInfo.is_file" label="1" border>文件模板</el-radio>
+          </el-form-item>
+          <el-form-item label="附加文件" v-if="projectInfo.is_file==='1'" prop="fileList">
             <!--上传文件区域-->
             <el-upload
               ref="projectUploadFile"
@@ -152,6 +156,10 @@
 export default {
   name: "ManageTask",
   data() {
+    var checkFile = (rule, value, callback) => {
+      if(this.projectInfo.is_file === "1" && this.projectInfo.fileList.length===0)
+        return callback(new Error("选择文件模板时，必须附加文件说明，请添加上传文件！"));
+    };
     return {
       //实验项目对话框信息
       projectDialogVisible: false, //对话框是否可见
@@ -160,20 +168,25 @@ export default {
         name: "",
         description: "",
         time: "",
-        path_number: 0,
         fileList: [],
+        is_file:"",
       },
       projectRules: {
         //实验项目表单验证规则
-        name: [{ required: true, message: "请填写项目名称", trigger: "blur" }],
+        name: [{ required: true, message: "请填写实验名称", trigger: "blur" }],
         time: [
-          { required: true, message: "请选择项目有效时间", trigger: "blur" },
+          { required: true, message: "请选择实验有效时间", trigger: "blur" },
         ],
         description: [
-          { required: true, message: "请填写项目描述", trigger: "blur" },
+          { required: true, message: "请填写实验描述", trigger: "blur" },
         ],
+        is_file: [
+          { required: true, message: "请选择实验类型", trigger: "blur" },
+        ],
+        fileList: [
+          { required: true, validator: checkFile, trigger: 'blur' }
+        ]
       },
-
       //考勤对话框信息
       attendanceDialogVisible: false,
       attendanceTime: null,
@@ -212,7 +225,9 @@ export default {
 
     //重置表单
     resetProject() {
+      console.log(this.projectInfo.is_file)
       this.$refs.ProjectInfo.resetFields();
+      console.log(this.projectInfo.is_file)
       this.projectInfo.fileList = [];
     },
 
@@ -221,14 +236,17 @@ export default {
       this.$refs.ProjectInfo.validate((valid) => {
         if (valid) {
           //添加文件列表
-          this.$refs["projectUploadFile"].submit();
+          if(this.projectInfo.is_file === "1"){
+            this.$refs["projectUploadFile"].submit();
+          }
           //添加项目描述信息
           this.projectData.append("course_ID", this.$route.params.course_id);
           this.projectData.append("name", this.projectInfo.name);
           this.projectData.append("description", this.projectInfo.description);
           this.projectData.append("start_time", this.projectInfo.time[0]);
           this.projectData.append("end_time", this.projectInfo.time[1]);
-          this.projectData.append("teacher_ID", "10100");
+          this.projectData.append("teacher_ID", window.sessionStorage.getItem("account_ID"));
+          this.projectData.append("is_file", this.projectInfo.is_file);
           //文件和项目信息一起提交
           this.$axios({
             url: "/project/add",

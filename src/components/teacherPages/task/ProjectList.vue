@@ -98,9 +98,13 @@
                     v-model="projectInfo.description"
                     autocomplete="off"
                     type="textarea"
-                    :rows="10"
+                    :rows="6"
                     style="width: 550px"
                 ></el-input>
+              </el-form-item>
+              <el-form-item label="实验类型" prop="is_file">
+                <el-radio v-model="projectInfo.is_file" label="0" disabled="true" border>固定模板</el-radio>
+                <el-radio v-model="projectInfo.is_file" label="1" disabled="true" border>文件模板</el-radio>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -257,6 +261,7 @@ export default {
         name:"",
         time:[],
         description:"",
+        is_file:"",
       },
       projectName: "",
       direction: "ltr",
@@ -434,6 +439,7 @@ export default {
         this.projectInfo.name=response.data.name
         this.projectInfo.description=response.data.description
         this.projectInfo.time=[response.data.start_time,response.data.end_time]
+        this.projectInfo.is_file=response.data.is_file
       }).catch()
     },
 
