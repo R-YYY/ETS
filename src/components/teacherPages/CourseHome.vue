@@ -1,7 +1,8 @@
 <template>
   <el-container style="height: 100%">
     <el-header style="height: 7%">
-      <h1 class="title">口v口 Experiment Teaching System 口∧口</h1>
+      <span class="title"><b>口v口 Experiment Teaching System 口∧口</b></span>
+      <el-button class="backHome" @click="toHome" type="primary">返回首页</el-button>
     </el-header>
     <el-container>
       <!--主页侧边栏-->
@@ -81,6 +82,9 @@ export default {
     toFeedback() {
       this.$router.push({ name: "feedbacks" });
     },
+    toHome(){
+      this.$router.push('/teacherhome')
+    }
   },
   mounted() {
     //刷新时保持侧边栏选中
@@ -133,8 +137,16 @@ export default {
 }
 
 .title {
-  font-size: 30px;
-  line-height: 0;
+  font-size: 31px;
+  /*line-height: 0;*/
   text-align: left;
+}
+
+.backHome{
+  height: 38px;
+  position: absolute;
+  top:10%;
+  right: 4.5%;
+  /*margin-left: 500px;*/
 }
 </style>

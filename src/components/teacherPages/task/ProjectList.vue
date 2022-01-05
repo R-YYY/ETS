@@ -33,17 +33,20 @@
                 <div class="eachProject">
                   <el-card class="projectCard">
                     <div slot="header" class="projectName">
-                      <span>实验名称：{{ item.name }}</span>
+                      <span><b>实验名称</b>：{{ item.name }}</span>
                     </div>
                     <div class="projectDes">
-                      <p>发布教师：{{ item.teacher_name }}</p>
-                      <p>发布时间：{{ item.start_time }}</p>
-                      <p>截至时间：{{ item.end_time }}</p>
-                      <p>实验说明：{{ item.description }}</p>
+                      <span class="des"><b>实验说明</b>：{{ item.description }}</span>
+                      <p><b>发布教师</b>：{{ item.teacher_name }}</p>
+                      <span class="time"><b>开始时间</b>：{{ item.start_time }}</span>
+                      <span class="time"><b>截至时间</b>：{{ item.end_time }}</span>
                     </div>
                     <div>
+                      <el-button class="btn" @click="checkProject(item.name)">
+                        <span>实验信息</span>
+                      </el-button>
                       <el-button class="btn" @click="checkReport(item.name)">
-                        <span>查看提交情况</span>
+                        <span>提交情况</span>
                       </el-button>
                     </div>
                   </el-card>
@@ -228,6 +231,10 @@ export default {
       }
     },
 
+    checkProject(data){
+
+    },
+
     //查看实验报告
     checkReport(data) {
       this.projectName = data;
@@ -404,14 +411,14 @@ export default {
 }
 
 .projectCard {
-  height: 350px;
+  height: 330px;
   width: 460px;
 }
 
 .btn {
-  margin-top: 40px;
-  margin-left: 130px;
-  margin-right: 50px;
+  margin-top: 25px;
+  margin-left: 60px;
+  margin-right: 60px;
 }
 
 .projectArea {
@@ -424,12 +431,12 @@ export default {
 }
 
 .projectDes {
-  margin-left: 30px;
-  font-size: 16px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .projectName {
-  margin-left: 30px;
+  margin-left: 10px;
   font-size: 18px;
 }
 
@@ -457,6 +464,21 @@ export default {
 .inputScore {
   height: 25px;
   width: 60px;
+}
+
+.des{
+  height: 85px;
+  line-height: 30px;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.time{
+  font-size: 13px;
+  margin-right: 10px;
 }
 
 .projectInfo{
