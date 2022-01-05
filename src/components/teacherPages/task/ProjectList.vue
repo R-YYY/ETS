@@ -11,6 +11,9 @@
       <el-button type="primary" @click="searchProject">
         <span>搜索</span>
       </el-button>
+      <el-button type="primary" @click="input='';tmpList = projectList">
+        <span>重置</span>
+      </el-button>
     </div>
     <div>
       <el-tabs
@@ -54,6 +57,58 @@
               </el-col>
             </el-row>
           </div>
+
+          <el-dialog
+              title="实验项目信息"
+              :visible.sync="projectDialogVisible"
+              width="680px"
+          >
+            <!--实验信息表单-->
+            <el-form
+                ref="ProjectInfo"
+                :rules="projectRules"
+                :model="projectInfo"
+                label-width="80px"
+            >
+              <el-form-item label="项目名称" prop="name">
+                <el-input
+                    :disabled="true"
+                    v-model="projectInfo.name"
+                    autocomplete="off"
+                    style="width: 550px"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="有效时间" required prop="time">
+                <el-date-picker
+                    :disabled="!isEdit"
+                    v-model="projectInfo.time"
+                    type="datetimerange"
+                    align="right"
+                    start-placeholder="开始时间"
+                    end-placeholder="结束时间"
+                    :default-time="['00:00:00', '23:59:59']"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    style="width: 550px"
+                >
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="项目描述" prop="description">
+                <el-input
+                    :disabled="!isEdit"
+                    v-model="projectInfo.description"
+                    autocomplete="off"
+                    type="textarea"
+                    :rows="10"
+                    style="width: 550px"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button class="btn_dialog" v-if="!isEdit" @click="isEdit=true">编辑</el-button>
+              <el-button class="btn_dialog" v-if="isEdit" type="primary" @click="saveProject">保存</el-button>
+              <el-button class="btn_dialog" type="danger" @click="open">删除</el-button>
+            </div>
+          </el-dialog>
 
           <!--实验提交情况-->
           <el-drawer
@@ -200,15 +255,26 @@ export default {
       reportList: [],
       projectInfo:{
         name:"",
-        start_time:"",
-        end_time:"",
-        description:""
+        time:[],
+        description:"",
       },
       projectName: "",
       direction: "ltr",
       inputScore: "",
+      projectDialogVisible:false,
+      isEdit:false,
       reportDialogVisible: false,
       infoDialogVisible: false,
+      projectRules: {
+        //实验项目表单验证规则
+        name: [{ required: true, message: "请填写项目名称", trigger: "blur" }],
+        time: [
+          { required: true, message: "请选择项目有效时间", trigger: "blur" },
+        ],
+        description: [
+          { required: true, message: "请填写项目描述", trigger: "blur" },
+        ],
+      },
     };
   },
   methods: {
@@ -231,20 +297,141 @@ export default {
       }
     },
 
-    checkProject(data){
+    updateCard(data){
+      for (let i = 0; i < this.projectList.length; i++) {
+        if(this.projectList[i].name === data.get("name")){
+          this.projectList[i].description=data.get("description")
+          this.projectList[i].start_time=data.get("start_time")
+          this.projectList[i].end_time=data.get("end_time")
+          break
+        }
+      }
+      for (let i = 0; i < this.tmpList.length; i++) {
+        if(this.tmpList[i].name === data.get("name")){
+          this.tmpList[i].description=data.get("description")
+          this.tmpList[i].start_time=data.get("start_time")
+          this.tmpList[i].end_time=data.get("end_time")
+          return
+        }
+      }
+    },
 
+    deleteCard(data){
+      for (let i = 0; i < this.projectList.length; i++) {
+        if(this.projectList[i].name === data.get("name")){
+          this.projectList.splice(this.projectList[i],1)
+          break
+        }
+      }
+      for (let i = 0; i < this.tmpList.length; i++) {
+        if(this.tmpList[i].name === data.get("name")){
+          this.tmpList.splice(this.tmpList[i],1)
+          return
+        }
+      }
+    },
+
+    async saveProject(){
+      let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
+      data.append("name",this.projectInfo.name)
+      data.append("description",this.projectInfo.description)
+      data.append("start_time",this.projectInfo.time[0])
+      data.append("end_time",this.projectInfo.time[1])
+      await this.$axios({
+        url:"/project/update",
+        method:"post",
+        data:data,
+        headers: {
+          token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+      }).then((response)=>{
+        console.log(response.data)
+        if(response.data===1){
+          this.isEdit=false
+          this.$message({
+            type: "success",
+            message: "修改成功！",
+          });
+          this.updateCard(data)
+        }
+        else{
+          this.$message({
+            type: "error",
+            message: "修改失败，请重试！",
+          });
+        }
+      }).catch(()=>{
+        this.$message({
+          type: "error",
+          message: "修改失败，请重试！",
+        });
+      })
+    },
+
+    open(){
+      this.$confirm("此操作将从课程中删除该实验及相关实验报告, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.deleteProject()
+      }).catch();
+    },
+
+    deleteProject(){
+      let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
+      data.append("name",this.projectInfo.name)
+      this.$axios({
+        url:"/project/delete",
+        method:"post",
+        data:data,
+        headers: {
+          token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+      }).then((response)=>{
+        console.log(response.data)
+        //TODO 卡片列表删除
+        this.deleteCard(data)
+        this.projectDialogVisible=false
+      })
+    },
+
+    checkProject(name){
+      this.isEdit=false
+      this.projectDialogVisible = true
+      this.projectInfo.name=""
+      this.projectInfo.description=""
+      this.$axios({
+        url:"/project/get",
+        method:"get",
+        params:{
+          course_ID:this.$route.params.course_id,
+          name:name
+        },
+        headers: {
+          token:
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+      }).then((response)=>{
+        console.log(response.data)
+        this.projectInfo.name=response.data.name
+        this.projectInfo.description=response.data.description
+        this.projectInfo.time=[response.data.start_time,response.data.end_time]
+      }).catch()
     },
 
     //查看实验报告
-    checkReport(data) {
-      this.projectName = data;
+    checkReport(name) {
+      this.projectName = name;
       this.reportList = [];
       this.$axios({
         url: "/report/getTotalReport",
         method: "get",
         params: {
           course_ID: this.$route.params.course_id,
-          project_name: data,
+          project_name: name,
         },
         headers: {
           token:
