@@ -13,7 +13,7 @@ export default {
   name: "ProjectGrade",
   mounted() {
     let id=this.$route.params.course_id;
-    let student_id='1951014';
+    let student_id=window.sessionStorage.getItem('account_ID')
     this.$axios.get('/score/getStuProScoreList',{
       params:{
         course_ID:id,

@@ -49,6 +49,7 @@ export default {
         })
         .then((response)=>{
           this.project_list=response.data
+          console.log(response.data)
         })
   }
 }
