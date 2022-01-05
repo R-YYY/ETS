@@ -89,11 +89,11 @@ const routes = [
     name:'Register',
     component:Register
   },
-  // {
-  //   path:'/stuinfoset',
-  //   name:'StudentInfoSet',
-  //   component:()=>import('@/components/studentPages/StudentInfoSet.vue'),
-  // },
+  {
+    path:'/stuinfoset',
+    name:'StudentInfoSet',
+    component:()=>import('@/components/studentPages/StudentInfoSet.vue'),
+  },
   {
     path:'/teainfoset',
     name:'TeacherInfoSet',
