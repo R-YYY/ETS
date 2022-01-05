@@ -11,7 +11,7 @@
       <el-button type="primary" @click="searchProject">
         <span>搜索</span>
       </el-button>
-      <el-button type="primary" @click="input='';tmpList = projectList">
+      <el-button @click="input='';tmpList = projectList">
         <span>重置</span>
       </el-button>
     </div>

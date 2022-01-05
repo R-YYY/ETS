@@ -36,12 +36,14 @@
               <el-table-column
                   prop="number"
                   label="考勤人数"
-                  width="200px"
+                  width="150px"
               ></el-table-column>
-              <el-table-column width="150px">
+              <el-table-column width="200px">
                 <template slot-scope="scope">
                 <el-button type="text" @click="attendInfo(scope.row)"
                   >查看详情</el-button>
+                  <el-button type="text" @click="open(scope.row)" style="margin-left: 50px"
+                  >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -117,6 +119,51 @@ export default {
 
     filterAttend(value, row) {
       return row.attend_state === value;
+    },
+
+    open(row){
+      this.$confirm("此操作将从课程中删除该考勤及相关考勤记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.deleteAttend(row)
+      }).catch();
+    },
+
+    deleteAttend(row){
+      let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
+      data.append("start_time",row.start_time)
+      data.append("end_time",row.end_time)
+      this.$axios({
+        url:"/attend/deleteAttendance",
+        method:"post",
+        data:data,
+        headers: {
+          token:
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        },
+      }).then((response)=>{
+        if(response.data === 1){
+          this.attendList.splice(row,1)
+          this.$message({
+            type: "success",
+            message: "删除成功！",
+          });
+        }
+        else{
+          this.$message({
+            type: "error",
+            message: "删除失败，请重试！",
+          });
+        }
+      }).catch(()=>{
+        this.$message({
+          type: "error",
+          message: "删除失败，请重试！",
+        });
+      })
     },
 
     attendInfo(row){

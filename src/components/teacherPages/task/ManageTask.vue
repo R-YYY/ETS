@@ -81,7 +81,7 @@
               v-model="projectInfo.description"
               autocomplete="off"
               type="textarea"
-              :rows="10"
+              :rows="6"
               style="width: 550px"
             ></el-input>
           </el-form-item>
