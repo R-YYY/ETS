@@ -5,7 +5,9 @@
         <div class="projectCard" v-for="project in project_list">
           <el-descriptions :title="project.name" :column="2">
             <template slot="extra">
-              <router-link :to="{path:`/stuProjectInfo`,query:{course_ID: course_id,name: project.name}}" target="_blank">
+              <router-link :to="{path:`/stuProjectInfo`,
+              query:{course_ID: course_id,name: project.name,student_ID:student_id}}"
+                           target="_blank">
                 <el-button type="primary" icon="el-icon-edit" plain id="checkButton" size="medium">
                   <span id="buttonText">去完成</span>
                 </el-button>
@@ -23,14 +25,12 @@
 </template>
 
 <script>
-
-import router from "@/router";
-
 export default {
   data(){
     return{
       project_list:[],
       course_id:this.$route.params.course_id,
+      student_id:window.sessionStorage.getItem('account_ID')
     }
   },
   methods:{

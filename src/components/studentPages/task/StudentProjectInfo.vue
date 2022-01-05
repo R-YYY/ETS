@@ -1,62 +1,64 @@
 <template>
   <div id="projectInfo">
-    <div class="title">{{project_name}}</div>
-    <div class="backButton">
+    <div v-if="!is_file">
+
     </div>
-    <div class="end_time">截止时间 : {{project.end_time}}</div>
+    <div v-if="is_file">
+      <div class="top" style="padding-right: 200px">
+        <div class="title">{{project_name}}</div>
+        <!--      <div class="backButton"></div>-->
+        <div class="end_time">截止时间 : {{project.end_time}}</div>
+      </div>
 
-    <div class="contents">
-      <el-card class="description" shadow="never">
-        <div slot="header" class="clearfix">
-          <span style="font-weight: bolder">实验项目说明 ：</span>
-        </div>
-        <div class="text item">
-          {{project.description}}
-        </div>
-      </el-card>
+      <div class="contents">
+        <el-card class="description" shadow="never">
+          <div slot="header" class="clearfix">
+            <span style="font-weight: bolder">实验项目说明 ：</span>
+          </div>
+          <div class="text item">
+            {{project.description}}
+          </div>
+        </el-card>
 
-      <el-card class="description" shadow="never">
-        <div slot="header" class="clearfix">
-          <span style="font-weight: bolder">文件 ： </span>
-        </div>
-        <div v-for="file in files" class="fileName" @click="handleDownload(file.file_name)">
-          {{file.file_name}}
-        </div>
-      </el-card>
+        <el-card class="description" shadow="never">
+          <div slot="header" class="clearfix">
+            <span style="font-weight: bolder">文件 ： </span>
+          </div>
+          <div v-for="file in files" class="fileName" @click="handleDownload(file.file_name)">
+            {{file.file_name}}
+          </div>
+        </el-card>
 
-      <el-card class="description" shadow="never">
-        <div slot="header" class="clearfix">
-          <span style="font-weight: bolder">实验报告 ： </span>
-        </div>
-
-        <el-upload
-            action="#"
-            multiple
-            :show-file-list="false"
-            ref="projectUploadFile"
-            :http-request="handleUpload"
-            >
-          <el-button slot="trigger" size="medium" type="primary" id="button_selectFile">
-            <span style="font-size: 16px">选取文件</span>
-          </el-button>
-          <el-button type="primary" icon="el-icon-upload2"
-                     plain size="medium" style="margin-left: 700px;margin-bottom: 10px"
-                     @click="submit" id="button_uploadFile">
-            <span style="font-size: 17px">确认上传</span>
-          </el-button>
-
-          <div class="el-upload__tip"  id="label_fileLimits">
-            只能上传docx/doc/pdf文件，且不超过10Mb
+        <el-card class="description" shadow="never">
+          <div slot="header" class="clearfix">
+            <span style="font-weight: bolder">实验报告 ： </span>
           </div>
 
-
-          
-          <div v-if="has_submitted" style="margin-top: 20px">
-            <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
-            <span class="fileName" @click="downloadReport">{{this.report_name}}</span>
-          </div>
-        </el-upload>
-      </el-card>
+          <el-upload
+              action="#"
+              multiple
+              ref="projectUploadFile"
+              :http-request="handleUpload"
+              :show-file-list="false"
+          >
+            <el-button slot="trigger" size="medium" type="primary" id="button_selectFile" style="margin-bottom: 15px;">
+              <span style="font-size: 16px;display: block">上传实验报告</span>
+            </el-button>
+<!--            <el-button type="primary" icon="el-icon-upload2"-->
+<!--                       plain size="medium" style="margin-left: 700px;margin-bottom: 10px"-->
+<!--                       @click="submit" id="button_uploadFile">-->
+<!--              <span style="font-size: 17px">确认上传</span>-->
+<!--            </el-button>-->
+            <div class="el-upload__tip"  id="label_fileLimits">
+              只能上传docx/doc/pdf文件，且不超过10Mb
+            </div>
+            <div v-if="has_submitted" style="margin-top: 20px">
+              <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
+              <span class="fileName" @click="downloadReport">{{this.report_name}}</span>
+            </div>
+          </el-upload>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -67,13 +69,14 @@ export default {
   data(){
     return{
       course_ID: this.$route.query.course_ID,
+      student_ID: this.$route.query.student_ID,
       project_name: this.$route.query.name,
       project : {},
       files:[],
       // files为实验资料列表
-      student_ID: '1951014',
       has_submitted:false,
       report_name:'',
+      is_file:true,
     };
   },
   methods:{
@@ -83,23 +86,29 @@ export default {
     handleUpload(file) {
       let data = new FormData();
       data.append("course_ID", this.course_ID);
+      console.log(this.course_ID)
       data.append("student_ID", this.student_ID);
+      console.log(this.student_ID)
       data.append("project_name", this.project.name);
+      console.log(this.project_name)
       data.append("file", file.file);
+      console.log(file)
+      console.log(data)
       this.$axios({
-        url: "report/add",
+        url: "report/upload",
         method: "post",
         data: data,
         headers:{
           token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         if (response.data === 1) {
           this.$message({
             type: "success",
             message: file.file.name + " 上传成功！",
           });
+          location.reload();
         }
         else {
           this.$message({
@@ -126,8 +135,6 @@ export default {
     },
     handleDownload(fileName) {
       var folderName=this.project_name;
-      // console.log('begin?')
-      // console.log(folderName)
       var id=this.course_ID;
       var path='/实验资料/'+folderName;
       let data = new FormData();
@@ -135,7 +142,6 @@ export default {
       data.append("path", path);
       data.append("file_name", fileName);
       this.downloadFile(data);
-      // this.downloadFile(data, fileName);
     },
     downloadFile(data) {
       this.$axios({
@@ -284,8 +290,8 @@ export default {
 
 <style scoped>
 #projectInfo{
-  width: 1150px;
-  height: 700px;
+  width: 1350px;
+  /*height: 700px;*/
   overflow: hidden;
   margin-top: 25px;
   margin-left: 210px;
@@ -298,6 +304,7 @@ export default {
   width: 1200px;
   height: 600px;
   overflow: auto;
+  padding-right: 200px;
 }
 .backButton{
   margin-left: 60px;
