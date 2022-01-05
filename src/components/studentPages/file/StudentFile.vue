@@ -40,6 +40,7 @@ export default {
 .stuFileTab{
   height: 100%;
   margin:30px 20px;
+  border: 1px solid red;
 }
 .paneName{
   height: 100%;

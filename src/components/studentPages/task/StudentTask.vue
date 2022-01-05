@@ -2,12 +2,12 @@
   <div id="Task">
     <el-tabs class="stuTaskTab" v-model="activeName">
 
-      <el-tab-pane name="project">
+      <el-tab-pane name="project" >
         <span slot="label" class="paneName"><i class="el-icon-date"></i> 实验项目</span>
         <StudentProject></StudentProject>
       </el-tab-pane>
 
-      <el-tab-pane name="attendance">
+      <el-tab-pane name="attendance" >
         <span slot="label" class="paneName"><i class="el-icon-location-outline"></i> 考勤</span>
         <StudentAttendance></StudentAttendance>
       </el-tab-pane>
@@ -31,7 +31,11 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$route.params.course_id+"----stuTask");
+
+  },
+
+  methods:{
+
   }
 }
 </script>

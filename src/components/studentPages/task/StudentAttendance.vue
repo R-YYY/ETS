@@ -63,8 +63,8 @@ export default {
       }
       else{
         let data = new FormData();
-        let id=this.course_ID;
-        let student_id='1951014';
+        let id=this.$route.params.course_id;
+        let student_id=window.sessionStorage.getItem('account_ID')
         data.append("course_ID",id);
         console.log(id);
         console.log(start_time);
@@ -75,6 +75,9 @@ export default {
           url:'/attend/addAttend',
           method:"POST",
           data:data,
+          headers:{
+            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+          }
         })
             .then((response) => {
               console.log(response.data);

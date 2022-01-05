@@ -69,9 +69,6 @@
             <span style="font-size: 20px">课程信息</span>
           </div>
           <div>
-<!--            <p>{{course.course_ID}}</p>-->
-<!--            <P>{{courseID}}</P>-->
-<!--            <p>{{course.name}}</p>-->
             <p>{{course.description}}</p>
           </div>
         </el-card>
@@ -162,8 +159,8 @@ export default {
     ).then(
         (response)=>{
           this.teacher_list=response.data;
-          console.log('teacher_list')
-          console.log(response.data)
+          // console.log('teacher_list')
+          // console.log(response.data)
         }
     )
     this.$axios.get(
@@ -262,9 +259,10 @@ export default {
 }
 
 .courseInfo{
-  margin-left: 20px;
-  margin-right: 120px;
-  margin-top: 30px;
+  margin: 30px 120px 20px 20px;
+  /*border: 1px solid red;*/
+  height: 400px;
+  overflow: auto;
 }
 
 .timeArea{

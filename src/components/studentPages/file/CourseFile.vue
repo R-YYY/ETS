@@ -31,6 +31,7 @@ export default {
       }
     }).then((response)=>{
       this.course_files=response.data;
+      console.log(response.data)
     });
   },
   methods: {
