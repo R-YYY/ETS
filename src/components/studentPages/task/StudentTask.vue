@@ -35,7 +35,6 @@ export default {
       this.activeName=window.sessionStorage.getItem('stuTaskName')
     }
   },
-
   methods:{
     handleClick(tab) {
       window.sessionStorage.setItem('stuTaskName',tab.name)

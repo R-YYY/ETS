@@ -2,24 +2,34 @@
   <div id="stuAttendance">
     <el-table
         :data="attendance_list"
-        style="width: 100%;padding-left: 50px;font-size: 17px"
+        style="width: 100%;padding-left: 60px;font-size: 17px"
         :default-sort = "{prop: 'start_time', order: 'descending'}"
     >
-      <el-table-column style="padding-left: 20px;font-size: 17px" prop="start_time"
-          label="时间"
+      <el-table-column style="padding-left: 20px;font-size: 15px" prop="start_time"
+          label="开始时间"
           sortable
-          width="500">
+          width="250">
         <template slot-scope="scope">
           <span class="time">{{ scope.row.start_time }}</span>
         </template>
       </el-table-column>
+      <el-table-column style="padding-left: 10px;font-size: 15px" prop="end_time"
+                       label="截止时间"
+                       sortable
+                       width="300">
+        <template slot-scope="scope">
+          <span class="time">{{ scope.row.end_time }}</span>
+        </template>
+      </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <div :class="[{'success':(scope.row.attend_type === '出勤')},
+            <div
+                :class="[{'success':(scope.row.attend_type === '出勤')},
                 {'danger':(scope.row.attend_type === '缺勤')},
                 {'normal':(scope.row.attend_type === '待考勤')}
                 ]"
-              @click="btnClick(scope.row.attend_type,scope.row.start_time)">{{ scope.row.attend_type }}</div>
+                 @click="btnClick(scope.row.attend_type,scope.row.start_time)">{{ scope.row.attend_type }}
+            </div>
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +61,7 @@ export default {
         }
     ).then(
         (response)=>{
-          console.log(response.data);
+          // console.log(response.data);
           that.attendance_list=response.data;
         }
     )
@@ -112,7 +122,7 @@ export default {
 .time{
   height: 40px;
   margin-top: 8px;
-  font-size: 18px;
+  font-size: 17px;
 }
 .success{
   float: right;
@@ -144,6 +154,10 @@ export default {
   border-radius: 5px;
   padding: 6px 8px;
   background: rgba(24,207,201,0.06);
+}
+.normal:hover{
+  color: rgb(11, 190, 185);
+  border: 1px solid rgba(104, 202, 238, 0.7);
 }
 
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="StudentGrade">
-    <el-tabs class="stuGradeTab" v-model="activeName">
+    <el-tabs class="stuGradeTab" v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="total">
         <span slot="label" class="paneName"><i class="el-icon-user-solid"></i> 成绩权重</span>
@@ -32,6 +32,16 @@ export default {
       activeName:'total',
     }
   },
+  mounted() {
+    if(window.sessionStorage.getItem('stuGradeName')!=null){
+      this.activeName=window.sessionStorage.getItem('stuGradeName')
+    }
+  },
+  methods:{
+    handleClick(tab) {
+      window.sessionStorage.setItem('stuGradeName',tab.name)
+    }
+  }
 }
 </script>
 

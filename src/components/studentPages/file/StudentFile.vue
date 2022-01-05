@@ -49,9 +49,8 @@ export default {
 }
 .stuFileTab{
   height: 830px;
-
   margin:30px 20px;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
 }
 .paneName{
   height: 100%;

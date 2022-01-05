@@ -1,7 +1,9 @@
 <template>
   <div id="CourseFile">
-    <div>
-      无
+    <div v-if="total_null" class="total-null">
+      <el-divider></el-divider>
+      <div style="font-size: 17px;text-align: center">暂无文件</div>
+      <el-divider></el-divider>
     </div>
     <div class="FolderCard" v-for="info in project_files" v-if="show_folderName(info.fileName)">
       <div class="projectName" style="font-size: 18px;">【{{info.folderName}}】</div>
@@ -19,6 +21,7 @@ export default {
   data(){
     return{
       project_files: [],
+      total_null:true,
     }
   },
   mounted() {
@@ -33,7 +36,12 @@ export default {
       }
     }).then((response)=>{
       this.project_files=response.data;
-      console.log(response.data)
+      // console.log(response.data)
+      for(let i=0; i<this.project_files.length; i++){
+        if(this.project_files[i].fileName.length>0){
+          this.total_null=false;
+        }
+      }
     })
   },
   methods: {
@@ -113,5 +121,11 @@ export default {
 }
 a:hover{
   text-decoration: none;
+}
+.total-null{
+  width: 92%;
+  margin-top: 15px;
+  margin-left: 30px;
+  font-size: 17px;
 }
 </style>

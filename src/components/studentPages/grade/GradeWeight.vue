@@ -40,11 +40,11 @@ export default {
           left: 'center'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
         },
         legend: {
           orient: 'vertical',
-          left: 'left'
+          left: 'left',
         },
         series: [
           {
@@ -52,14 +52,14 @@ export default {
             type: 'pie',
             radius: '50%',
             data: [
-              { value: a_percentage, name: '考勤' },
+              { value: a_percentage, name: '考勤',},
               { value: p_percentage, name: '实验' },
             ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
               }
             }
           }
@@ -86,8 +86,8 @@ export default {
   background-color: white;
 }
 #shape{
-  width: 520px;
-  height: 430px;
+  width: 550px;
+  height: 440px;
   /*border: 1px solid black;*/
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 15px 0 rgba(0, 0, 0, 0.14);
   border-radius: 10px;

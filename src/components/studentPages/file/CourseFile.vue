@@ -1,5 +1,10 @@
 <template>
   <div id="CourseFile">
+    <div v-if="total_null" class="total-null">
+      <el-divider></el-divider>
+      <div style="font-size: 17px;text-align: center">暂无文件</div>
+      <el-divider></el-divider>
+    </div>
     <div class="FolderCard" v-for="info in course_files" v-if="show_folderName(info.fileName)">
       <div class="projectName" style="font-size: 18px;">【{{info.folderName}}】</div>
       <div v-for="file in info.fileName" class="fileName" @click="handleDownload(info.folderName,file)">
@@ -17,6 +22,7 @@ export default {
   data(){
     return{
       course_files: [],
+      total_null:true,
     }
   },
     mounted() {
@@ -32,6 +38,11 @@ export default {
     }).then((response)=>{
       this.course_files=response.data;
       console.log(response.data)
+      for(let i=0; i<this.course_files.length; i++){
+        if(this.course_files[i].fileName.length>0){
+          this.total_null=false;
+        }
+      }
     });
   },
   methods: {
@@ -113,6 +124,12 @@ export default {
 }
 a:hover{
   text-decoration: none;
+}
+.total-null{
+  width: 92%;
+  margin-top: 15px;
+  margin-left: 30px;
+  font-size: 17px;
 }
 
 </style>
