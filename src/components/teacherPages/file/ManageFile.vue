@@ -9,7 +9,7 @@
         >
         </el-input>
         <el-button>搜索</el-button>
-        <el-button :disabled="!showOperation()">新建文件夹</el-button>
+        <el-button>新建文件夹</el-button>
         <el-tooltip
           class="item"
           effect="dark"

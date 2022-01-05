@@ -391,10 +391,25 @@ export default {
           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       }).then((response)=>{
-        console.log(response.data)
-        //TODO 卡片列表删除
-        this.deleteCard(data)
-        this.projectDialogVisible=false
+        if(response.data === 1){
+          this.$message({
+            type: "success",
+            message: "删除成功！",
+          });
+          this.deleteCard(data)
+          this.projectDialogVisible=false
+        }
+        else{
+          this.$message({
+            type: "error",
+            message: "删除失败，请重试！",
+          });
+        }
+      }).catch(()=>{
+        this.$message({
+          type: "error",
+          message: "删除失败，请重试！",
+        });
       })
     },
 
