@@ -42,6 +42,10 @@
         <span>课程反馈</span>
       </el-menu-item>
 
+      <el-menu-item index="6" class="toHome" style="margin-left: 300px;" @click="toHome">
+        <span>返回我的主页</span>
+      </el-menu-item>
+
     </el-menu>
 
     <el-container>
@@ -107,6 +111,9 @@ export default {
     },
     toFeedback(){
       this.$router.push({name:'stuFeedbacks'})
+    },
+    toHome(){
+      this.$router.push({name:'StudentHome'})
     }
   },
   mounted() {
@@ -236,6 +243,11 @@ export default {
   font-size: 18px;
   width: 150px;
   text-align: center;
+}
+.toHome{
+  width: 200px;
+  text-align: center;
+  font-size: 25px;
 }
 
 .courseInfoArea{

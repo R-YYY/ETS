@@ -1,21 +1,91 @@
 <template>
   <div id="projectInfo">
-    <div v-if="!is_file">
-
-    </div>
-    <div v-if="is_file">
+    <div>
       <div class="top" style="padding-right: 200px">
         <div class="title">{{project_name}}</div>
         <!--      <div class="backButton"></div>-->
         <div class="end_time">截止时间 : {{project.end_time}}</div>
       </div>
 
-      <div class="contents">
+      <div v-if="!is_file" class="model-report">
+        <div class="model-text">
+          <div class="item">
+            <div class="item-title">实验目的：</div>
+            <!--          <textarea rows="5" cols="108" id="purpose" name="message"></textarea>-->
+            <el-input
+                name="input"
+                type="textarea"
+                :autosize="true"
+                placeholder="请输入内容"
+                v-model="purpose"
+                maxlength="1000"
+                show-word-limit style="font-size: 19px">
+            </el-input>
+          </div>
+          <div class="item">
+            <div class="item-title">实验原理：</div>
+            <!--        <textarea rows="5" cols="108" id="principle" name="message"></textarea>-->
+            <el-input
+                name="input"
+                type="textarea"
+                :autosize="true"
+                placeholder="请输入内容"
+                v-model="principle"
+                maxlength="1000"
+                show-word-limit style="font-size: 19px">
+            </el-input>
+          </div>
+          <div class="item">
+            <div class="item-title">实验设备：</div>
+            <!--        <textarea rows="5" cols="108" id="device" name="message"></textarea>-->
+            <el-input
+                name="input"
+                type="textarea"
+                :autosize="true"
+                placeholder="请输入内容"
+                v-model="device"
+                maxlength="1000"
+                show-word-limit style="font-size: 19px">
+            </el-input>
+          </div>
+          <div class="item">
+            <div class="item-title">实验步骤：</div>
+            <!--        <textarea rows="5" cols="108" id="content" name="message"></textarea>-->
+            <el-input
+                name="input"
+                type="textarea"
+                :autosize="true"
+                placeholder="请输入内容"
+                v-model="steps"
+                maxlength="3000"
+                show-word-limit style="font-size: 19px">
+            </el-input>
+          </div>
+          <div class="item">
+            <div class="item-title">实验结论：</div>
+            <!--        <textarea rows="5" cols="108" id="summary" name="message"></textarea>-->
+            <el-input
+                name="input"
+                type="textarea"
+                :autosize="true"
+                placeholder="请输入内容"
+                v-model="conclusion"
+                maxlength="1000"
+                show-word-limit style="font-size: 19px">
+            </el-input>
+          </div>
+          <div class="button-area">
+            <el-button type="primary" class="submit-button" style="font-size: 18px">暂时保存</el-button>
+            <el-button type="primary" class="submit-button" style="font-size: 18px">确认提交</el-button>
+          </div>
+        </div>
+      </div>
+      <div v-if="is_file" class="contents">
         <el-card class="description" shadow="never">
           <div slot="header" class="clearfix">
             <span style="font-weight: bolder">实验项目说明 ：</span>
           </div>
-          <div class="text item">
+          <div class="text-item">
             {{project.description}}
           </div>
         </el-card>
@@ -41,14 +111,13 @@
               :http-request="handleUpload"
               :show-file-list="false"
           >
-            <el-button slot="trigger" size="medium" type="primary" id="button_selectFile" style="margin-bottom: 15px;">
+            <el-button slot="trigger" size="medium" type="primary"
+                       id="button_selectFile"
+                       style="margin-bottom: 15px;"
+            >
               <span style="font-size: 16px;display: block">上传实验报告</span>
             </el-button>
-<!--            <el-button type="primary" icon="el-icon-upload2"-->
-<!--                       plain size="medium" style="margin-left: 700px;margin-bottom: 10px"-->
-<!--                       @click="submit" id="button_uploadFile">-->
-<!--              <span style="font-size: 17px">确认上传</span>-->
-<!--            </el-button>-->
+
             <div class="el-upload__tip"  id="label_fileLimits">
               只能上传docx/doc/pdf文件，且不超过10Mb
             </div>
@@ -76,12 +145,58 @@ export default {
       // files为实验资料列表
       has_submitted:false,
       report_name:'',
-      is_file:true,
+      is_file: true,
+      is_expired:false,
+      purpose:'',
+      principle:'',
+      device:'',
+      steps:'',
+      conclusion:'',
     };
   },
   methods:{
     submit(){
       this.$refs["projectUploadFile"].submit();
+    },
+    submitAnswer(){
+      let data = new FormData();
+      data.append("course_ID", this.course_ID);
+      data.append("student_ID", this.student_ID);
+      data.append("project_name", this.project.name);
+      data.append("purpose",this.purpose);
+      data.append("principle",this.principle);
+      data.append("device",this.device);
+      data.append("steps",this.steps);
+      data.append("conclusion",this.conclusion);
+      this.$axios({
+        url: "report/upload",
+        method: "post",
+        data: data,
+        headers:{
+          token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        }
+      }).then((response) => {
+        console.log(response.data);
+        if (response.data === 1) {
+          this.$message({
+            type: "success",
+            message: file.file.name + " 上传成功！",
+          });
+          location.reload();
+        }
+        else {
+          this.$message({
+            type: "error",
+            message: "上传失败！请重试！",
+          });
+        }
+      })
+          .catch(() => {
+            this.$message({
+              type: "error",
+              message: "上传失败！请重试！",
+            });
+          });
     },
     handleUpload(file) {
       let data = new FormData();
@@ -93,7 +208,6 @@ export default {
       console.log(this.project_name)
       data.append("file", file.file);
       console.log(file)
-      console.log(data)
       this.$axios({
         url: "report/upload",
         method: "post",
@@ -178,8 +292,8 @@ export default {
     },
     downloadReport() {
       var id=this.course_ID;
-      console.log('begin')
-      console.log(id)
+      // console.log('begin')
+      // console.log(id)
       let data = new FormData();
       data.append("course_ID", this.course_ID);
       data.append("project_name", this.project_name);
@@ -229,6 +343,12 @@ export default {
         })
     .then((response)=>{
       this.project = response.data;
+      if(this.project.is_file=="0"){
+        this.is_file=false;
+      }
+      else{
+        this.is_file=true;
+      }
       if(this.project.description==''||this.project.description==null){
         this.project.description='暂无实验项目介绍';
       }
@@ -238,9 +358,9 @@ export default {
           message: '已过截止时间，你只能查看实验，不能提交实验报告！',
           type: 'error'
         });
-        document.getElementById('button_selectFile').style.display='none';
-        document.getElementById('button_uploadFile').style.display='none';
-        document.getElementById('label_fileLimits').style.display='none';
+        // document.getElementById('button_selectFile').style.display='none'
+        // document.getElementById('label_fileLimits').style.display='none';
+        this.is_expired=true
       }
     });
 
@@ -284,6 +404,16 @@ export default {
           this.files=response.data;
         });
 
+  },
+  updated() {
+    if(this.is_expired){
+      var htmls = document.getElementsByName('input')
+      for(var i=0 ;i<htmls.length; i++){
+        htmls[i].disabled=true
+        // console.log('updated'+htmls[i].disabled)
+      }
+    }
+
   }
 }
 </script>
@@ -291,13 +421,13 @@ export default {
 <style scoped>
 #projectInfo{
   width: 1350px;
-  /*height: 700px;*/
+  /*height: 1300px;*/
   overflow: hidden;
   margin-top: 25px;
   margin-left: 210px;
   margin-right: 20px;
   padding:5px 10px;
-  /*border: 2px solid rgba(0,0,0,0.5);*/
+  /*border: 2px solid rgba(0,0,200,0.5);*/
   border-radius: 5px;
 }
 .contents{
@@ -331,7 +461,7 @@ export default {
   margin: 40px auto;
 }
 .fileName{
-  margin-top: 15px;
+  margin-bottom: 10px;
   margin-left: 30px;
   color: rgba(11,159,250,1);
   cursor: context-menu;
@@ -342,4 +472,38 @@ export default {
 a:hover{
   text-decoration: none;
 }
+.model-report{
+  /*border: 1px solid red;*/
+  width: 1300px;
+  height: 500px;
+  padding-bottom: 100px;
+  overflow: hidden;
+}
+.model-text{
+  width: 1200px;
+  height: 600px;
+  padding-right: 300px;
+  /*border: 1px solid pink;*/
+  overflow: auto;
+}
+.item{
+  margin: 20px 0 0px 0;
+}
+.item-title{
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.submit-button{
+  width: 110px;
+  height: 40px;
+  background-color: #18cfc9;
+  border-radius: 5px;
+  border: none;
+  margin-left: 10px;
+  margin-right: 50px;
+}
+.button-area{
+  padding: 20px 400px 20px 420px;
+}
+
 </style>
