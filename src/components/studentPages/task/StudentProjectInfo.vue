@@ -15,7 +15,7 @@
             <el-input
                 name="input"
                 type="textarea"
-                :autosize="true"
+                :autosize="{minRows:5}"
                 placeholder="请输入内容"
                 v-model="purpose"
                 maxlength="1000"
@@ -28,7 +28,7 @@
             <el-input
                 name="input"
                 type="textarea"
-                :autosize="true"
+                :autosize="{minRows:5}"
                 placeholder="请输入内容"
                 v-model="principle"
                 maxlength="1000"
@@ -41,7 +41,7 @@
             <el-input
                 name="input"
                 type="textarea"
-                :autosize="true"
+                :autosize="{minRows:5}"
                 placeholder="请输入内容"
                 v-model="device"
                 maxlength="1000"
@@ -54,7 +54,7 @@
             <el-input
                 name="input"
                 type="textarea"
-                :autosize="true"
+                :autosize="{minRows:5}"
                 placeholder="请输入内容"
                 v-model="steps"
                 maxlength="3000"
@@ -67,7 +67,7 @@
             <el-input
                 name="input"
                 type="textarea"
-                :autosize="true"
+                :autosize="{minRows:5}"
                 placeholder="请输入内容"
                 v-model="conclusion"
                 maxlength="1000"
@@ -75,8 +75,10 @@
             </el-input>
           </div>
           <div class="button-area">
-            <el-button type="primary" class="submit-button" style="font-size: 18px">暂时保存</el-button>
-            <el-button type="primary" class="submit-button" style="font-size: 18px">确认提交</el-button>
+            <el-button type="primary" class="submit-button" style="font-size: 18px"
+                       @click="saveIt">暂时保存</el-button>
+            <el-button type="primary" class="submit-button" style="font-size: 18px"
+                       @click="submitIt">确认提交</el-button>
           </div>
         </div>
       </div>
@@ -155,6 +157,22 @@ export default {
     };
   },
   methods:{
+    saveIt(){
+      if(this.is_expired){
+        window.alert('do nothing')
+      }
+      else{
+        window.alert('do save')
+      }
+    },
+    submitIt(){
+      if(this.is_expired){
+        window.alert('do nothing')
+      }
+      else{
+        window.alert('do submit')
+      }
+    },
     submit(){
       this.$refs["projectUploadFile"].submit();
     },
@@ -201,13 +219,13 @@ export default {
     handleUpload(file) {
       let data = new FormData();
       data.append("course_ID", this.course_ID);
-      console.log(this.course_ID)
+      // console.log(this.course_ID)
       data.append("student_ID", this.student_ID);
-      console.log(this.student_ID)
+      // console.log(this.student_ID)
       data.append("project_name", this.project.name);
-      console.log(this.project_name)
+      // console.log(this.project_name)
       data.append("file", file.file);
-      console.log(file)
+      // console.log(file)
       this.$axios({
         url: "report/upload",
         method: "post",
@@ -413,7 +431,6 @@ export default {
         // console.log('updated'+htmls[i].disabled)
       }
     }
-
   }
 }
 </script>

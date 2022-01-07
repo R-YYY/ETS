@@ -177,6 +177,7 @@ export default {
     },
 
     handleUpload(file) {
+      console.log(file)
       let data = new FormData();
       data.append("course_ID", this.$route.params.course_id);
       data.append("path", this.filePath);
@@ -191,7 +192,7 @@ export default {
         },
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data === 1) {
             this.$message({
               type: "success",
