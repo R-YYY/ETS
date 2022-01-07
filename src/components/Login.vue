@@ -47,14 +47,13 @@
 </template>
 
 <script>
-import Qs from "qs";
 export default {
   data() {
     return {
       res: null,
       loginForm: {
-        id: "",
-        password: "",
+        id: "1951016",
+        password: "111111psw",
       },
       // 表单验证
       loginFormRules: {
@@ -110,8 +109,9 @@ export default {
       })
         .then((response) => {
           console.log("传出的" + response.data);
-          console.log(response.data)
-          if (response.data[0] !== "-1")
+          console.log(response.data);
+          // 若验证失败则后端返回空对象{}，判断是否为空对象↓
+          if (Object.keys(response.data).length !== 0)
             this.$message({
               type: "success",
               message: "登录成功",
@@ -119,7 +119,7 @@ export default {
           else
             this.$message({
               type: "error",
-              message: "登录失败",
+              message: "用户名或密码错误",
             });
           window.sessionStorage.setItem("account_ID", response.data[0]);
           window.sessionStorage.setItem("token", response.data[1]);
@@ -131,7 +131,10 @@ export default {
             this.$router.push("/adminhome");
         })
         .catch(function (error) {
-          console.log(error);
+          this.$message({
+            type: "error",
+            message: "网络错误",
+          });
         });
     },
   },
@@ -192,5 +195,4 @@ body {
 .white_Item .el-form-item__label {
   color: white;
 }
-
 </style>
