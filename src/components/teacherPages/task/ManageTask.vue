@@ -89,7 +89,7 @@
             <el-radio v-model="projectInfo.is_file" label="0" border>固定模板</el-radio>
             <el-radio v-model="projectInfo.is_file" label="1" border>文件模板</el-radio>
           </el-form-item>
-          <el-form-item label="附加文件" v-if="projectInfo.is_file==='1'" prop="fileList">
+          <el-form-item label="附加文件" prop="fileList">
             <!--上传文件区域-->
             <el-upload
               ref="projectUploadFile"
@@ -156,10 +156,6 @@
 export default {
   name: "ManageTask",
   data() {
-    var checkFile = (rule, value, callback) => {
-      if(this.projectInfo.is_file === "1" && this.projectInfo.fileList.length===0)
-        return callback(new Error("选择文件模板时，必须附加文件说明，请添加上传文件！"));
-    };
     return {
       //实验项目对话框信息
       projectDialogVisible: false, //对话框是否可见
@@ -182,9 +178,6 @@ export default {
         ],
         is_file: [
           { required: true, message: "请选择实验类型", trigger: "blur" },
-        ],
-        fileList: [
-          { required: true, validator: checkFile, trigger: 'blur' }
         ]
       },
       //考勤对话框信息

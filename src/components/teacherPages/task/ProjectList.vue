@@ -45,10 +45,10 @@
                       <span class="time"><b>截至时间</b>：{{ item.end_time }}</span>
                     </div>
                     <div>
-                      <el-button class="btn" @click="checkProject(item.name)">
+                      <el-button class="btn" @click="checkProjectInfo(item.name)">
                         <span>实验信息</span>
                       </el-button>
-                      <el-button class="btn" @click="checkReport(item.name)">
+                      <el-button class="btn" @click="checkReportList(item)">
                         <span>提交情况</span>
                       </el-button>
                     </div>
@@ -103,14 +103,14 @@
                 ></el-input>
               </el-form-item>
               <el-form-item label="实验类型" prop="is_file">
-                <el-radio v-model="projectInfo.is_file" label="0" disabled="true" border>固定模板</el-radio>
-                <el-radio v-model="projectInfo.is_file" label="1" disabled="true" border>文件模板</el-radio>
+                <el-radio v-model="projectInfo.is_file" label="0" :disabled="true" border>固定模板</el-radio>
+                <el-radio v-model="projectInfo.is_file" label="1" :disabled="true" border>文件模板</el-radio>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button class="btn_dialog" v-if="!isEdit" @click="isEdit=true">编辑</el-button>
               <el-button class="btn_dialog" v-if="isEdit" type="primary" @click="saveProject">保存</el-button>
-              <el-button class="btn_dialog" type="danger" @click="open">删除</el-button>
+              <el-button class="btn_dialog" type="danger" @click="openDelete">删除</el-button>
             </div>
           </el-dialog>
 
@@ -173,8 +173,8 @@
               </el-table-column>
               <el-table-column label="提交报告" sortable width="230px" align="center"
                 ><template slot-scope="scope">
-                  <el-tooltip content="点击下载" placement="top">
-                    <a class="reportSrc" @click="downloadReport(scope.row)">
+                  <el-tooltip :content="is_file==='1'?'点击下载':'新窗口中打开'" placement="top">
+                    <a class="reportSrc" @click="openReport(scope.row)">
                       {{ scope.row.report_name }}</a>
                   </el-tooltip>
                 </template>
@@ -264,6 +264,7 @@ export default {
         is_file:"",
       },
       projectName: "",
+      is_file:"",
       direction: "ltr",
       inputScore: "",
       projectDialogVisible:false,
@@ -374,7 +375,7 @@ export default {
       })
     },
 
-    open(){
+    openDelete(){
       this.$confirm("此操作将从课程中删除该实验及相关实验报告, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -418,7 +419,7 @@ export default {
       })
     },
 
-    checkProject(name){
+    checkProjectInfo(name){
       this.isEdit=false
       this.projectDialogVisible = true
       this.projectInfo.name=""
@@ -444,15 +445,16 @@ export default {
     },
 
     //查看实验报告
-    checkReport(name) {
-      this.projectName = name;
+    checkReportList(data) {
+      this.projectName = data.name;
+      this.is_file = data.is_file
       this.reportList = [];
       this.$axios({
         url: "/report/getTotalReport",
         method: "get",
         params: {
           course_ID: this.$route.params.course_id,
-          project_name: name,
+          project_name: data.name,
         },
         headers: {
           token:
@@ -538,6 +540,15 @@ export default {
       row.is_correct = false;
     },
 
+    openReport(row){
+      if(this.is_file === "1"){
+        this.downloadReport(row)
+      }else{
+        //TODO 打开新窗口显示实验报告
+
+      }
+    },
+
     downloadReport(row){
       let data = new FormData()
       data.append("course_ID",this.$route.params.course_id)
@@ -594,6 +605,7 @@ export default {
       },
     })
       .then((response) => {
+        console.log(response.data)
         this.projectList = response.data;
         this.tmpList = this.projectList;
       })

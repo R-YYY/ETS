@@ -29,6 +29,7 @@ import StudentHome from "@/components/home/StudentHome";
 import TeacherHome from "@/components/home/TeacherHome";
 
 import StudentProject from "../components/studentPages/task/StudentProject";
+import Report from "@/components/teacherPages/task/Report";
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -159,11 +160,6 @@ const routes = [
         name: 'partGrades',
         component: PartGrade
       },
-      // {
-      //   path: 'setGrades',
-      //   name: 'setGrades',
-      //   component: SetGrade
-      // },
       {
         path: 'files',
         name: 'files',
@@ -232,6 +228,11 @@ const routes = [
     path: '/stuProjectInfo',
     name:'stuProjectInfo',
     component: StudentProjectInfo
+  },
+  {
+    path: '/report',
+    name:'report',
+    component: Report
   },
 ]
 
