@@ -5,6 +5,7 @@
         <div class="title">{{project_name}}</div>
         <!--      <div class="backButton"></div>-->
         <div class="end_time">截止时间 : {{project.end_time}}</div>
+        <div v-if="is_corrected" class="score">得分：{{report.score}}</div>
       </div>
 
       <div v-if="!is_file" class="model-report">
@@ -76,8 +77,10 @@
           </div>
           <div class="button-area">
             <el-button type="primary" class="submit-button" style="font-size: 18px"
+                       :disabled="is_expired?true:false"
                        @click="saveIt">暂时保存</el-button>
             <el-button type="primary" class="submit-button" style="font-size: 18px"
+                       :disabled="is_expired?true:false"
                        @click="submitIt">确认提交</el-button>
           </div>
         </div>
@@ -125,7 +128,7 @@
             </div>
             <div v-if="has_submitted" style="margin-top: 20px">
               <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
-              <span class="fileName" @click="downloadReport">{{this.report_name}}</span>
+              <span class="fileName" @click="downloadReport">{{this.report.report_name}}</span>
             </div>
           </el-upload>
         </el-card>
@@ -144,9 +147,8 @@ export default {
       project_name: this.$route.query.name,
       project : {},
       files:[],
-      // files为实验资料列表
       has_submitted:false,
-      report_name:'',
+      is_corrected:false,
       is_file: true,
       is_expired:false,
       purpose:'',
@@ -154,29 +156,14 @@ export default {
       device:'',
       steps:'',
       conclusion:'',
+      report:{},
     };
   },
   methods:{
-    saveIt(){
-      if(this.is_expired){
-        window.alert('do nothing')
-      }
-      else{
-        window.alert('do save')
-      }
+    getTemplateReport(){
+
     },
-    submitIt(){
-      if(this.is_expired){
-        window.alert('do nothing')
-      }
-      else{
-        window.alert('do submit')
-      }
-    },
-    submit(){
-      this.$refs["projectUploadFile"].submit();
-    },
-    submitAnswer(){
+    addReport(is_submit){
       let data = new FormData();
       data.append("course_ID", this.course_ID);
       data.append("student_ID", this.student_ID);
@@ -186,35 +173,53 @@ export default {
       data.append("device",this.device);
       data.append("steps",this.steps);
       data.append("conclusion",this.conclusion);
+      data.append("isSubmit", is_submit);
       this.$axios({
-        url: "report/upload",
+        url: "report/add",
         method: "post",
         data: data,
         headers:{
           token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
-        console.log(response.data);
-        if (response.data === 1) {
-          this.$message({
-            type: "success",
-            message: file.file.name + " 上传成功！",
-          });
-          location.reload();
+        console.log('report/add:'+response.data);
+        if (response.data == 1) {
+          if(is_submit=='1'){
+            this.$message({
+              type: "success",
+              message: "提交成功！",
+            });
+            // location.reload();
+          }
+          else{
+            this.$message({
+              type: "success",
+              message: "保存成功！",
+            });
+          }
         }
         else {
           this.$message({
             type: "error",
-            message: "上传失败！请重试！",
+            message: "操作失败！请重试！",
           });
         }
       })
           .catch(() => {
             this.$message({
               type: "error",
-              message: "上传失败！请重试！",
+              message: "操作失败！请重试！",
             });
           });
+    },
+    saveIt(){
+      this.addReport('0')
+    },
+    submitIt(){
+      this.addReport('1')
+    },
+    submit(){
+      this.$refs["projectUploadFile"].submit();
     },
     handleUpload(file) {
       let data = new FormData();
@@ -310,12 +315,12 @@ export default {
     },
     downloadReport() {
       var id=this.course_ID;
-      // console.log('begin')
-      // console.log(id)
+      console.log('begin')
+      console.log(id)
       let data = new FormData();
       data.append("course_ID", this.course_ID);
       data.append("project_name", this.project_name);
-      data.append("report_name", this.report_name);
+      data.append("report_name", this.report.report_name);
       this.$axios({
         url: "/file/downloadReport",
         method: "post",
@@ -376,16 +381,19 @@ export default {
           message: '已过截止时间，你只能查看实验，不能提交实验报告！',
           type: 'error'
         });
-        // document.getElementById('button_selectFile').style.display='none'
-        // document.getElementById('label_fileLimits').style.display='none';
         this.is_expired=true
       }
     });
 
-    // console.log(this.student_ID)
-    // 获取实验报告的名字
+    if(this.is_file=true){
+
+    }
+    else{
+
+    }
+    // 获取实验报告
     this.$axios.get(
-        '/report/getName',{
+        '/report/get',{
           params:{
             course_ID: this.course_ID,
             project_name: this.project_name,
@@ -396,14 +404,45 @@ export default {
           }
         })
         .then((response)=>{
-          // console.log(response.data);
+          console.log('report/get')
+          console.log(response.data);
+          this.report=response.data
           // 没提交，返回-1
-          if(response.data==-1||response.data=='-1'){
+          if(this.report == null){
           }
           else{
-            this.report_name=response.data;
+            this.report_name=this.report.report_name
             this.has_submitted=true;
+            if(this.report.correct_time!=null){
+              this.is_corrected = true
+            }
           }
+        });
+    this.getTemplateReport()
+    // 获取模板实验报告内容
+    let data = new FormData();
+    data.append("course_ID", this.course_ID);
+    data.append("student_ID", this.student_ID);
+    data.append("project_name", this.project_name);
+    console.log(this.project_name)
+    // 获取模板实验报告
+    this.$axios({
+      url: "report/getContent",
+      method: "post",
+      data: data,
+      headers:{
+        token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+      }
+    })
+        .then((response)=>{
+          console.log('report/getContent')
+          console.log(response.data);
+          var content=response.data
+          this.purpose=content.purpose
+          this.principle=content.principle
+          this.device=content.device
+          this.steps=content.steps
+          this.conclusion=content.conclusion
         });
 
     //获取实验的FileInfoList
@@ -424,6 +463,7 @@ export default {
 
   },
   updated() {
+    // console.log(this.is_corrected)
     if(this.is_expired){
       var htmls = document.getElementsByName('input')
       for(var i=0 ;i<htmls.length; i++){
@@ -472,6 +512,14 @@ export default {
   font-size: 18px;
   font-weight: bold;
   font-family: "Microsoft YaHei UI Light";
+}
+.score{
+  margin-left: 75px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 25px;
+  display: block;
+  color: #f60b0b;
 }
 .description{
   width: 90%;

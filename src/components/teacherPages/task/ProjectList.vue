@@ -174,8 +174,15 @@
               <el-table-column label="提交报告" sortable width="230px" align="center"
                 ><template slot-scope="scope">
                   <el-tooltip :content="is_file==='1'?'点击下载':'新窗口中打开'" placement="top">
-                    <a class="reportSrc" @click="openReport(scope.row)">
-                      {{ scope.row.report_name }}</a>
+                    <router-link class="reportSrc" @click="openReport(scope.row)"
+                                 :to="{path:`/report`,
+              query:{
+                                   course_ID: course_id,
+                                   name: projectName,
+                                   student_ID:scope.row.student_ID,
+                                   student_name:scope.row.name}}"
+                                 target="_blank">
+                      {{ scope.row.report_name }}</router-link>
                   </el-tooltip>
                 </template>
               </el-table-column>
@@ -281,6 +288,7 @@ export default {
           { required: true, message: "请填写项目描述", trigger: "blur" },
         ],
       },
+      course_id:this.$route.params.course_id,
     };
   },
   methods: {
@@ -462,6 +470,7 @@ export default {
         },
       })
         .then((response) => {
+          console.log('report-list')
           console.log(response.data);
           for (let i = 0; i < response.data.length; i++) {
             this.reportList.push({
@@ -545,7 +554,6 @@ export default {
         this.downloadReport(row)
       }else{
         //TODO 打开新窗口显示实验报告
-
       }
     },
 

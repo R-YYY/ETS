@@ -4,7 +4,34 @@
       <el-input class="inputProject" placeholder="请输入学生姓名"></el-input>
       <el-button>搜索</el-button>
       <el-button>导出成绩</el-button>
-      <el-button>设置成绩权重</el-button>
+      <el-button @click="showGrade" type="primary">设置成绩权重</el-button>
+      <el-drawer
+          title="设置课程的成绩占比"
+          :visible.sync="drawer"
+          :direction="direction"
+          style="font-size: 25px"
+          >
+        <div style="padding-left: 50px;font-size: 23px;margin-bottom: 40px;margin-top: 30px">
+          考勤占比：
+          <el-input
+              placeholder="请输入内容"
+              suffix-icon="el-icon-edit"
+              v-model="attend_percentage"
+          style="width: 100px;margin-left: 46px"></el-input>
+        </div>
+        <div style="padding-left: 50px;font-size: 23px">
+          实验项目占比：
+          <el-input
+              placeholder="请输入内容"
+              suffix-icon="el-icon-edit"
+              v-model="project_percentage"
+              style="width: 100px"></el-input>
+        </div>
+        <div style="padding-left: 130px;margin-top: 50px">
+          <el-button type="primary" style="font-size: 19px;width: 130px"
+          @click="setPercentage">确认</el-button>
+        </div>
+      </el-drawer>
     </div>
     <div>
       <el-tabs
@@ -105,6 +132,10 @@ export default {
         score:""
       }],
       stuName:"",
+      drawer: false,
+      direction: 'ltr',
+      attend_percentage:0.1,
+      project_percentage:0.9,
     };
   },
   methods: {
@@ -112,7 +143,69 @@ export default {
       if (tab.index == 0) this.$router.push({ name: "totalGrades" });
       else if (tab.index == 1) this.$router.push({ name: "partGrades" });
     },
-
+    showGrade(){
+      this.drawer=true
+      var id = this.$route.params.course_id
+      // console.log(id)
+      this.$axios.get(
+          '/course/get',{
+            params:{
+              course_ID:id,
+            },
+            headers:{
+              token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+            }
+          }
+      ).then((response)=>{
+        var course = response.data;
+        console.log(course)
+        this.attend_percentage=course.attend_percentage
+        this.project_percentage=course.project_percentage
+      })
+    },
+    setPercentage(){
+      var id = this.$route.params.course_id
+      let attend = parseFloat(this.attend_percentage)
+      let project = parseFloat(this.project_percentage)
+      let sum = attend + project
+      if(0 > attend || attend > 1 || project<0 || project>1 || sum!=1){
+        this.$message.error('输入的权重有误！请重新设置权重！')
+      }
+      else{
+        this.$axios(
+            '/course/setGrade',{
+              params:{
+                course_ID:id,
+                attend_percentage:this.attend_percentage,
+                project_percentage:this.project_percentage,
+              },
+              headers:{
+                token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+              },
+              method: "post",
+            }
+        ).then((response)=>{
+          if(response.data=='1'){
+            this.$message({
+              type: "success",
+              message: "设置成功！",
+            });
+            this.drawer=false
+          }
+          else{
+            this.$message({
+              type: "error",
+              message: "设置失败！",
+            });
+          }
+        }).catch(function (error){
+          this.$message({
+            type: "error",
+            message: "设置失败！",
+          });
+        })
+      }
+    },
     totalScore1(param){
       const { columns, data } = param;
       const sums = [];
@@ -182,6 +275,8 @@ export default {
       },
     })
       .then((response) => {
+        console.log('start')
+        console.log(response.data)
         for (let i = 0; i < response.data.length; i++) {
           this.totalGradeList.push({
             student_ID: response.data[i].student_ID,

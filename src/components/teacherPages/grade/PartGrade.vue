@@ -278,6 +278,7 @@ export default {
       },
     })
       .then((response) => {
+        console.log(response.data)
         this.projectInfoList = response.data;
       })
       .catch();

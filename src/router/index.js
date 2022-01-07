@@ -86,11 +86,6 @@ const routes = [
     component:TeacherHome
   },
   {
-    path:'/register',
-    name:'Register',
-    component:Register
-  },
-  {
     path:'/stuinfoset',
     name:'StudentInfoSet',
     component:()=>import('@/components/studentPages/StudentInfoSet.vue'),
