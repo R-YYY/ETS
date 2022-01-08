@@ -164,8 +164,7 @@ export default {
         },
       })
         .then(function (res) {
-          console.log("res.data[0].length:");
-          console.log(res.data[0].length);
+          console.log("getCourse.res.data:"+res.data);
           _this.courseData = res.data;
         })
         .catch(function (error) {
@@ -186,8 +185,7 @@ export default {
         },
       })
         .then(function (res) {
-          console.log("res.data[0].length:");
-          console.log(res.data[0].length);
+          console.log("getEndCourse.res.data :"+res.data);
           _this.endCourseData = res.data;
         })
         .catch(function (error) {
