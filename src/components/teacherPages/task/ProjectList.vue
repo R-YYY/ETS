@@ -180,7 +180,8 @@
                                    course_ID: course_id,
                                    name: projectName,
                                    student_ID:scope.row.student_ID,
-                                   student_name:scope.row.name}}"
+                                   student_name:scope.row.name,
+                                   token:token}}"
                                  target="_blank">
                       {{ scope.row.report_name }}</router-link>
                   </el-tooltip>
@@ -260,6 +261,7 @@ export default {
   name: "ProjectList",
   data() {
     return {
+      token: window.sessionStorage.getItem('token'),
       input: "",
       projectList: [],
       tmpList: [],

@@ -110,6 +110,7 @@ export default {
       student_ID: this.$route.query.student_ID,
       student_name: this.$route.query.student_name,
       project_name: this.$route.query.name,
+      token:this.$route.query.token,
       project : {},
       is_corrected:false,
       is_expired:true,
@@ -132,7 +133,7 @@ export default {
               student_ID: this.student_ID,
             },
             headers:{
-              token: window.sessionStorage.getItem('token')
+              token: this.token
               // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             }
           })
@@ -169,7 +170,7 @@ export default {
             method: "post",
             data: data,
             headers: {
-              token: window.sessionStorage.getItem('token')
+              token: this.token
               // token:
               //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             },
@@ -216,7 +217,7 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token: window.sessionStorage.getItem('token')
+          token: this.token
           // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
@@ -261,7 +262,7 @@ export default {
             name: this.project_name,
           },
           headers:{
-            token: window.sessionStorage.getItem('token')
+            token: this.token
             // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
@@ -293,7 +294,7 @@ export default {
       method: "post",
       data: data,
       headers:{
-        token: window.sessionStorage.getItem('token')
+        token: this.token
         // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       }
     })

@@ -145,6 +145,7 @@ export default {
       course_ID: this.$route.query.course_ID,
       student_ID: this.$route.query.student_ID,
       project_name: this.$route.query.name,
+      token:this.$route.query.token,
       project : {},
       files:[],
       has_submitted:false,
@@ -179,7 +180,7 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token: window.sessionStorage.getItem('token')
+          token: this.token
           // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
@@ -237,7 +238,7 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token: window.sessionStorage.getItem('token')
+          token: this.token
           // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
@@ -288,7 +289,7 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token: window.sessionStorage.getItem('token')
+          token: this.token
           // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
         responseType: "blob",
@@ -329,7 +330,7 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token: window.sessionStorage.getItem('token')
+          token: this.token
           // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
         responseType: "blob",
@@ -365,7 +366,7 @@ export default {
             name: this.project_name,
           },
           headers:{
-            token: window.sessionStorage.getItem('token')
+            token: this.token
             // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
@@ -405,7 +406,7 @@ export default {
             student_ID: this.student_ID,
           },
           headers:{
-            token: window.sessionStorage.getItem('token')
+            token: this.token
             // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
@@ -437,7 +438,7 @@ export default {
       method: "post",
       data: data,
       headers:{
-        token: window.sessionStorage.getItem('token')
+        token: this.token
         // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       }
     })
@@ -460,7 +461,7 @@ export default {
             path: '/实验资料/'+this.project_name,
           },
           headers:{
-            token: window.sessionStorage.getItem('token')
+            token: this.token
             // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
@@ -471,7 +472,6 @@ export default {
 
   },
   updated() {
-    // console.log(this.is_corrected)
     if(this.is_expired){
       var htmls = document.getElementsByName('input')
       for(var i=0 ;i<htmls.length; i++){
