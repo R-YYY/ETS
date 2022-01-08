@@ -23,6 +23,12 @@
           :router="true"
           :collapse="isCollapse"
         >
+          <el-menu-item
+            index="/addaccount"
+          >
+            <i class="el-icon-plus" style="color: #dcdcdc"></i>
+            <span slot="title">创建账户</span>
+          </el-menu-item>
           <el-submenu index="1">
             <!-- 一级菜单模板 -->
             <template slot="title">

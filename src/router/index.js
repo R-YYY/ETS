@@ -58,7 +58,13 @@ const routes = [
     path:'/adminhome',
     name:'AdminHome',
     component:AdminHome,
-    children:[{
+    redirect:'/addaccount',
+    children:[
+      {
+        path:'/addaccount',
+        component:()=>import('@/components/adminPages/addAccount.vue'),
+      },
+      {
       path:'/teacherlist',
       component:()=>import('@/components/adminPages/teacherlist.vue'),
     },

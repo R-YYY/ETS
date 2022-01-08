@@ -52,8 +52,8 @@ export default {
     return {
       res: null,
       loginForm: {
-        id: "1951016",
-        password: "bb123456",
+        id: "111111",
+        password: "111111",
       },
       // 表单验证
       loginFormRules: {
