@@ -83,7 +83,10 @@ export default {
       this.$router.push({ name: "feedbacks" });
     },
     toHome(){
-      this.$router.push('/teacherhome')
+      if (window.sessionStorage.getItem("account_ID").length == 5)
+        this.$router.push("/teacherhome");
+      else if (window.sessionStorage.getItem("account_ID").length == 7)
+        this.$router.push("/studenthome");
     }
   },
   mounted() {

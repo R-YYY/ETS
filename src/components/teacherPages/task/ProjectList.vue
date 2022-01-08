@@ -174,16 +174,8 @@
               <el-table-column label="提交报告" sortable width="230px" align="center"
                 ><template slot-scope="scope">
                   <el-tooltip :content="is_file==='1'?'点击下载':'新窗口中打开'" placement="top">
-                    <router-link class="reportSrc" @click="openReport(scope.row)"
-                                 :to="{path:`/report`,
-              query:{
-                                   course_ID: course_id,
-                                   name: projectName,
-                                   student_ID:scope.row.student_ID,
-                                   student_name:scope.row.name,
-                                   token:token}}"
-                                 target="_blank">
-                      {{ scope.row.report_name }}</router-link>
+                    <span class="reportSrc" @click="openReport(scope.row)" v-if="scope.row.submit_state === '已提交'">
+                      {{ scope.row.report_name }}</span>
                   </el-tooltip>
                 </template>
               </el-table-column>
@@ -261,7 +253,6 @@ export default {
   name: "ProjectList",
   data() {
     return {
-      token: window.sessionStorage.getItem('token'),
       input: "",
       projectList: [],
       tmpList: [],
@@ -290,7 +281,6 @@ export default {
           { required: true, message: "请填写项目描述", trigger: "blur" },
         ],
       },
-      course_id:this.$route.params.course_id,
     };
   },
   methods: {
@@ -360,7 +350,6 @@ export default {
         data:data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       }).then((response)=>{
         console.log(response.data)
@@ -406,7 +395,6 @@ export default {
         data:data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       }).then((response)=>{
         if(response.data === 1){
@@ -445,9 +433,7 @@ export default {
         },
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-        },
+       },
       }).then((response)=>{
         console.log(response.data)
         this.projectInfo.name=response.data.name
@@ -471,8 +457,6 @@ export default {
         },
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then((response) => {
@@ -528,8 +512,6 @@ export default {
         data: data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then((response) => {
@@ -561,6 +543,16 @@ export default {
         this.downloadReport(row)
       }else{
         //TODO 打开新窗口显示实验报告
+        let reportPage = this.$router.resolve({
+          path:"/report",
+          query:{
+            course_ID: this.$route.params.course_id,
+            name: this.projectName,
+            student_ID:row.student_ID,
+            student_name:row.name,
+            token:window.sessionStorage.getItem('token')}
+        })
+        window.open(reportPage.href, '_blank');
       }
     },
 
@@ -575,8 +567,6 @@ export default {
         data:data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       }).then((response)=>{
         let blob = new Blob([response.data]);
@@ -617,8 +607,6 @@ export default {
       },
       headers: {
         token: window.sessionStorage.getItem('token')
-        // token://
-        //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     })
       .then((response) => {
@@ -716,9 +704,5 @@ export default {
 .time{
   font-size: 13px;
   margin-right: 10px;
-}
-
-.projectInfo{
-  /*margin-left: 50px;*/
 }
 </style>
