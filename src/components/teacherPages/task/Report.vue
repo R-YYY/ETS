@@ -132,7 +132,8 @@ export default {
               student_ID: this.student_ID,
             },
             headers:{
-              token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+              token: window.sessionStorage.getItem('token')
+              // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             }
           })
           .then((response)=>{
@@ -168,8 +169,9 @@ export default {
             method: "post",
             data: data,
             headers: {
-              token:
-                  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+              token: window.sessionStorage.getItem('token')
+              // token:
+              //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             },
           })
               .then((response) => {
@@ -214,7 +216,8 @@ export default {
         method: "post",
         data: data,
         headers:{
-          token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+          token: window.sessionStorage.getItem('token')
+          // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
         console.log(response.data);
@@ -258,7 +261,8 @@ export default {
             name: this.project_name,
           },
           headers:{
-            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+            token: window.sessionStorage.getItem('token')
+            // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
         .then((response)=>{
@@ -289,7 +293,8 @@ export default {
       method: "post",
       data: data,
       headers:{
-        token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        token: window.sessionStorage.getItem('token')
+        // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       }
     })
         .then((response)=>{
@@ -306,11 +311,6 @@ export default {
           }
           else{
             //要删的！！！！！！！
-            this.purpose=content.purpose
-            this.principle=content.principle
-            this.device=content.device
-            this.steps=content.steps
-            this.conclusion=content.conclusion
           }
         });
   },

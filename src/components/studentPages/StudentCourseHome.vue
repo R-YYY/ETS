@@ -88,7 +88,7 @@ export default {
     return {
       date:new Date(),
       courseID: this.$route.params.course_id,
-      student_ID:'1951014',
+      student_ID:window.sessionStorage.getItem('account_ID'),
       activeIndex: '',
       teacher_list:[],
       course : {
@@ -140,13 +140,6 @@ export default {
       this.activeIndex = "5";
     }
 
-    let _this = this;
-    // this.$router.push({
-    //   name:'stuTasks',
-    //   params:{
-    //     course_id: this.courseID,
-    //   }
-    // })
     //创建定时器更新最新时间
     this.timer = setInterval(() => {
       this.date = new Date(); // 修改日期数据
@@ -160,14 +153,14 @@ export default {
             course_ID:id,
           },
           headers:{
-            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+            token: window.sessionStorage.getItem('token')
           }
         }
     ).then(
         (response)=>{
           this.teacher_list=response.data;
-          // console.log('teacher_list')
-          // console.log(response.data)
+          console.log('teacher_list')
+          console.log(response.data)
         }
     )
     this.$axios.get(
@@ -176,10 +169,11 @@ export default {
             course_ID:id,
           },
           headers:{
-            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+            token: window.sessionStorage.getItem('token')
           }
         }
     ).then((response)=>{
+      console.log('course: '+response.data)
       this.course=response.data;
     })
   },
