@@ -41,9 +41,9 @@
               <i class="el-icon-folder-opened"></i>
               <span>学习资料</span>
             </el-menu-item>
-            <el-menu-item class="option" index="6" @click="toFeedback">
+            <el-menu-item class="option" index="6" @click="toAnnouncement">
               <i class="el-icon-edit-outline"></i>
-              <span>课程反馈</span>
+              <span>课程交流</span>
             </el-menu-item>
           </el-menu>
         </div>
@@ -79,11 +79,14 @@ export default {
     toFile() {
       this.$router.push({ name: "files" });
     },
-    toFeedback() {
-      this.$router.push({ name: "feedbacks" });
+    toAnnouncement() {
+      this.$router.push({ name: "announcements" });
     },
     toHome(){
-      this.$router.push('/teacherhome')
+      if (window.sessionStorage.getItem("account_ID").length == 5)
+        this.$router.push("/teacherhome");
+      else if (window.sessionStorage.getItem("account_ID").length == 7)
+        this.$router.push("/studenthome");
     }
   },
   mounted() {

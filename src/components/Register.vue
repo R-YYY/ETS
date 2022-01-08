@@ -152,9 +152,9 @@ export default {
         ID_number: [
           { required: true, message: "请输入身份证号", trigger: "blur" },
           {
-            min: 18,
+            min: 15,
             max: 18,
-            message: "长度在 18 个字符",
+            message: "长度 15 或者 18 个字符",
             trigger: "blur",
           },
           {
@@ -186,8 +186,13 @@ export default {
           {
             validator: function (rule, value, callback) {
               //校验数字的正则：^[0-9]*$
+              // ^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$ 
+              // /^\w+([-+.]\w+) @\w+([-.]\w+).\w+([-.]\w+)*$/
+              // ^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$
+              // 
+              // 
               if (
-                /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(
+                /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+(\.([a-zA-Z]{2,4})|\.([a-zA-Z]{2,4})+\.([a-zA-Z]{2,4}))$/.test(
                   value
                 ) == false
               ) {
@@ -202,7 +207,7 @@ export default {
         ],
         //验证密码是否合法
         password: [
-          { required: true, message: "请输入登录密码", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 15,

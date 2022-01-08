@@ -18,9 +18,9 @@
                 <template slot="title" class="subtitle">
                   <img src="@/assets/port.png" />
                 </template>
-                <!-- <el-menu-item index="/stuinfoset">
-                  <i class="el-icon-s-tools"> 账号设置 </i>
-                </el-menu-item> -->
+                <el-menu-item index="/teainfoset">
+                  <el-button icon="el-icon-s-tools" type="text"> 账号设置 </el-button>
+                </el-menu-item>
                 <el-menu-item>
                   <el-button
                     type="text"
@@ -102,8 +102,6 @@
             </div>
           </div>
         </el-card>
-        <!-- 公告板 -->
-        <!-- <el-card class="mainRight">????</el-card> -->
       </div>
     </div>
   </div>
@@ -129,7 +127,7 @@ export default {
       endCourseData: [],
       dialogFormVisible: false,
       courseInfo: {
-        courseName: "??",
+        courseName: "",
       },
       courseInfoRules: {
         //验证课程名称是否合法

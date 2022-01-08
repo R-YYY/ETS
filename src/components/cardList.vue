@@ -10,10 +10,10 @@
         :push=1
       >
         <div style="margin-top:30px">
-          <el-card :body-style="{ padding: '10px'}" shadow="hover" class="box-card" @click.native="formore(item.course_ID)">
-            <span>{{ item.course_name }}</span>
-            <p>{{ item.course_ID }}</p>
-            <p>{{ item.teacher_name}}</p>
+          <el-card :body-style="{ padding: '10px'}" shadow="hover" class="box-card" @click.native="formore(item.course_ID,item.is_student,item.teacher_ID)">
+            <h2>{{ item.course_name }} </h2>
+            <h3>{{ item.course_ID }}</h3>
+            <h4>{{ item.teacher_name}}</h4>
             <span id='hiding-id' v-show="false">{{item.id}}</span>
           </el-card>
         </div>
@@ -119,14 +119,28 @@ export default {
     //   this.lastCardInfo._name = mes.currentTarget.parentElement
     //                     .parentElement.parentElement.childNodes[1].innerHTML
     // },
-    formore(data){
-        console.log(data)
+    formore(course_ID,is_student,teacher_ID){
+        console.log("course_ID"+course_ID);
+        console.log("is_student"+is_student);
+        console.log("teacher_ID"+teacher_ID);
+        window.sessionStorage.setItem("resTeacher_ID",teacher_ID);
+        if(is_student==0)
+        {
+          this.$router.push({
+            name: "CourseHome",
+            params: {
+              course_id: course_ID,
+            },
+          });
+        }
+        else{
         this.$router.push({
             name: "StudentCourseHome",
             params: {
-              course_id: data,
+              course_id: course_ID,
             },
           });
+        }
     }
   },
   watch: {

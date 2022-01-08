@@ -56,7 +56,7 @@
                   <el-form
                     :model="userInfo"
                     ref="userInfo"
-                    :rules="userInfoRules"
+                    :rules="userInfoRules1"
                   >
                     <el-form-item label="学号" :label-width="formLabelWidth">
                       <el-input
@@ -143,7 +143,7 @@
                   <el-form
                     :model="userInfo"
                     ref="userInfo"
-                    :rules="userInfoRules"
+                    :rules="userInfoRules2"
                   >
                     <el-form-item
                       prop="password"
@@ -221,10 +221,43 @@ export default {
       dialogFormVisible: false,
       dialogForm2Visible: false,
       formLabelWidth: "120px",
-      userInfoRules: {
+      userInfoRules1: {
+        //验证邮箱是否合法
+        email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+          {
+            min: 1,
+            max: 25,
+            message: "长度在 1 到 25 个字符",
+            trigger: "blur",
+          },
+          {
+            validator: function (rule, value, callback) {
+              //校验数字的正则：^[0-9]*$
+              // ^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+              // /^\w+([-+.]\w+) @\w+([-.]\w+).\w+([-.]\w+)*$/
+              // ^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$
+              //
+              //
+              if (
+                /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+(\.([a-zA-Z]{2,4})|\.([a-zA-Z]{2,4})+\.([a-zA-Z]{2,4}))$/.test(
+                  value
+                ) == false
+              ) {
+                callback(new Error("请输入正确的邮箱"));
+              } else {
+                //校验通过
+                callback();
+              }
+            },
+            trigger: "blur",
+          },
+        ],
+      },
+      userInfoRules2: {
         //验证密码是否合法
         password: [
-          { required: true, message: "请输入登录密码", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 15,
@@ -263,7 +296,7 @@ export default {
       },
     };
   },
-  created(){
+  created() {
     this.getUserInfo();
   },
   methods: {
@@ -295,7 +328,7 @@ export default {
       })
         .then((res) => {
           console.log("getUserInfo传出的：" + res.data);
-          _this.userInfo=res.data;
+          _this.userInfo = res.data;
           // _this.userInfo.account_ID = res.data.account_ID;
           // _this.userInfo.name = res.data.name;
           // _this.userInfo.email = res.data.email;
@@ -305,6 +338,142 @@ export default {
         .catch(function (error) {
           console.log("Get Nothing!" + error);
         });
+    },
+    // 更新个人信息（邮箱
+    updateInfo(userInfo) {
+      this.$refs[userInfo].validate((valid, wrongstring) => {
+        if (valid) {
+          let Info = new FormData();
+          Info.append(
+            "account_ID",
+            window.sessionStorage.getItem("account_ID")
+          );
+          Info.append("email", this.userInfo.email);
+          this.$axios({
+            url: "/account/changeEmail",
+            method: "post",
+            data: Info,
+            headers: {
+              token: window.sessionStorage.getItem("token"),
+            },
+          })
+            .then((res) => {
+              console.log("updateInfo.res.data:" + res.data);
+              if (res.data !== -1) {
+                this.$message({
+                  type: "success",
+                  message: "修改成功！",
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "修改失败！请重试",
+                });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              this.$message({
+                type: "error",
+                message: "访问错误！",
+              });
+            });
+
+          this.dialogFormVisible = false;
+        } else {
+          console.log(valid, wrongstring);
+          console.log("error submit!!");
+          this.$message({
+            showClose: true,
+            message: `请输入正确的信息！`,
+            type: "warning",
+            duration: 3000,
+          });
+          // this.dialogFormVisible = false;
+          return false;
+        }
+      });
+    },
+    //修改密码
+    updatePsd(userInfo) {
+      this.$refs[userInfo].validate((valid, wrongstring) => {
+        if (valid) {
+          let Psd = new FormData();
+          Psd.append("account_ID", window.sessionStorage.getItem("account_ID"));
+          Psd.append("password", this.userInfo.password);
+
+          this.$confirm(
+            "此操作将为该账户重置密码为" +
+              this.userInfo.password +
+              "并且退出登录，是否继续？",
+            "提示",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning",
+            }
+          )
+            .then(() => {
+              this.$axios({
+                url: "/account/changePassword",
+                method: "post",
+                data: Psd,
+                headers: {
+                  token: window.sessionStorage.getItem("token"),
+                },
+              })
+                .then((res) => {
+                  console.log("psd:" + this.userInfo.password);
+                  console.log("updatePsd.res.data:" + res.data);
+                  if (res.data !== -1) {
+                    this.$message({
+                      showClose: true,
+                      message: `修改密码成功`,
+                      type: "success",
+                      duration: 3000,
+                    });
+                    this.dialogForm2Visible = false;
+                    this.logout();
+                  } else {
+                    this.$notify({
+                      title: "提示",
+                      message: "修改密码失败",
+                      type: "warning",
+                      duration: 3000,
+                    });
+                  }
+                })
+                .catch((err) => {
+                  this.$notify({
+                    title: "提示",
+                    message: "用户访问错误",
+                    type: "error",
+                    duration: 0,
+                  });
+                  console.log(err);
+                });
+              this.dialogFormVisible = false;
+            })
+            .catch(() => {
+              this.$message({
+                type: "info",
+                message: "已取消",
+              });
+              this.dialogFormVisible = false;
+            });
+        } else {
+          console.log(valid, wrongstring);
+          console.log("error submit!!");
+          this.$message({
+            showClose: true,
+            message: `请输入正确的信息！`,
+            type: "warning",
+            duration: 3000,
+          });
+          // this.dialogFormVisible = false;
+          return false;
+        }
+      });
     },
   },
 };

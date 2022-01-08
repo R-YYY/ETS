@@ -30,6 +30,7 @@ import TeacherHome from "@/components/home/TeacherHome";
 
 import StudentProject from "../components/studentPages/task/StudentProject";
 import Report from "@/components/teacherPages/task/Report";
+import Announcement from "@/components/teacherPages/feedback/Announcement";
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -58,7 +59,13 @@ const routes = [
     path:'/adminhome',
     name:'AdminHome',
     component:AdminHome,
-    children:[{
+    redirect:'/addaccount',
+    children:[
+      {
+        path:'/addaccount',
+        component:()=>import('@/components/adminPages/addAccount.vue'),
+      },
+      {
       path:'/teacherlist',
       component:()=>import('@/components/adminPages/teacherlist.vue'),
     },
@@ -173,6 +180,11 @@ const routes = [
         name: 'feedbacks',
         component: Feedback
       },
+      {
+        path: 'announcements',
+        name: 'announcements',
+        component: Announcement
+      }
     ],
   },
   {

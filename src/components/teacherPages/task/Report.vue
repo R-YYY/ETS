@@ -134,7 +134,6 @@ export default {
             },
             headers:{
               token: this.token
-              // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             }
           })
           .then((response)=>{
@@ -171,8 +170,6 @@ export default {
             data: data,
             headers: {
               token: this.token
-              // token:
-              //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             },
           })
               .then((response) => {
@@ -218,7 +215,6 @@ export default {
         data: data,
         headers:{
           token: this.token
-          // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
         console.log(response.data);
@@ -263,7 +259,6 @@ export default {
           },
           headers:{
             token: this.token
-            // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
         .then((response)=>{
@@ -295,7 +290,6 @@ export default {
       data: data,
       headers:{
         token: this.token
-        // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       }
     })
         .then((response)=>{
@@ -321,8 +315,8 @@ export default {
 <style scoped>
 #report{
   width: 1350px;
-  /*height: 1300px;*/
-  overflow: hidden;
+  height: 1300px;
+  /*overflow: hidden;*/
   margin-top: 25px;
   margin-left: 210px;
   margin-right: 20px;

@@ -15,9 +15,9 @@
               <img :src="`http://106.14.45.227:8080/${String(item.pic)}.png`"  weight=70px  height=70px>
                             <img :src="`https://ui-avatars.com/api/?size=60&length=1&bold=true&background=6699CC&color=ffffff&rounded=true&name=`+item.name"  weight=70px  height=70px>
             </div> -->
-            <span>{{ item.course_name }}</span>
-            <p>{{ item.course_ID }}</p>
-            <p>{{ item.teacher_name}}</p>
+            <h2>{{ item.course_name }} </h2>
+            <h3>{{ item.course_ID }}</h3>
+            <h4>{{ item.teacher_name}}</h4>
             <span id='hiding-id' v-show="false">{{item.id}}</span>
             <div class="botton-zone">
               <el-button-group>
