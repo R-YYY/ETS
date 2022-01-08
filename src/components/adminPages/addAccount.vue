@@ -53,14 +53,22 @@
           批量创建
         </el-button>
         <el-dialog title="批量创建账户" :visible.sync="dialogFormVisible">
-          <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="身份" required>
+          <el-form
+            ref="form"
+            :model="form"
+            :rules="formRules"
+            label-width="80px"
+          >
+            <el-form-item label="身份" prop="role">
               <el-radio-group v-model="form.role">
                 <el-radio label="Teacher"></el-radio>
                 <el-radio label="Student"></el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="文件" required>
+              <!-- 
+                :on-change="changeFile"
+               -->
               <el-upload
                 class="upload-demo"
                 :on-preview="handlePreview"
@@ -79,12 +87,14 @@
                   将文件拖到此处，或<em>点击上传</em>
                 </div>
                 <div class="el-upload__tip" slot="tip">
-                  支持的文件格式有：excel
+                  支持的文件格式有：xlsx
                 </div>
               </el-upload>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">导入</el-button>
+              <el-button type="primary" @click="onSubmit('form')"
+                >导入</el-button
+              >
               <el-button type="primary" @click="dialogFormVisible = false"
                 >取消</el-button
               >
@@ -105,6 +115,10 @@ export default {
       fileList: [],
       form: {
         role: "",
+      },
+      formRules: {
+        role: [{ required: true, message: "请选择角色", trigger: "change" }],
+        // file: [{ required: true, message: "请上传文件", trigger: "blur" }],
       },
       userInfo1: {
         id: "",
@@ -372,32 +386,84 @@ export default {
         }
       });
     },
-    onSubmit() {
-      // 这里接口我想的是传身份和文件，身份分为Teacher和Student
-      let Info = new FormData();
-      Info.append("file", this.newFile);
-      Info.append("role", this.form.role);
-      this.axios({
-        //   接口路径
-        url: "/upload",
-        method: "post",
-        data: Info,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then((res) => {
-          console.log("res:", res);
-          (this.dialogFormVisible = false),
+    onSubmit(form) {
+      // let Info = new FormData();
+      // Info.append("file", this.newFile);
+      // Info.append("role", this.form.role);
+      this.$refs[form].validate((valid, wrongstring) => {
+        if (valid) {
+          console.log("this.form.role:" + this.form.role);
+          if (this.form.role == "Teacher") {
+            this.$axios({
+              //   接口路径
+              url: "/teacher/addList",
+              method: "post",
+              data: this.newFile,
+              headers: {
+                "Content-Type": "multipart/form-data",
+                token: window.sessionStorage.getItem("token"),
+              },
+            })
+              .then((res) => {
+                console.log("res:", res);
+                (this.dialogFormVisible = false),
+                  this.$message({
+                    type: "success",
+                    message: "提交成功!",
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (this.form.role == "Student") {
+            this.$axios({
+              //   接口路径
+              url: "/student/addList",
+              method: "post",
+              data: this.newFile,
+              headers: {
+                "Content-Type": "multipart/form-data",
+                token: window.sessionStorage.getItem("token"),
+              },
+            })
+              .then((res) => {
+                console.log("res:", res);
+                (this.dialogFormVisible = false),
+                  this.$message({
+                    type: "success",
+                    message: "提交成功!",
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
             this.$message({
-              type: "success",
-              message: "提交成功!",
+              type: "error",
+              message: "请选择添加的角色身份！",
             });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          }
+        } else {
+          console.log(valid, wrongstring);
+          console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请填写完整表单！",
+          });
+          return false;
+        }
+      });
     },
+    // 上传文件发生改变，文件的验证
+    // changeFile(file,fileList){
+    //   this.fileList=fileList;
+    //   if(fileList.length&&fileList.length>=1){
+    //     this.$refs.form.validateField("file",()=>{
+    //       this.rules.file=[];
+    //       this.$refs["form"].clearValidate();
+    //     })
+    //   }
+    // },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -415,9 +481,9 @@ export default {
     BeforeUpload(file) {
       // 获取上传文件的后缀名，以.作为分界线
       const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-      const whiteList = ["xls", "xlsx"];
+      const whiteList = ["xlsx"];
       if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message("上传文件只能是xls或xlsx格式", "error");
+        this.$message("上传文件只能是xlsx格式", "error");
         return false;
       }
       // if (file) {
