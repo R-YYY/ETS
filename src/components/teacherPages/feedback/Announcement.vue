@@ -2,15 +2,15 @@
   <div>
     <div>
       <el-input
-          class="inputFeedbackName"
+          class="inputAnnouncementName"
           v-model="input"
-          placeholder="请输入反馈人姓名"
+          placeholder="请输入公告名称"
       >
       </el-input>
       <el-button type="primary" plain>搜索</el-button>
     </div>
     <div>
-      <el-tabs class="feedbackTab" active-name="feedback" type="border-card" @tab-click="handleClick">
+      <el-tabs class="announcementTab" active-name="announcement" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="课程公告" name="announcement">
           <el-empty description="没有公告" style="height: 500px"></el-empty>
         </el-tab-pane>
@@ -24,9 +24,9 @@
 
 <script>
 export default {
-  name: "Feedback",
+  name: "Announcement",
   data(){
-    return {
+    return{
 
     }
   },
@@ -36,11 +36,11 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "feedbacks" });
     },
   }
-};
+}
 </script>
 
 <style scoped>
-.feedbackTab {
+.announcementTab{
   height: 100%;
   margin-top: 20px;
   margin-right: 50px;
@@ -48,14 +48,7 @@ export default {
   background-color: white;
 }
 
-.searchArea {
-  position: relative;
-  left: 50px;
-  top: 20px;
-  height: 60px;
-}
-
-.inputFeedbackName {
+.inputAnnouncementName {
   width: 300px;
   margin-left: 40px;
 }

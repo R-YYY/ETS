@@ -30,6 +30,7 @@ import TeacherHome from "@/components/home/TeacherHome";
 
 import StudentProject from "../components/studentPages/task/StudentProject";
 import Report from "@/components/teacherPages/task/Report";
+import Announcement from "@/components/teacherPages/feedback/Announcement";
 
 // 解决重复点击路由报错的BUG
 const originalPush = VueRouter.prototype.push
@@ -179,6 +180,11 @@ const routes = [
         name: 'feedbacks',
         component: Feedback
       },
+      {
+        path: 'announcements',
+        name: 'announcements',
+        component: Announcement
+      }
     ],
   },
   {

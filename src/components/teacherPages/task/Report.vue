@@ -315,8 +315,8 @@ export default {
 <style scoped>
 #report{
   width: 1350px;
-  /*height: 1300px;*/
-  overflow: hidden;
+  height: 1300px;
+  /*overflow: hidden;*/
   margin-top: 25px;
   margin-left: 210px;
   margin-right: 20px;
