@@ -215,8 +215,7 @@
                 <template slot-scope="scope">
                   <span
                     v-if="
-                      scope.row.is_correct === false &&
-                      scope.row.submit_state === '已提交'
+                      scope.row.is_correct === false
                     "
                     >{{ scope.row.score + " / 100" }}</span>
                   <input
@@ -229,7 +228,6 @@
               <el-table-column label="操作" width="70px" align="right">
                 <template
                   slot-scope="scope"
-                  v-if="scope.row.submit_state === '已提交'"
                 >
                   <el-button
                     class="checkReport"
@@ -487,11 +485,11 @@ export default {
               report_name: response.data[i].report_name,
               correct_state:
                 response.data[i].correct_time === null ? "未批改" : "已批改",
-              score: response.data[i].score,
+              score:
+                response.data[i].score === null ? 0 : response.data[i].score,
               is_correct: false,
             });
           }
-          // this.reportList = response.data;
         })
         .catch();
       this.reportDialogVisible = true;
@@ -507,9 +505,9 @@ export default {
 
     async correctReport(row) {
       if (
-        this.inputScore < 0 ||
-        this.inputScore > 100 ||
-        this.inputScore.split(".").length > 1
+          this.inputScore < 0 ||
+          this.inputScore > 100 ||
+          this.inputScore.split(".").length > 1
       ) {
         this.$message({
           type: "error",
@@ -517,43 +515,60 @@ export default {
         });
         return;
       }
-      let data = new FormData();
-      data.append("course_ID", this.$route.params.course_id);
-      data.append("project_name", this.projectName);
-      data.append("student_ID", row.student_ID);
-      data.append("score", this.inputScore);
-      await this.$axios({
-        url: "/report/correct",
-        method: "post",
-        data: data,
-        headers: {
-          token: window.sessionStorage.getItem('token')
-          // token:
-          //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-        },
-      })
-        .then((response) => {
-          if (response.data === 1) {
-            row.score = this.inputScore;
-            this.inputScore = "";
-            this.$message({
-              type: "success",
-              message: "批改成功！",
-            });
-          } else {
-            this.$message({
-              type: "error",
-              message: "批改失败！请重试！",
-            });
-          }
+      if(row.submit_state==null){
+        // 实验报告没有提交
+        if(this.is_file=='1'){
+          // 文件实验
+
+        }
+        else{
+          // 模板实验
+
+        }
+
+
+
+
+      }
+      else{
+        let data = new FormData();
+        data.append("course_ID", this.$route.params.course_id);
+        data.append("project_name", this.projectName);
+        data.append("student_ID", row.student_ID);
+        data.append("score", this.inputScore);
+        await this.$axios({
+          url: "/report/correct",
+          method: "post",
+          data: data,
+          headers: {
+            token: window.sessionStorage.getItem('token')
+          },
         })
-        .catch(() => {
-          this.$message({
-            type: "error",
-            message: "批改失败！请重试！",
-          });
-        });
-      row.is_correct = false;
+            .then((response) => {
+              console.log('report/correct:'+response.data)
+              if (response.data === 1) {
+                row.score = this.inputScore;
+                this.inputScore = "";
+                this.$message({
+                  type: "success",
+                  message: "批改成功！",
+                });
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "批改失败！请重试！",
+                });
+              }
+            })
+            .catch(() => {
+              this.$message({
+                type: "error",
+                message: "批改失败！请重试！",
+              });
+            });
+        row.is_correct = false;
+      }
+
     },
 
     openReport(row){

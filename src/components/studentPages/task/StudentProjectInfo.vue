@@ -17,8 +17,8 @@
                 name="input"
                 type="textarea"
                 :autosize="{minRows:5}"
-                placeholder="请输入内容"
                 v-model="purpose"
+                :disabled="is_expired?true:false"
                 maxlength="1000"
                 show-word-limit style="font-size: 19px">
             </el-input>
@@ -30,8 +30,8 @@
                 name="input"
                 type="textarea"
                 :autosize="{minRows:5}"
-                placeholder="请输入内容"
                 v-model="principle"
+                :disabled="is_expired?true:false"
                 maxlength="1000"
                 show-word-limit style="font-size: 19px">
             </el-input>
@@ -43,8 +43,8 @@
                 name="input"
                 type="textarea"
                 :autosize="{minRows:5}"
-                placeholder="请输入内容"
                 v-model="device"
+                :disabled="is_expired?true:false"
                 maxlength="1000"
                 show-word-limit style="font-size: 19px">
             </el-input>
@@ -56,8 +56,8 @@
                 name="input"
                 type="textarea"
                 :autosize="{minRows:5}"
-                placeholder="请输入内容"
                 v-model="steps"
+                :disabled="is_expired?true:false"
                 maxlength="3000"
                 show-word-limit style="font-size: 19px">
             </el-input>
@@ -69,8 +69,8 @@
                 name="input"
                 type="textarea"
                 :autosize="{minRows:5}"
-                placeholder="请输入内容"
                 v-model="conclusion"
+                :disabled="is_expired?true:false"
                 maxlength="1000"
                 show-word-limit style="font-size: 19px">
             </el-input>
@@ -163,6 +163,33 @@ export default {
   methods:{
     getTemplateReport(){
 
+    },
+    autoSubmitTemplate(){
+      var is_submit = '1'
+      let data = new FormData();
+      data.append("course_ID", this.course_ID);
+      data.append("student_ID", this.student_ID);
+      data.append("project_name", this.project.name);
+      data.append("purpose",this.purpose);
+      data.append("principle",this.principle);
+      data.append("device",this.device);
+      data.append("steps",this.steps);
+      data.append("conclusion",this.conclusion);
+      data.append("isSubmit", is_submit);
+      this.$axios({
+        url: "report/add",
+        method: "post",
+        data: data,
+        headers:{
+          token: this.token
+          // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
+        }
+      }).then((response) => {
+        console.log('report/add:'+response.data);
+      })
+          .catch(() => {
+
+          });
     },
     addReport(is_submit){
       let data = new FormData();
@@ -391,12 +418,6 @@ export default {
       }
     });
 
-    if(this.is_file=true){
-
-    }
-    else{
-
-    }
     // 获取实验报告
     this.$axios.get(
         '/report/get',{
@@ -453,6 +474,16 @@ export default {
           this.conclusion=content.conclusion
         });
 
+
+    if(this.is_file=true){
+
+    }
+    else{
+      if(this.has_submitted==false && this.is_expired==true){
+        this.autoSubmitTemplate();
+      }
+    }
+
     //获取实验的FileInfoList
     this.$axios.get(
         '/file/getFileList',{
@@ -471,15 +502,15 @@ export default {
         });
 
   },
-  updated() {
-    if(this.is_expired){
-      var htmls = document.getElementsByName('input')
-      for(var i=0 ;i<htmls.length; i++){
-        htmls[i].disabled=true
-        // console.log('updated'+htmls[i].disabled)
-      }
-    }
-  }
+  // updated() {
+  //   if(this.is_expired){
+  //     var htmls = document.getElementsByName('input')
+  //     for(var i=0 ;i<htmls.length; i++){
+  //       htmls[i].disabled=true
+  //       // console.log('updated'+htmls[i].disabled)
+  //     }
+  //   }
+  // }
 }
 </script>
 
@@ -500,11 +531,6 @@ export default {
   height: 600px;
   overflow: auto;
   padding-right: 200px;
-}
-.backButton{
-  margin-left: 60px;
-  margin-top: 15px;
-  float: left;
 }
 .title{
   text-align: center;

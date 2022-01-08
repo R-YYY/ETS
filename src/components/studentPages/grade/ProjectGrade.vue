@@ -24,16 +24,17 @@ export default {
         // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     }).then((response)=>{
-      console.log('begin');
+      console.log('score/getStuProScoreList:');
       console.log(response.data);
       var list=response.data;
-      console.log(list);
+      // console.log(list);
       var name_list=[];
       var score_list=[];
       for(var i=0; i<list.length; i++){
         console.log(i);
         name_list.push(list[i].name);
-        if(list[i].score==null){
+        if(list[i].score=='0'){
+          // 没有交的返回0
           score_list.push(0);
         }
         else{
