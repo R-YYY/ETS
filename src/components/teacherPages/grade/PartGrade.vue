@@ -328,7 +328,7 @@ export default {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 30px;
-  height: 480px;
+  height: 470px;
 }
 
 .gradeCard {

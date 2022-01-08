@@ -4,7 +4,7 @@
       <span class="title"><b>口v口 Experiment Teaching System 口∧口</b></span>
       <el-button class="backHome" @click="toHome" type="primary">返回首页</el-button>
     </el-header>
-    <el-container>
+    <el-container style="overflow: hidden">
       <!--主页侧边栏-->
       <el-aside class="mainAside" width="150px">
         <!--主页侧边栏课程头像-->
