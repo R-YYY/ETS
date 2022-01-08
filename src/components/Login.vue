@@ -130,7 +130,8 @@ export default {
           else if (window.sessionStorage.getItem("account_ID").length == 6)
             this.$router.push("/adminhome");
         })
-        .catch(function (error) {
+        .catch((error)=>{
+          console.log(error)
           this.$message({
             type: "error",
             message: "网络错误",

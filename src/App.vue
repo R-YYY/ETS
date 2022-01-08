@@ -157,7 +157,8 @@ html,body,#app {
   color: #2c3e50;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* 增加页面滚动条使得可以显示下面的内容 */
+  overflow: auto;
 }
 
 body{

@@ -3,13 +3,7 @@
     <div class="form" style="margin-top: 15px">
       <el-table
         ref="filterTable"
-        :data="
-          tableData.filter(
-            (data) =>
-              !search ||
-              data.account_ID.toLowerCase().includes(search.toLowerCase())
-          ) ||
-          tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+        :data="tableData.filter((data) => !search ||  data.account_ID.toLowerCase().includes(search.toLowerCase()) ) || tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
         "
         style="width: 100%"
       >

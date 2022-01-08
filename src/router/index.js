@@ -81,9 +81,17 @@ const routes = [
     component:StudentHome
   },
   {
+    path:'/studenthomeempty',
+    component:()=>import('@/components/home/studenthomeempty.vue')
+  },
+  {
     path:'/teacherhome',
     name:'TeacherHome',
     component:TeacherHome
+  },
+  {
+    path:'/teacherhomeempty',
+    component:()=>import('@/components/home/teacherhomeempty.vue')
   },
   {
     path:'/stuinfoset',

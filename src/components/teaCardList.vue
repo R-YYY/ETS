@@ -36,7 +36,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[8, 12, 16]"
+          :page-sizes="[4, 8, 12]"
           :page-size="pagesize"
           layout="total, sizes, prev, pager, next,jumper"
           :total="dataList.length"
@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pagesize: 8,
+      pagesize: 4,
       lastCardInfo:{
         _id: -1,
         _name:' '
