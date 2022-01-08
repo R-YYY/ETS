@@ -11,20 +11,10 @@
       >
         <div style="margin-top:30px">
           <el-card :body-style="{ padding: '10px'}" shadow="hover" class="box-card" @click.native="formore(item.course_ID)">
-            <!-- <div class="image-zone">
-              <img :src="`http://106.14.45.227:8080/${String(item.pic)}.png`"  weight=70px  height=70px>
-                            <img :src="`https://ui-avatars.com/api/?size=60&length=1&bold=true&background=6699CC&color=ffffff&rounded=true&name=`+item.name"  weight=70px  height=70px>
-            </div> -->
             <span>{{ item.course_name }}</span>
             <p>{{ item.course_ID }}</p>
             <p>{{ item.teacher_name}}</p>
             <span id='hiding-id' v-show="false">{{item.id}}</span>
-            <div class="botton-zone">
-              <el-button-group>
-                <slot></slot>
-                <!-- <el-button  class="button" @click="showDialog(),getDetail(item)">详细</el-button> -->
-              </el-button-group>
-            </div>
           </el-card>
         </div>
       </el-col>
@@ -36,7 +26,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[8, 12, 16]"
+          :page-sizes="[4, 8, 12]"
           :page-size="pagesize"
           layout="total, sizes, prev, pager, next,jumper"
           :total="dataList.length"
@@ -99,7 +89,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pagesize: 8,
+      pagesize: 4,
       lastCardInfo:{
         _id: -1,
         _name:' '
@@ -121,14 +111,14 @@ export default {
     handleCurrentChange(current_page) {
       this.currentPage = current_page;
     },
-    recordLocation(mes){
-      console.log(mes.currentTarget.parentElement
-                        .parentElement.parentElement.childNodes[4])
-      this.lastCardInfo._id = Number(mes.currentTarget.parentElement
-                        .parentElement.parentElement.childNodes[4].innerHTML)
-      this.lastCardInfo._name = mes.currentTarget.parentElement
-                        .parentElement.parentElement.childNodes[1].innerHTML
-    },
+    // recordLocation(mes){
+    //   console.log(mes.currentTarget.parentElement
+    //                     .parentElement.parentElement.childNodes[4])
+    //   this.lastCardInfo._id = Number(mes.currentTarget.parentElement
+    //                     .parentElement.parentElement.childNodes[4].innerHTML)
+    //   this.lastCardInfo._name = mes.currentTarget.parentElement
+    //                     .parentElement.parentElement.childNodes[1].innerHTML
+    // },
     formore(data){
         console.log(data)
         this.$router.push({

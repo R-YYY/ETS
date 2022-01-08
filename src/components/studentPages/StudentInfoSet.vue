@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav">
-      <div class="left" @click="toHome();">
+      <div class="left" @click="toHome()">
         <img
           src="@/assets/course2.png"
           alt=""
@@ -22,9 +22,7 @@
               <img src="@/assets/port.png" />
             </template>
             <el-menu-item index="/studenthome">
-              <el-button icon="el-icon-back" type="text">
-                返回主页
-              </el-button>
+              <el-button icon="el-icon-back" type="text"> 返回主页 </el-button>
             </el-menu-item>
             <el-menu-item>
               <el-button
@@ -62,7 +60,7 @@
                   >
                     <el-form-item label="学号" :label-width="formLabelWidth">
                       <el-input
-                        v-model="userInfo.id"
+                        v-model="userInfo.account_ID"
                         prefix-icon="el-icon-user"
                         autocomplete="off"
                         disabled
@@ -81,7 +79,7 @@
                       :label-width="formLabelWidth"
                     >
                       <el-input
-                        v-model="userInfo.idNum"
+                        v-model="userInfo.id_number"
                         prefix-icon="el-icon-postcard"
                         autocomplete="off"
                         disabled
@@ -113,13 +111,13 @@
               </template>
               <!-- 个人信息显示 -->
               <el-descriptions-item label="学号">{{
-                userInfo.id
+                userInfo.account_ID
               }}</el-descriptions-item>
               <el-descriptions-item label="姓名">{{
                 userInfo.name
               }}</el-descriptions-item>
               <el-descriptions-item label="身份证号码">
-                {{ userInfo.idNum }}</el-descriptions-item
+                {{ userInfo.id_number }}</el-descriptions-item
               >
             </el-descriptions>
             <hr />
@@ -203,35 +201,111 @@
 <script>
 export default {
   data() {
+    var validatePass1 = (rule, value, callback) => {
+      if (value !== this.userInfo.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       activeName: "first",
-      name: "lbh",
-      gender: "male",
       userInfo: {
-        id: "1952336",
-        name: "lb",
-        idNum: "500233",
-        email: "29454@qq.com",
+        account_ID: "",
+        name: "",
+        id_number: "",
+        email: "",
         password: "",
         rePassword: "",
       },
       dialogFormVisible: false,
       dialogForm2Visible: false,
-      formLabelWidth: 200,
+      formLabelWidth: "120px",
+      userInfoRules: {
+        //验证密码是否合法
+        password: [
+          { required: true, message: "请输入登录密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+          {
+            validator: function (rule, value, callback) {
+              //校验密码的正则: ^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,15}$
+              if (
+                /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$/.test(value) ==
+                false
+              ) {
+                callback(
+                  new Error("请输入包含字母和数字的组合，不能使用特殊字符")
+                );
+              } else {
+                //校验通过
+                callback();
+              }
+            },
+            trigger: "blur",
+          },
+        ],
+        //确认密码是否正确
+        rePassword: [
+          { required: true, message: "请再次确认密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+          { validator: validatePass1, trigger: "blur" },
+        ],
+      },
     };
+  },
+  created(){
+    this.getUserInfo();
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
     },
     logout() {
       sessionStorage.clear();
       this.$router.push("/login");
       location.reload();
     },
-    toHome(){
-      this.$router.push('/studenthome')
-    }
+    toHome() {
+      this.$router.push("/studenthome");
+    },
+    getUserInfo() {
+      let info = new FormData();
+      info.append("account_ID", window.sessionStorage.getItem("account_ID"));
+      let _this = this;
+      this.$axios({
+        url: "/account/getPrivacy",
+        method: "post",
+        data: info,
+        headers: {
+          token: window.sessionStorage.getItem("token"),
+        },
+      })
+        .then((res) => {
+          console.log("getUserInfo传出的：" + res.data);
+          _this.userInfo=res.data;
+          // _this.userInfo.account_ID = res.data.account_ID;
+          // _this.userInfo.name = res.data.name;
+          // _this.userInfo.email = res.data.email;
+          // _this.userInfo.id_number = res.data.id_number;
+          console.log("this.userInfo:" + _this.userInfo);
+        })
+        .catch(function (error) {
+          console.log("Get Nothing!" + error);
+        });
+    },
   },
 };
 </script>

@@ -26,6 +26,14 @@
               placeholder="请输入工号/学号"
             ></el-input>
           </el-form-item>
+          <!-- 身份证号码 -->
+          <el-form-item prop="ID_number" label="身份证号">
+            <el-input
+              v-model="registerForm.ID_number"
+              prefix-icon="el-icon-user"
+              placeholder="请输入身份证号"
+            ></el-input>
+          </el-form-item>
           <!-- 密码 -->
           <el-form-item prop="password" label="密码">
             <el-input
@@ -65,16 +73,7 @@
               @click="getCode('registerForm')"
               style="width: 40%; float: right"
             >
-              <!-- <el-button
-                  @click="getCode()"
-                  :disabled="!show"
-                  style="width: 40%; float: right"
-                > -->
               <span>发送邮箱验证码</span>
-              <!-- <span v-show="show">发送邮箱验证码</span> -->
-              <!-- <span v-show="!show" class="count"
-                    >{{ count }} s后可点击重发</span
-                  > -->
             </el-button>
           </el-form-item>
           <!-- 校验验证码 -->
@@ -104,7 +103,7 @@
 </template>
 
 <script>
-const TIME_COUNT = 60; // 设置一个全局的倒计时的时间
+// const TIME_COUNT = 60; // 设置一个全局的倒计时的时间
 export default {
   data() {
     //在data里面定义两个校验器,检验两次密码是否一致
@@ -120,6 +119,7 @@ export default {
       //这是注册表单的数据绑定对象
       registerForm: {
         userid: "",
+        ID_number: "",
         password: "",
         rePassword: "",
         email: "",
@@ -140,6 +140,30 @@ export default {
             validator: function (rule, value, callback) {
               if (/(^\d{5,7}$)/.test(value) == false) {
                 callback(new Error("请输入正确的账号"));
+              } else {
+                //校验通过
+                callback();
+              }
+            },
+            trigger: "blur",
+          },
+        ],
+        //验证身份证号是否合法
+        ID_number: [
+          { required: true, message: "请输入身份证号", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "长度在 18 个字符",
+            trigger: "blur",
+          },
+          {
+            validator: function (rule, value, callback) {
+              //校验身份证的正则：(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)
+              if (
+                /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(value) == false
+              ) {
+                callback(new Error("请输入正确的身份证号"));
               } else {
                 //校验通过
                 callback();
@@ -232,12 +256,12 @@ export default {
     },
     //向邮箱发送验证码
     getCode(registerForm) {
-      // console.log("eess6@163.com");
       this.$refs[registerForm].validateField("email", (email_check) => {
         if (email_check) return;
         console.log("邮箱验证通过");
         let data = new FormData();
         data.append("account_ID", this.registerForm.userid);
+        data.append("ID_number", this.registerForm.ID_number);
         data.append("email", this.registerForm.email);
         this.$axios({
           url: "/account/sendEmail",
@@ -245,7 +269,7 @@ export default {
           data: data,
         })
           .then((response) => {
-            console.log(response.data);
+            console.log("getCode.response.data:" + response.data);
             if (response.data === 1) {
               this.$message({
                 type: "success",
@@ -254,42 +278,41 @@ export default {
             } else if (response.data === -1) {
               this.$message({
                 type: "error",
-                message: "学号或工号已注册！请重试",
+                message: "验证信息错误！请重试",
               });
             } else if (response.data === -2) {
               this.$message({
                 type: "error",
-                message: "学号或工号不存在！请重试",
+                message: "邮件发送失败！请稍后重试",
               });
             } else {
               this.$message({
                 type: "error",
-                message: "发送失败！请重试",
+                message: "访问错误！",
               });
             }
           })
           .catch(() => {
             this.$message({
               type: "error",
-              message: "发送失败！请重试",
+              message: "访问错误！",
             });
           });
       });
-      console.log("55555"); //执行
       // 验证码倒计时
-      if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.show = false;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--;
-          } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
-          }
-        }, 1000);
-      }
+      // if (!this.timer) {
+      //   this.count = TIME_COUNT;
+      //   this.show = false;
+      //   this.timer = setInterval(() => {
+      //     if (this.count > 0 && this.count <= TIME_COUNT) {
+      //       this.count--;
+      //     } else {
+      //       this.show = true;
+      //       clearInterval(this.timer);
+      //       this.timer = null;
+      //     }
+      //   }, 1000);
+      // }
     },
     //注册功能
     register(registerForm) {
@@ -298,6 +321,7 @@ export default {
         if (valid) {
           let data = new FormData();
           data.append("account_ID", this.registerForm.userid);
+          data.append("ID_number", this.registerForm.ID_number);
           data.append("password", this.registerForm.password);
           data.append("email", this.registerForm.email);
           data.append("code", this.registerForm.code);
@@ -313,17 +337,32 @@ export default {
                   message: "注册成功！",
                 });
                 this.$router.push("/");
+              } else if (response.data === -1) {
+                this.$message({
+                  type: "error",
+                  message: "验证码错误！请重试",
+                });
+              } else if (response.data === -2) {
+                this.$message({
+                  type: "error",
+                  message: "信息填写不一致！请重试",
+                });
+              } else if (response.data === -3) {
+                this.$message({
+                  type: "error",
+                  message: "未发送邮件！请重试",
+                });
               } else {
                 this.$message({
                   type: "error",
-                  message: "填写信息错误！请重试",
+                  message: "注册失败！请重试",
                 });
               }
             })
             .catch(() => {
               this.$message({
                 type: "error",
-                message: "注册失败！请重试",
+                message: "访问错误！请重试",
               });
             });
         } else {
