@@ -102,8 +102,6 @@
             </div>
           </div>
         </el-card>
-        <!-- 公告板 -->
-        <!-- <el-card class="mainRight">????</el-card> -->
       </div>
     </div>
   </div>
@@ -129,7 +127,7 @@ export default {
       endCourseData: [],
       dialogFormVisible: false,
       courseInfo: {
-        courseName: "??",
+        courseName: "",
       },
       courseInfoRules: {
         //验证课程名称是否合法

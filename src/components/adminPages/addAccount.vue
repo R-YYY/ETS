@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-card class="main">
+    <div class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="添加老师" name="first">
           <el-form :model="userInfo1" ref="userInfo1" :rules="userInfo1Rules">
@@ -15,14 +15,14 @@
             </el-form-item>
             <el-form-item>
               <el-button @click="reset('userInfo1')">重置</el-button>
-              <el-button type="primary" @click="addTeacher('userInfo1')"
+              <el-button type="primary" @click="addTeachers('userInfo1')"
                 >创建</el-button
               >
             </el-form-item>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="添加学生" name="second">
-                      <el-form :model="userInfo2" ref="userInfo2" :rules="userInfo2Rules">
+          <el-form :model="userInfo2" ref="userInfo2" :rules="userInfo2Rules">
             <el-form-item prop="id" label="学号">
               <el-input v-model="userInfo2.id" type="text"></el-input>
             </el-form-item>
@@ -41,7 +41,58 @@
           </el-form>
         </el-tab-pane>
       </el-tabs>
-    </el-card>
+    </div>
+    <div>
+      <template>
+        <el-button
+          icon="el-icon-plus"
+          type="primary"
+          @click="dialogFormVisible = true"
+          style="margin-top: 20px"
+        >
+          批量创建
+        </el-button>
+        <el-dialog title="批量创建账户" :visible.sync="dialogFormVisible">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="身份" required>
+              <el-radio-group v-model="form.role">
+                <el-radio label="Teacher"></el-radio>
+                <el-radio label="Student"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="文件" required>
+              <el-upload
+                class="upload-demo"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                action=""
+                :file-list="fileList"
+                :http-request="uploadFile"
+                :before-upload="BeforeUpload"
+                :limit="1"
+                :on-exceed="handleExceed"
+                drag
+                multiple
+              >
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">
+                  将文件拖到此处，或<em>点击上传</em>
+                </div>
+                <div class="el-upload__tip" slot="tip">
+                  支持的文件格式有：excel
+                </div>
+              </el-upload>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">导入</el-button>
+              <el-button type="primary" @click="dialogFormVisible = false"
+                >取消</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </el-dialog>
+      </template>
+    </div>
   </div>
 </template>
 <script>
@@ -49,6 +100,12 @@ export default {
   data() {
     return {
       activeName: "first",
+      dialogFormVisible: false,
+      newFile: new FormData(),
+      fileList: [],
+      form: {
+        role: "",
+      },
       userInfo1: {
         id: "",
         name: "",
@@ -251,8 +308,6 @@ export default {
                 message: "访问错误！",
               });
             });
-
-          this.dialogFormVisible = false;
         } else {
           console.log(valid, wrongstring);
           console.log("error submit!!");
@@ -262,7 +317,6 @@ export default {
             type: "warning",
             duration: 3000,
           });
-          // this.dialogFormVisible = false;
           return false;
         }
       });
@@ -305,8 +359,6 @@ export default {
                 message: "访问错误！",
               });
             });
-
-          this.dialogFormVisible = false;
         } else {
           console.log(valid, wrongstring);
           console.log("error submit!!");
@@ -316,10 +368,68 @@ export default {
             type: "warning",
             duration: 3000,
           });
-          // this.dialogFormVisible = false;
           return false;
         }
       });
+    },
+    onSubmit() {
+      // 这里接口我想的是传身份和文件，身份分为Teacher和Student
+      let Info = new FormData();
+      Info.append("file", this.newFile);
+      Info.append("role", this.form.role);
+      this.axios({
+        //   接口路径
+        url: "/upload",
+        method: "post",
+        data: Info,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((res) => {
+          console.log("res:", res);
+          (this.dialogFormVisible = false),
+            this.$message({
+              type: "success",
+              message: "提交成功!",
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `文件数量限制: 1; 您本次选择了${files.length}个文件，共选择了${
+          files.length + fileList.length
+        }个文件`
+      );
+    },
+
+    BeforeUpload(file) {
+      // 获取上传文件的后缀名，以.作为分界线
+      const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const whiteList = ["xls", "xlsx"];
+      if (whiteList.indexOf(fileSuffix) === -1) {
+        this.$message("上传文件只能是xls或xlsx格式", "error");
+        return false;
+      }
+      // if (file) {
+      //   this.newFile.append('file', file) //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中
+      //   console.log(this.newFile.get('file'))
+      // } else {
+      //   return false
+      // }
+    },
+
+    uploadFile(file) {
+      this.newFile.append("file", file.file);
     },
   },
 };
@@ -329,7 +439,10 @@ export default {
   margin-top: 50px;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 5px 5px 5px 5px #f7f7f7;
+  border: #f7f7f7;
 }
 
 .main {
