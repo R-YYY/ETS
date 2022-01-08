@@ -401,45 +401,66 @@ export default {
           let Psd = new FormData();
           Psd.append("account_ID", window.sessionStorage.getItem("account_ID"));
           Psd.append("password", this.userInfo.password);
-          this.$axios({
-            url: "/account/changePassword",
-            method: "post",
-            data: Psd,
-            headers: {
-              token: window.sessionStorage.getItem("token"),
-            },
-          })
-            .then((res) => {
-              console.log("psd:"+this.userInfo.password)
-              console.log("updatePsd.res.data:" + res.data);
-              if (res.data !== -1) {
-                this.$message({
-                  showClose: true,
-                  message: `修改密码成功`,
-                  type: "success",
-                  duration: 3000,
+
+          this.$confirm(
+            "此操作将为该账户重置密码为" +
+              this.userInfo.password +
+              "并且退出登录，是否继续？",
+            "提示",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning",
+            }
+          )
+            .then(() => {
+              this.$axios({
+                url: "/account/changePassword",
+                method: "post",
+                data: Psd,
+                headers: {
+                  token: window.sessionStorage.getItem("token"),
+                },
+              })
+                .then((res) => {
+                  console.log("psd:" + this.userInfo.password);
+                  console.log("updatePsd.res.data:" + res.data);
+                  if (res.data !== -1) {
+                    this.$message({
+                      showClose: true,
+                      message: `修改密码成功`,
+                      type: "success",
+                      duration: 3000,
+                    });
+                    this.dialogForm2Visible = false;
+                    this.logout();
+                  } else {
+                    this.$notify({
+                      title: "提示",
+                      message: "修改密码失败",
+                      type: "warning",
+                      duration: 3000,
+                    });
+                  }
+                })
+                .catch((err) => {
+                  this.$notify({
+                    title: "提示",
+                    message: "用户访问错误",
+                    type: "error",
+                    duration: 0,
+                  });
+                  console.log(err);
                 });
-                this.dialogForm2Visible = false;
-                this.logout();
-              } else {
-                this.$notify({
-                  title: "提示",
-                  message: "修改密码失败",
-                  type: "warning",
-                  duration: 3000,
-                });
-              }
+              this.dialogFormVisible = false;
             })
-            .catch((err) => {
-              this.$notify({
-                title: "提示",
-                message: "用户访问错误",
-                type: "error",
-                duration: 0,
+            .catch(() => {
+              this.$message({
+                type: "info",
+                message: "已取消",
               });
-              console.log(err);
+              this.dialogFormVisible = false;
             });
-          this.dialogFormVisible = false;
         } else {
           console.log(valid, wrongstring);
           console.log("error submit!!");
