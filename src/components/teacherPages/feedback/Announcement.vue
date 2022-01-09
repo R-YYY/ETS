@@ -44,14 +44,13 @@
                 <el-card class="announcement">
                   <div slot="header" style="margin-left: 10px">
                     <span class="title"><b>公告名称：</b>{{ item.name }}</span>
-                    <el-button
-                        type="danger"
-                        style="margin-left: 250px"
-                        size="small" plain
-                        @click="openDelete(item)" v-if="isRes()">删除</el-button>
                     <br><br>
                     <span class="info"><b>发布时间：</b>{{ item.release_time }}</span>
                     <span class="info"><b>发布教师：</b>{{ item.teacher_name }}</span>
+                    <el-button
+                        type="danger"
+                        size="small" plain
+                        @click="openDelete(item)" v-if="isRes()">删除</el-button>
                   </div>
                   <div class="announcementContent">
                     <p><b>公告内容：</b>{{item.content}}</p>
