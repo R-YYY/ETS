@@ -24,7 +24,7 @@
                   <span class="feedbackInfo"><b>时间：</b>{{ item.submit_time }}</span>
                   <el-button type="danger" plain @click="openDelete(item)" v-if="isRes()">删除</el-button>
                 </div>
-                <div class="feedbackContent">
+                <div>
                   <p><b>反馈内容：</b>{{item.content}}</p>
                 </div>
               </el-card>

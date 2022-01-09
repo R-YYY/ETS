@@ -5,13 +5,24 @@
     <div class="feedbackText">
       <el-divider></el-divider>
       <div v-for="item in announcement_list" class="feedback-item">
-        <div>
-          <div class="header">
-            {{item.name}}<span class="number">{{item.release_time}}</span>
+        <el-card class="announcement">
+          <div slot="header" style="margin-left: 10px">
+            <span class="title"><b>公告名称：</b>{{ item.name }}</span>
+            <br><br>
+            <span class="info"><b>发布时间：</b>{{ item.release_time }}</span>
+            <span class="info"><b>发布教师：</b>{{ item.teacher_name }}</span>
           </div>
-          <div class="feedback-content">{{item.content}}</div>
-          <div class="name">—— {{item.teacher_name}}</div>
-        </div>
+          <div class="announcementContent">
+            <p><b>公告内容：</b>{{item.content}}</p>
+          </div>
+        </el-card>
+<!--        <div>-->
+<!--          <div class="header">-->
+<!--            {{item.name}}<span class="number">{{item.release_time}}</span>-->
+<!--          </div>-->
+<!--          <div class="feedback-content">{{item.content}}</div>-->
+<!--          <div class="name">—— {{item.teacher_name}}</div>-->
+<!--        </div>-->
         <el-divider></el-divider>
       </div>
     </div>
@@ -125,5 +136,23 @@ export default {
   margin-left: 100px;
   /*margin-right: 50px;*/
   font-size: 18px;
+}
+
+.title{
+  font-size: 21px;
+}
+
+.info{
+  font-size: 14px;
+  margin-right: 50px;
+}
+
+.announcement{
+  background-color: rgba(239, 248, 246, 0.27);
+  margin: 20px 70px 40px 30px;
+}
+
+.announcementContent{
+  margin-left: 10px;
 }
 </style>

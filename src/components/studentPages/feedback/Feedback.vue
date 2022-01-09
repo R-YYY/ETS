@@ -1,26 +1,42 @@
 <template>
   <div id="feedback">
     <div>
-      <el-input
-          class="writeArea"
-          type="textarea"
-          :rows="2"
-          placeholder="写反馈"
-          v-model="myFeedback">
-      </el-input>
-      <el-button type="primary" class="feedbackButton" @click="sendFeedback">发表反馈</el-button>
+      <el-container>
+        <div>
+          <el-input
+              class="writeArea"
+              type="textarea"
+              :rows="5"
+              resize="none"
+              placeholder="请输入反馈内容"
+              v-model="myFeedback">
+          </el-input>
+        </div>
+        <div class="inputArea">
+        <el-button type="primary" class="feedbackButton" @click="sendFeedback">发表反馈</el-button>
+      </div>
+      </el-container>
       <el-divider></el-divider>
     </div>
-
-    <el-empty v-if="is_empty" description="没有公告" style="height: 325px"></el-empty>
+    <el-empty v-if="is_empty" description="没有反馈" style="height: 325px"></el-empty>
     <div v-if="!is_empty" class="feedbackArea">
       <div class="feedbackText">
         <div v-for="item in feedback_list">
-          <div style="font-size: 19px;margin-bottom: 7px;padding-left: 40px"
-          >{{item.name}} {{item.student_ID}}</div>
-          <div style="margin-bottom: 15px;font-size: 17px;padding-left: 40px"
-          >{{item.submit_time}}</div>
-          <div class="feedback-content">{{item.content}}</div>
+          <el-card class="feedback">
+            <div slot="header">
+              <span class="feedbackInfo"><b>反馈人：</b>{{ item.name }}</span>
+              <span class="feedbackInfo"><b>学号：</b>{{ item.student_ID }}</span>
+              <span class="feedbackInfo"><b>时间：</b>{{ item.submit_time }}</span>
+            </div>
+            <div style="margin-left: 20px">
+              <p><b>反馈内容：</b>{{item.content}}</p>
+            </div>
+          </el-card>
+<!--          <div style="font-size: 19px;margin-bottom: 7px;padding-left: 40px"-->
+<!--          >{{item.name}} {{item.student_ID}}</div>-->
+<!--          <div style="margin-bottom: 15px;font-size: 17px;padding-left: 40px"-->
+<!--          >{{item.submit_time}}</div>-->
+<!--          <div class="feedback-content">{{item.content}}</div>-->
           <el-divider></el-divider>
         </div>
       </div>
@@ -152,7 +168,7 @@ export default {
 }
 .writeArea{
   margin-top: 10px;
-  width: 550px;
+  width: 500px;
   margin-left: 50px;
   font-size: 18px;
 }
@@ -179,5 +195,21 @@ export default {
   margin-left: 50px;
   margin-right: 50px;
   font-size: 18px;
+}
+
+.feedbackInfo{
+  margin-left: 20px;
+  margin-right: 60px;
+}
+
+.feedback{
+  background-color: rgba(239, 248, 246, 0.27);
+  margin: 0 50px 0 40px;
+}
+
+.inputArea{
+  width: 200px;
+  margin-top: 60px;
+  margin-left: 10px;
 }
 </style>
