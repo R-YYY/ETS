@@ -23,13 +23,21 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
+          <el-tooltip
+              class="item"
+              effect="dark"
+              :content="getContent(scope.row.attend_type)"
+              placement="right"
+          >
             <div
+                :style="scope.row.attend_type === '待考勤'?'cursor: pointer':''"
                 :class="[{'success':(scope.row.attend_type === '出勤')},
                 {'danger':(scope.row.attend_type === '缺勤')},
                 {'normal':(scope.row.attend_type === '待考勤')}
                 ]"
-                 @click="btnClick(scope.row.attend_type,scope.row.start_time)">{{ scope.row.attend_type }}
+                @click="btnClick(scope.row.attend_type,scope.row.start_time)">{{ scope.row.attend_type }}
             </div>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -68,6 +76,18 @@ export default {
     )
   },
   methods:{
+    getContent(value){
+      if(value === "待考勤"){
+        return "点击考勤"
+      }
+      else if(value === "出勤"){
+        return "已考勤"
+      }
+      else if(value === "缺勤"){
+        return "考勤已结束"
+      }
+    },
+
     btnClick(type,start_time) {
       if(type==='出勤'||type==='缺勤'){
 

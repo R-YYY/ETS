@@ -31,7 +31,7 @@
                     v-model="myAnnouncement">
                 </el-input>
               </div>
-              <el-button class="inputBtn" type="primary" @click="sendAnnounce">发布公告</el-button>
+              <el-button class="inputBtn" type="primary" @click="sendAnnounce" :disabled="!isAct()">发布公告</el-button>
             </div>
             <el-empty v-if="is_empty"
                       description="没有公告"
