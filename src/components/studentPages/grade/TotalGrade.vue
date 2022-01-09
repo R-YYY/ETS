@@ -57,18 +57,25 @@ export default {
           else{
             p_score=0
           }
-          let total=a_score+p_score;
-          let remain=100-a_score-p_score;
+          let total=a_score+p_score
+          let remain=100-(a_score+p_score)
+          a_score=a_score.toFixed(2)
+          p_score=p_score.toFixed(2)
+          // let remain=100-parseFloat(a_score)-parseFloat(p_score);
+          remain=remain.toFixed(2)
+          // let total= parseFloat(a_score + p_score);
+          // let total=a_score.toFixed(2)+p_score.toFixed(2)
+          total=total.toFixed(1)
           var data_list=[];
           if(a_score>=0){
-            var obj={ value: a_score, name: '考勤分数'+a_score };
+            var obj={ value: a_score, name: '考勤分数 '+a_score };
             data_list.push(obj);
           }
           if(p_score>=0){
-            var obj={ value: p_score, name: '实验分数'+p_score };
+            var obj={ value: p_score, name: '实验分数 '+p_score };
             data_list.push(obj);
           }
-          data_list.push({ value: remain, name: '未得分数' });
+          data_list.push({ value: remain, name: '未得分数 ' });
           // 基于准备好的dom，初始化echarts实例
           var myChart = echarts.init(document.getElementById('shape3'));
           window.onresize = function() {
