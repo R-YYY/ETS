@@ -89,7 +89,7 @@ export default {
   width: 550px;
   height: 440px;
   /*border: 1px solid black;*/
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 15px 0 rgba(0, 0, 0, 0.14);
+  /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 15px 0 rgba(0, 0, 0, 0.14);*/
   border-radius: 10px;
   margin:5px auto;
   padding-top: 10px;

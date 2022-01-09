@@ -91,9 +91,7 @@ export default {
       student_ID:window.sessionStorage.getItem('account_ID'),
       activeIndex: '',
       teacher_list:[],
-      course : {
-        description:'',
-      },
+      course : {},
     }
   },
   methods:{
@@ -175,6 +173,9 @@ export default {
     ).then((response)=>{
       console.log('course: '+response.data)
       this.course=response.data;
+      if(this.course.description==null||this.course.description=='null'){
+        this.course.description='暂无课程介绍'
+      }
     })
   },
   beforeDestroy() {

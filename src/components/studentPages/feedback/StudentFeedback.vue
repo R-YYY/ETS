@@ -3,12 +3,12 @@
     <el-tabs class="stuFileTab" v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="announcement">
-        <span slot="label" class="paneName"><i class="el-icon-document"></i> 公告</span>
+        <span slot="label" class="paneName"><i class="el-icon-bell"></i> 公告</span>
         <Announcement></Announcement>
       </el-tab-pane>
 
       <el-tab-pane name="feedback">
-        <span slot="label" class="paneName"><i class="el-icon-notebook-2"></i> 学生反馈</span>
+        <span slot="label" class="paneName"><i class="el-icon-edit-outline"></i> 学生反馈</span>
         <Feedback></Feedback>
       </el-tab-pane>
     </el-tabs>
