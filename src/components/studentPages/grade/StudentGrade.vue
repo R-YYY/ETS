@@ -2,9 +2,9 @@
   <div id="StudentGrade">
     <el-tabs class="stuGradeTab" v-model="activeName" @tab-click="handleClick">
 
-      <el-tab-pane name="total">
+      <el-tab-pane name="weight">
         <span slot="label" class="paneName"><i class="el-icon-user-solid"></i> 成绩权重</span>
-        <TotalGrade></TotalGrade>
+        <GradeWeight></GradeWeight>
       </el-tab-pane>
 
       <el-tab-pane name="project">
@@ -12,24 +12,26 @@
         <ProjectGrade></ProjectGrade>
       </el-tab-pane>
 
-      <el-tab-pane name="attendance">
+      <el-tab-pane name="total">
         <span slot="label" class="paneName"><i class="el-icon-date"></i> 总成绩</span>
-        <AttendanceGrade></AttendanceGrade>
+        <TotalGrade></TotalGrade>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import TotalGrade from "./GradeWeight";
+
+import GradeWeight from "./GradeWeight";
 import ProjectGrade from "./ProjectGrade";
-import AttendanceGrade from "./TotalGrade";
+import TotalGrade from "./TotalGrade";
+
 export default {
   name: "StudentGrade",
-  components: {AttendanceGrade, ProjectGrade, TotalGrade},
+  components: {GradeWeight, ProjectGrade, TotalGrade},
   data(){
     return{
-      activeName:'total',
+      activeName:'weight',
     }
   },
   mounted() {

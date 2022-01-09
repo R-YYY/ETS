@@ -12,11 +12,11 @@
     <div>
       <el-tabs class="feedbackTab" active-name="feedback" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="课程公告" name="announcement">
-          <el-empty description="没有公告" style="height: 500px"></el-empty>
+          <el-empty v-if="is_empty" description="没有公告" style="height: 500px"></el-empty>
         </el-tab-pane>
         <el-tab-pane label="课程反馈" name="feedback">
-<!--          <el-empty description="没有反馈" style="height: 500px"></el-empty>-->
-          <div class="feedbackArea">
+          <el-empty v-if="is_empty" description="没有反馈" style="height: 500px"></el-empty>
+          <div v-if="!is_empty" class="feedbackArea">
             <div class="feedbackText">
               <div v-for="item in feedback_list" class="feedback-item">
                 <div style="width: 300px;float: left">
@@ -46,7 +46,7 @@ export default {
       feedback_list:[],
       course_ID: this.$route.params.course_id,
       teacher_ID:window.sessionStorage.getItem('account_ID'),
-
+      is_empty:true,
     }
   },
   methods:{
@@ -70,6 +70,9 @@ export default {
       console.log('feedback_list:');
       console.log(response.data);
       var noNameList = response.data
+      if(noNameList.length>0){
+        this.is_empty=false
+      }
       for(let i=0; i<noNameList.length; i++){
         this.$axios.get('/student/get',{
           params:{

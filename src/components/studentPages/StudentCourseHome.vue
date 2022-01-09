@@ -39,7 +39,7 @@
       </el-menu-item>
 
       <el-menu-item index="5" class="stuOption" @click="toFeedback">
-        <span>课程反馈</span>
+        <span>课程交流</span>
       </el-menu-item>
 
       <el-menu-item index="6" class="toHome" style="margin-left: 300px;" @click="toHome">

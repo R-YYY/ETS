@@ -8,7 +8,7 @@
 <script>
 import * as echarts from 'echarts';
 export default {
-  name: "TotalGrade",
+  name: "GradeWeight",
   data(){
     return{
 

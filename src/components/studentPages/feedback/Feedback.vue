@@ -12,7 +12,8 @@
       <el-divider></el-divider>
     </div>
 
-    <div class="feedbackArea">
+    <el-empty v-if="is_empty" description="没有公告" style="height: 325px"></el-empty>
+    <div v-if="!is_empty" class="feedbackArea">
       <div class="feedbackText">
         <div v-for="item in feedback_list">
           <div style="font-size: 19px;margin-bottom: 7px;padding-left: 40px"
@@ -32,11 +33,11 @@ export default {
   name: "Feedback",
   data(){
     return{
-      activeName:'total',
       myFeedback: '',
       feedback_list:[],
       course_ID: this.$route.params.course_id,
       student_ID:window.sessionStorage.getItem('account_ID'),
+      is_empty:true,
     }
   },
   methods:{
@@ -104,6 +105,9 @@ export default {
       console.log('feedback_list:');
       console.log(response.data);
       var noNameList = response.data
+      if(noNameList.length>0){
+        this.is_empty=false;
+      }
       for(let i=0; i<noNameList.length; i++){
         this.$axios.get('/student/get',{
           params:{

@@ -30,12 +30,6 @@ export default {
       var score_list=[];
       for(var i=0; i<list.length; i++){
         name_list.push(list[i].name);
-        // if(list[i].score==null){
-        //   score_list.push(0);
-        // }
-        // else{
-        //   score_list.push(list[i].score);
-        // }
         score_list.push(list[i].score);
       }
       // console.log(name_list);
