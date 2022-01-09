@@ -112,10 +112,10 @@ export default {
     deleteAnnouncement(item){
       let data = new FormData()
       data.append("course_ID",this.$route.params.course_id)
-      data.append("release_time",item.release_time)
-      data.append("name",item.student_ID)
+      data.append("name",item.name)
       data.append("teacher_ID",item.teacher_ID)
       data.append("content","")
+      data.append("release_time",item.release_time)
       this.$axios({
         url:"announcement/delete",
         method:"post",
