@@ -77,12 +77,12 @@ export default {
 
     deleteFeedback(item){
       let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
       data.append("student_ID",item.student_ID)
       data.append("submit_time",item.submit_time)
-      data.append("course_ID",this.$route.params.course_id)
       data.append("content","")
       this.$axios({
-        url:"/feedback/delete",
+        url:"/feedback/deleteFeedback",
         method:"post",
         data:data,
         headers:{
