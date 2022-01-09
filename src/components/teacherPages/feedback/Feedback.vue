@@ -14,9 +14,9 @@
         <el-tab-pane label="课程公告" name="announcement">
         </el-tab-pane>
         <el-tab-pane label="课程反馈" name="feedback">
-          <el-empty v-if="is_empty" description="没有反馈" style="height: 500px"></el-empty>
-          <div v-if="!is_empty" class="feedbackArea">
-            <div v-for="item in feedback_list" class="feedback-item">
+          <el-empty v-if="is_empty" description="没有反馈" style="height: 500px" v-loading="loading"></el-empty>
+          <div v-if="!is_empty" class="feedbackArea" >
+            <div v-for="item in feedback_list" class="feedback-item" v-loading="loading">
               <el-card class="feedback">
                 <div slot="header" style="margin-left: 30px">
                   <span class="feedbackInfo"><b>反馈人：</b>{{ item.name }}</span>
@@ -41,6 +41,7 @@ export default {
   name: "Feedback",
   data(){
     return {
+      loading:true,
       input:'',
       feedback_list:[],
       course_ID: this.$route.params.course_id,
@@ -99,11 +100,11 @@ export default {
       else if (tab.index == 1) this.$router.push({ name: "feedbacks" });
     },
   },
-  mounted() {
+  async mounted() {
     this.feedback_list.splice(0)
     var id=this.course_ID;
     // 获得所有的feedback
-    this.$axios.get('/feedback/getAll',{
+    await this.$axios.get('/feedback/getAll',{
       params:{
         course_ID:id,
       },
@@ -132,13 +133,10 @@ export default {
             content:noNameList[i].content,
           }
           this.feedback_list.push(obj)
-        })
-            .catch(() => {
-            });
+        }).catch(() => {});
       }
-    })
-        .catch(() => {
-        });
+    }).catch();
+    this.loading=false
   }
 };
 </script>

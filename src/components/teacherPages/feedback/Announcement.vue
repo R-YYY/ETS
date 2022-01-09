@@ -24,6 +24,7 @@
               <div class="input">
                 <p><b>公告内容：</b></p>
                 <el-input
+                    resize="none"
                     type="textarea"
                     :rows="10"
                     placeholder="请输入公告内容"
@@ -32,16 +33,25 @@
               </div>
               <el-button class="inputBtn" type="primary" @click="sendAnnounce">发布公告</el-button>
             </div>
-            <el-empty v-if="is_empty" description="没有公告" style="width:55%;height: 500px"></el-empty>
+            <el-empty v-if="is_empty"
+                      description="没有公告"
+                      style="width:55%;height: 500px"
+                      v-loading="loading">
+            </el-empty>
             <div v-if="!is_empty" class="announcementArea">
               <h2 style="margin-left: 30px">历史公告</h2>
-              <div v-for="item in announcement_list">
+              <div v-for="item in announcement_list" v-loading="loading">
                 <el-card class="announcement">
                   <div slot="header" style="margin-left: 10px">
-                    <p class="title"><b>公告名称：</b>{{ item.name }}</p>
+                    <span class="title"><b>公告名称：</b>{{ item.name }}</span>
+                    <el-button
+                        type="danger"
+                        style="margin-left: 250px"
+                        size="small" plain
+                        @click="openDelete(item)">删除</el-button>
+                    <br><br>
                     <span class="info"><b>发布时间：</b>{{ item.release_time }}</span>
                     <span class="info"><b>发布教师：</b>{{ item.teacher_name }}</span>
-                    <el-button type="danger" style="margin-left: 50px" plain @click="openDelete(item)">删除</el-button>
                   </div>
                   <div class="announcementContent">
                     <p><b>公告内容：</b>{{item.content}}</p>
@@ -63,6 +73,7 @@ export default {
   name: "Announcement",
   data(){
     return{
+      loading:true,
       input:'',
       announcementName:'',
       myAnnouncement:'',
@@ -186,11 +197,11 @@ export default {
           });
     }
   },
-  mounted() {
+  async mounted() {
     this.announcement_list.splice(0)
     var id=this.course_ID;
     // 获得所有的announcement
-    this.$axios.get('/announcement/getAll',{
+    await this.$axios.get('/announcement/getAll',{
       params:{
         course_ID:id,
       },
@@ -198,8 +209,6 @@ export default {
         token: window.sessionStorage.getItem('token')
       },
     }).then((response)=>{
-      console.log('announce_list:');
-      console.log(response.data);
       var noNameList = response.data
       if(noNameList.length>0){
         this.is_empty=false
@@ -224,16 +233,13 @@ export default {
             name:noNameList[i].name,
           }
           this.announcement_list.push(obj)
-        })
-            .catch(() => {
-              console.log('error')
-            });
-      }
-    })
-        .catch(() => {
+        }).catch(() => {
+          console.log('error')
         });
+      }
+    }).catch();
+    this.loading=false
   }
-
 }
 </script>
 
@@ -260,7 +266,7 @@ export default {
 
 .info{
   font-size: 14px;
-  margin-right: 30px;
+  margin-right: 50px;
 }
 
 .announcement{
