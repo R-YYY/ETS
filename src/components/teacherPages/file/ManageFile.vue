@@ -9,22 +9,29 @@
         >
         </el-input>
         <el-button>搜索</el-button>
-        <el-button>新建文件夹</el-button>
+        <el-tooltip
+            class="item"
+            effect="dark"
+            content="仅可在一级目录内新建文件夹"
+            placement="top"
+        >
+        <el-button :disabled="!isAct()||!canAddFolder()" @click="addFolder">新建文件夹</el-button>
+        </el-tooltip>
         <el-tooltip
           class="item"
           effect="dark"
           content="仅可在二级目录内上传文件"
-          placement="right"
+          placement="top"
         >
           <el-upload
             class="uploadFile"
             action="#"
             multiple
             :show-file-list="false"
-            :disabled="!showOperation()"
             :http-request="handleUpload"
+            :disabled="!showOperation()"
           >
-            <el-button :disabled="!showOperation()">上传文件</el-button>
+            <el-button :disabled="!isAct()||!showOperation()">上传文件</el-button>
           </el-upload>
         </el-tooltip>
       </el-container>
@@ -110,6 +117,7 @@
                         type="text"
                         v-if="showOperation()"
                         @click="handleDelete(scope.row)"
+                        :disabled="!isAct()"
                     >删除文件
                     </el-button>
                   </template>
@@ -175,6 +183,10 @@ export default {
       this.filePath = this.filePath + "/" + row.file_name;
     },
 
+    canAddFolder(){
+      return this.filePath.split("/").length === 2;
+    },
+
     showOperation() {
       return this.filePath.split("/").length >= 3;
     },
@@ -229,6 +241,56 @@ export default {
         });
     },
 
+    addFolder(){
+      let _this = this
+      this.$prompt('请输入文件夹名', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValidator:function(v){
+          let tmp = 0
+          if(_this.filePath === "/实验资料")
+            tmp = 1
+          for (let i = 0; i < _this.totalFiles[tmp].children.length; i++)
+            if(_this.totalFiles[tmp].children[i].label === v)
+              return false
+          return true
+        },
+        inputErrorMessage: '文件夹名已存在'
+      }).then(({ value }) => {
+        let data = new FormData()
+        data.append("course_ID",_this.$route.params.course_id)
+        data.append("path",_this.filePath)
+        data.append("fileName",value)
+        this.$axios({
+          url:"/file/addFolder",
+          method:"post",
+          data:data,
+          headers:{
+            token: window.sessionStorage.getItem('token')
+          }
+        }).then((response)=>{
+          if(response.data === 1){
+            if(this.filePath === "/课程资料"){
+              _this.totalFiles[0].children.push({label: value})
+            }
+            if(this.filePath === "/实验资料"){
+              _this.totalFiles[1].children.push({label: value})
+            }
+            this.$message({
+              type: 'success',
+              message: "新建成功！"
+            });
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: "操作失败，请重试！"
+            });
+          }
+        })
+      }).catch();
+    },
+
     getDateYYYYMMddHHMMSS() {
       const date = new Date();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -254,8 +316,6 @@ export default {
         data: data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then((response) => {
@@ -356,8 +416,6 @@ export default {
       },
       headers: {
         token: window.sessionStorage.getItem('token')
-        // token:
-        //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     })
       .then((response) => {

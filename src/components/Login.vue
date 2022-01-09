@@ -139,6 +139,16 @@ export default {
         });
     },
   },
+  mounted() {
+    if(window.sessionStorage.getItem("account_ID") !== ""){
+      if (window.sessionStorage.getItem("account_ID").length == 5)
+        this.$router.push("/teacherhome");
+      else if (window.sessionStorage.getItem("account_ID").length == 7)
+        this.$router.push("/studenthome");
+      else if (window.sessionStorage.getItem("account_ID").length == 6)
+        this.$router.push("/adminhome");
+    }
+  }
 };
 </script>
 

@@ -119,22 +119,6 @@ export default {
     else if (this.$route.name === "feedbacks") {
       this.activeIndex = "6";
     }
-
-    this.$axios({
-      url: "/course/get",
-      method: "get",
-      params: {
-        course_ID: this.$route.params.course_id,
-      },
-      headers: {
-        token: window.sessionStorage.getItem('token')
-      },
-    })
-        .then(function (response) {
-          window.sessionStorage.setItem("is_active", response.data.is_active);
-        })
-        .catch(function (error) {
-        });
   },
 };
 </script>

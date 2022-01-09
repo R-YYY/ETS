@@ -114,10 +114,10 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button class="btn_dialog" @click="resetProject">重置</el-button>
-          <el-button class="btn_dialog" @click="projectDialogVisible = false" :disabled="isAct"
+          <el-button class="btn_dialog" @click="projectDialogVisible = false" :disabled="!isAct()"
             >暂存</el-button
           >
-          <el-button class="btn_dialog" type="primary" @click="submitProject" :disabled="isAct"
+          <el-button class="btn_dialog" type="primary" @click="submitProject" :disabled="!isAct()"
             >发布</el-button
           >
         </div>
@@ -146,7 +146,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="attendanceDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitAttendance" :disabled="isAct">确 定</el-button>
+          <el-button type="primary" @click="submitAttendance" :disabled="!isAct()">确 定</el-button>
         </div>
       </el-dialog>
     </div>

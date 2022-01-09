@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="height: 40px">
-      <el-button class="btn" @click="writeTeacherID" v-if="isAct()&&isRes()">
+      <el-button class="btn" @click="writeTeacherID" v-if="isRes()" :disabled="!isAct()">
         <span>添加老师</span>
       </el-button>
     </div>
@@ -47,7 +47,8 @@
                   <el-button
                     type="text"
                     @click="open(scope.row)"
-                    v-if="isAct()&&isRes()"
+                    v-if="isRes()"
+                    :disabled="!isAct()"
                   >删除
                   </el-button>
                 </template>

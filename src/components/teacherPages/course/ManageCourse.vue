@@ -2,13 +2,13 @@
   <div>
     <div style="height: 40px">
       <!--课程管理按钮区域-->
-      <el-button class="btn" @click="editCourse" v-if="isAct()&&isRes()">
+      <el-button class="btn" @click="editCourse" v-if="isRes()" :disabled="!isAct()">
         编辑资料
       </el-button>
-      <el-button class="btn" @click="openEnd" v-if="isAct()&&isRes()">
+      <el-button class="btn" @click="openEnd" v-if="isRes()" :disabled="!isAct()">
         <span>结束课程</span>
       </el-button>
-      <el-button class="btn" @click="openDelete" type="danger" plain v-if="isAct()&&isRes()">
+      <el-button class="btn" @click="openDelete" type="danger" plain v-if="isRes()" :disabled="!isAct()">
         <span>删除课程</span>
       </el-button>
     </div>
@@ -192,9 +192,9 @@ export default {
       });
     }
   },
-  mounted() {
+  async mounted() {
     let _this = this;
-    this.$axios({
+    await this.$axios({
       url: "/course/get",
       method: "get",
       params: {
@@ -204,16 +204,21 @@ export default {
         token: window.sessionStorage.getItem('token')
       },
     })
-      .then(function (response) {
-        _this.courseTeacherID = response.data.teacher_ID;
-        _this.courseName = response.data.name;
-        _this.courseDes = response.data.description;
-      })
-      .catch(function (error) {
-        _this.courseTeacherID = "";
-        _this.courseName = "";
-        _this.courseDes = "";
-      });
+        .then(function (response) {
+          window.sessionStorage.setItem("is_active", response.data.is_active);
+          window.sessionStorage.setItem("resTeacher_ID", response.data.teacher_ID);
+          _this.courseTeacherID = response.data.teacher_ID;
+          _this.courseName = response.data.name;
+          _this.courseDes = response.data.description;
+        })
+        .catch(function (error) {
+          _this.courseTeacherID = "";
+          _this.courseName = "";
+          _this.courseDes = "";
+        });
+
+    console.log(window.sessionStorage.getItem("is_active"))
+    console.log(window.sessionStorage.getItem("resTeacher_ID"))
   },
 };
 </script>
