@@ -29,15 +29,15 @@
                 :show-file-list="false"
               >
                 <img
-                  src="../../../assets/course2.png"
+                  src="../../../assets/course.png"
                   alt="加载失败"
                   style="width: 260px"
                 />
               </el-upload>
               <!--课程头像上传建议-->
               <div class="tips">
-                <br /><br /><span>仅支持*******格式图片</span><br />
-                <span>建议最佳尺寸*****，不超过***</span>
+                <br /><br /><span>仅支持jpg,png格式图片</span><br />
+                <span>建议最佳尺寸1024*1024，不超过1MB</span>
               </div>
             </div>
             <div class="editArea">

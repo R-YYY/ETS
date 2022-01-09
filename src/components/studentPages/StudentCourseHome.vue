@@ -1,7 +1,15 @@
 <template>
   <el-container class="pageContainer">
     <el-header class="pageHeader">
-      <h1 class="title">Experiment Teaching System</h1>
+      <el-container>
+        <img
+            src="@/assets/course2.png"
+            alt=""
+            style="height: 50px; width: 70px; margin-right: 20px;margin-top: 5px"
+        />
+        <span class="title"><b>实验教学管理系统</b></span>
+      </el-container>
+<!--      <span class="title"><b>实验教学管理系统</b></span>-->
     </el-header>
 
     <div class="pageMiddle">
@@ -207,11 +215,11 @@ export default {
 }
 
 .title {
-  padding-left: 40px;
-  font-size: 35px;
-  line-height: 10px;
+  /*padding-left: 10px;*/
+  font-size: 28px;
+  line-height: 60px;
   text-align: left;
-  font-family: "Microsoft YaHei UI Light";
+  /*font-family: "Microsoft YaHei UI Light";*/
 }
 
 .courseImg{

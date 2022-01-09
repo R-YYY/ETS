@@ -1,7 +1,14 @@
 <template>
   <el-container style="height: 100%">
-    <el-header style="height: 7%">
-      <span class="title"><b>口v口 Experiment Teaching System 口∧口</b></span>
+    <el-header style="height: 8%">
+      <el-container>
+        <img
+            src="@/assets/course2.png"
+            alt=""
+            style="height: 50px; width: 70px; margin-right: 20px;margin-top: 5px"
+        />
+        <span class="title"><b>实验教学管理系统</b></span>
+      </el-container>
       <el-button class="backHome" @click="toHome" type="primary">返回首页</el-button>
     </el-header>
     <el-container style="overflow: hidden">
@@ -10,7 +17,7 @@
         <!--主页侧边栏课程头像-->
         <img
           id="courseImg"
-          src="../../../src/assets/course2.png"
+          src="../../../src/assets/course.png"
           alt="加载失败"
         />
         <div>
@@ -133,7 +140,7 @@ export default {
 #courseImg {
   margin-top: 30px;
   width: 140px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .mainAside {
@@ -142,8 +149,8 @@ export default {
 }
 
 .title {
-  font-size: 31px;
-  /*line-height: 0;*/
+  font-size: 28px;
+  line-height: 60px;
   text-align: left;
 }
 

@@ -24,7 +24,7 @@
             <!--课程头像-->
             <div class="imgArea">
               <img
-                src="../../../assets/course2.png"
+                src="../../../assets/course.png"
                 alt="加载失败"
                 style="width: 260px"
               />
