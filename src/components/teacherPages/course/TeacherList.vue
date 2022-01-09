@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <el-button class="btn" @click="writeTeacherID">
+    <div style="height: 40px">
+      <el-button class="btn" @click="writeTeacherID" v-if="isAct()&&isRes()">
         <span>添加老师</span>
       </el-button>
     </div>
@@ -47,6 +47,7 @@
                   <el-button
                     type="text"
                     @click="open(scope.row)"
+                    v-if="isAct()&&isRes()"
                   >删除
                   </el-button>
                 </template>
@@ -72,6 +73,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "info" });
       else if (tab.index == 1) this.$router.push({ name: "teachers" });

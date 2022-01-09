@@ -12,28 +12,29 @@
         <el-tab-pane label="发布任务" name="task">
           <el-container style="height: 500px">
             <div class="typeCard">
+              <!--发布考勤卡片-->
+              <el-card
+                  shadow="hover"
+                  @click.native="attendanceDialogVisible = true"
+                  style="cursor: pointer"
+              >
+                <i class="el-icon-user-solid"></i><br />
+                <div class="choice">
+                  <p>发布课程考勤</p>
+                </div>
+              </el-card>
+            </div>
+            <div class="typeCard">
               <!--发布实验卡片-->
               <el-card
                 shadow="hover"
                 @click.native="projectDialogVisible = true"
                 style="cursor: pointer"
+                v-if="isTea()"
               >
                 <i class="el-icon-s-cooperation"></i><br />
                 <div class="choice">
                   <p>发布实验项目</p>
-                </div>
-              </el-card>
-            </div>
-            <div class="typeCard">
-              <!--发布考勤卡片-->
-              <el-card
-                shadow="hover"
-                @click.native="attendanceDialogVisible = true"
-                style="cursor: pointer"
-              >
-                <i class="el-icon-user-solid"></i><br />
-                <div class="choice">
-                  <p>发布课程考勤</p>
                 </div>
               </el-card>
             </div>
@@ -113,10 +114,10 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button class="btn_dialog" @click="resetProject">重置</el-button>
-          <el-button class="btn_dialog" @click="projectDialogVisible = false"
+          <el-button class="btn_dialog" @click="projectDialogVisible = false" :disabled="isAct"
             >暂存</el-button
           >
-          <el-button class="btn_dialog" type="primary" @click="submitProject"
+          <el-button class="btn_dialog" type="primary" @click="submitProject" :disabled="isAct"
             >发布</el-button
           >
         </div>
@@ -145,7 +146,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="attendanceDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitAttendance">确 定</el-button>
+          <el-button type="primary" @click="submitAttendance" :disabled="isAct">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -186,6 +187,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "tasks" });
       else if (tab.index == 1) this.$router.push({ name: "projects" });

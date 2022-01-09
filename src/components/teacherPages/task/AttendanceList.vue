@@ -42,7 +42,7 @@
                 <template slot-scope="scope">
                 <el-button type="text" @click="attendInfo(scope.row)"
                   >查看详情</el-button>
-                  <el-button type="text" @click="open(scope.row)" style="margin-left: 50px"
+                  <el-button type="text" @click="open(scope.row)" style="margin-left: 50px" v-if="isTea()"
                   >删除</el-button>
                 </template>
               </el-table-column>
@@ -111,6 +111,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab, event) {
       if (tab.index == 0) this.$router.push({ name: "tasks" });
       else if (tab.index == 1) this.$router.push({ name: "projects" });
@@ -202,7 +217,6 @@ export default {
         token: window.sessionStorage.getItem('token')
       },
     }).then((response)=>{
-      // this.attendList = response.data
       for (let i = 0; i < response.data.length; i++) {
         this.attendList.push({
           start_time: response.data[i].start_time,

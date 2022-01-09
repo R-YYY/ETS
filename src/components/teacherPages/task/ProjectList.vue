@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="height: 40px">
       <el-input
         class="searchProject"
         v-model="input"
@@ -24,8 +24,9 @@
       >
         <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
         <el-tab-pane label="实验项目" name="project">
+          <el-empty description="课程没有实验，快去发布一项吧！" style="height: 500px" v-if="projectList.length===0"></el-empty>
           <!--实验信息卡片列表-->
-          <div class="projectArea">
+          <div class="projectArea" v-if="projectList.length!==0">
             <el-row>
               <el-col
                 :span="7.5"
@@ -108,9 +109,9 @@
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button class="btn_dialog" v-if="!isEdit" @click="isEdit=true">编辑</el-button>
-              <el-button class="btn_dialog" v-if="isEdit" type="primary" @click="saveProject">保存</el-button>
-              <el-button class="btn_dialog" type="danger" @click="openDelete">删除</el-button>
+              <el-button class="btn_dialog" v-if="!isEdit&&isTea()" @click="isEdit=true">编辑</el-button>
+              <el-button class="btn_dialog" v-if="isEdit&&isTea" type="primary" @click="saveProject">保存</el-button>
+              <el-button class="btn_dialog" type="danger" @click="openDelete" v-if="isTea()">删除</el-button>
             </div>
           </el-dialog>
 
@@ -284,6 +285,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab, event) {
       if (tab.index == 0) this.$router.push({ name: "tasks" });
       else if (tab.index == 1) this.$router.push({ name: "projects" });
@@ -522,6 +538,7 @@ export default {
               type: "success",
               message: "批改成功！",
             });
+            row.correct_state="已批改"
           } else {
             this.$message({
               type: "error",

@@ -1,35 +1,34 @@
 <template>
   <div>
-    <div>
+    <div style="height: 40px">
       <el-input class="inputProject" placeholder="请输入学生姓名"></el-input>
       <el-button>搜索</el-button>
-      <el-button>导出成绩</el-button>
-      <el-button @click="showGrade" type="primary">设置成绩权重</el-button>
+      <el-button v-if="isRes()">导出成绩</el-button>
+      <el-button @click="showGrade" type="primary" v-if="isRes()&&isAct">设置成绩权重</el-button>
       <el-drawer
           title="设置课程的成绩占比"
           :visible.sync="drawer"
           :direction="direction"
           style="font-size: 25px"
           >
-        <div style="padding-left: 50px;font-size: 23px;margin-bottom: 40px;margin-top: 30px">
-          考勤占比：
+        <div class="inputArea">
+          考勤成绩占比：
           <el-input
               placeholder="请输入内容"
               suffix-icon="el-icon-edit"
-              v-model="attend_percentage"
-          style="width: 100px;margin-left: 46px"></el-input>
+              v-model="newAttendPercentage"
+          style="width: 100px"></el-input>
         </div>
-        <div style="padding-left: 50px;font-size: 23px">
-          实验项目占比：
+        <div class="inputArea">
+          实验成绩占比：
           <el-input
               placeholder="请输入内容"
               suffix-icon="el-icon-edit"
-              v-model="project_percentage"
+              v-model="newProjectPercentage"
               style="width: 100px"></el-input>
         </div>
-        <div style="padding-left: 130px;margin-top: 50px">
-          <el-button type="primary" style="font-size: 19px;width: 130px"
-          @click="setPercentage">确认</el-button>
+        <div>
+          <el-button class="inputBtn" type="primary" @click="setPercentage">确认</el-button>
         </div>
       </el-drawer>
     </div>
@@ -62,23 +61,33 @@
                 sortable
               ></el-table-column>
               <el-table-column
-                prop="project_score"
                 label="实验成绩"
                 width="190px"
                 sortable
-              ></el-table-column>
+              >
+                <template slot-scope="scope">
+                  {{(scope.row.project_score*courseGrade.project_percentage).toFixed(2)}}
+                </template>
+              </el-table-column>
               <el-table-column
-                prop="attend_score"
                 label="考勤成绩"
                 width="190px"
                 sortable
-              ></el-table-column>
+              >
+               <template slot-scope="scope">
+                 {{(scope.row.attend_score * courseGrade.attend_percentage).toFixed(2)}}
+               </template>
+              </el-table-column>
               <el-table-column
-                prop="total_score"
                 label="总成绩"
                 width="190px"
                 sortable
-              ></el-table-column>
+              >
+                <template slot-scope="scope">
+                  {{(scope.row.project_score * courseGrade.project_percentage
+                    + scope.row.attend_score * courseGrade.attend_percentage).toFixed(2)}}
+                </template>
+              </el-table-column>
               <el-table-column width="140px">
                 <template slot-scope="scope">
                   <el-button type="text" @click="scoreInfo(scope.row)">查看详情</el-button>
@@ -98,7 +107,7 @@
                     :summary-method="totalScore1">
             <el-table-column label="实验名称" prop="name"></el-table-column>
             <el-table-column label="分数" align="center">
-              <template slot-scope="scope"><span>{{scope.row.score === null?'0/100':scope.row.score+'/100'}}</span></template>
+              <template slot-scope="scope"><span>{{scope.row.score === null? '0/100':scope.row.score +'/100'}}</span></template>
             </el-table-column>
           </el-table>
           <el-table class="totalTable"
@@ -122,7 +131,12 @@ export default {
   name: "ManageGrade",
   data() {
     return {
-      totalGradeList: [],
+      totalGradeList: [{
+        student_ID: "",
+        name:"",
+        attend_score:"",
+        project_score:""
+      }],
       scoreVisible:false,
       stuScore:[{
         name:"",
@@ -131,68 +145,82 @@ export default {
         name:"",
         score:""
       }],
+      courseGrade:{
+        attend_percentage: 1.0,
+        project_percentage: 1.0,
+      },
       stuName:"",
       drawer: false,
       direction: 'ltr',
-      attend_percentage:0.1,
-      project_percentage:0.9,
+      newAttendPercentage:0.1,
+      newProjectPercentage:0.9,
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "totalGrades" });
       else if (tab.index == 1) this.$router.push({ name: "partGrades" });
     },
     showGrade(){
       this.drawer=true
-      var id = this.$route.params.course_id
-      // console.log(id)
       this.$axios.get(
           '/course/get',{
             params:{
-              course_ID:id,
+              course_ID:this.$route.params.course_id
             },
             headers:{
               token: window.sessionStorage.getItem('token')
-              // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
             }
           }
       ).then((response)=>{
-        var course = response.data;
-        console.log(course)
-        this.attend_percentage=course.attend_percentage
-        this.project_percentage=course.project_percentage
+        this.newAttendPercentage=response.data.attend_percentage
+        this.newProjectPercentage=response.data.project_percentage
       })
     },
     setPercentage(){
-      var id = this.$route.params.course_id
-      let attend = parseFloat(this.attend_percentage)
-      let project = parseFloat(this.project_percentage)
+      let attend = parseFloat(this.newAttendPercentage)
+      let project = parseFloat(this.newProjectPercentage)
       let sum = attend + project
-      if(0 > attend || attend > 1 || project<0 || project>1 || sum!=1){
+      if(0 > attend || attend > 1 || project<0 || project>1 || sum!==1.0){
         this.$message.error('输入的权重有误！请重新设置权重！')
       }
       else{
         this.$axios(
             '/course/setGrade',{
               params:{
-                course_ID:id,
-                attend_percentage:this.attend_percentage,
-                project_percentage:this.project_percentage,
+                course_ID:this.$route.params.course_id,
+                attend_percentage:this.newAttendPercentage,
+                project_percentage:this.newProjectPercentage,
               },
               headers:{
                 token: window.sessionStorage.getItem('token')
-                // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.e/yJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
               },
               method: "post",
             }
         ).then((response)=>{
-          if(response.data=='1'){
+          if(response.data===1){
             this.$message({
               type: "success",
               message: "设置成功！",
             });
             this.drawer=false
+            this.courseGrade.project_percentage=this.newProjectPercentage
+            this.courseGrade.attend_percentage=this.newAttendPercentage
           }
           else{
             this.$message({
@@ -256,16 +284,26 @@ export default {
         },
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       }).then((response)=>{
-        console.log(response.data)
         this.stuScore = response.data
       })
     }
   },
   mounted() {
+    this.$axios({
+      url:"/course/get",
+      method:"get",
+      params:{
+        course_ID:this.$route.params.course_id,
+      },
+      headers:{
+        token:window.sessionStorage.getItem("token")
+      },
+    }).then((response)=>{
+      this.courseGrade.attend_percentage = response.data.attend_percentage
+      this.courseGrade.project_percentage = response.data.project_percentage
+    }).catch()
     this.$axios({
       url: "/score/getTotalScoreList",
       method: "get",
@@ -274,23 +312,10 @@ export default {
       },
       headers: {
         token: window.sessionStorage.getItem('token')
-        // token:
-        //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     })
       .then((response) => {
-        console.log('start')
-        console.log(response.data)
-        for (let i = 0; i < response.data.length; i++) {
-          this.totalGradeList.push({
-            student_ID: response.data[i].student_ID,
-            name: response.data[i].name,
-            project_score: response.data[i].project_score,
-            attend_score: response.data[i].attend_score,
-            total_score:
-              response.data[i].project_score + response.data[i].attend_score,
-          });
-        }
+        this.totalGradeList=response.data
       })
       .catch();
   },
@@ -320,5 +345,17 @@ export default {
   width: 600px;
   margin-left: 50px;
   margin-bottom: 50px;
+}
+
+.inputArea{
+  padding-left: 50px;
+  font-size: 23px;
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+
+.inputBtn{
+  margin-left: 150px;
+  font-size: 25px;
 }
 </style>
