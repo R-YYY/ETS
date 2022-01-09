@@ -14,13 +14,14 @@
         <el-tab-pane label="总成绩" name="total"></el-tab-pane>
         <el-tab-pane label="单项成绩" name="part" style="overflow: auto">
           <div class="gradeShow">
-            <el-collapse>
+            <el-collapse >
               <el-card class="gradeCard">
                 <el-collapse-item>
                   <template slot="title">
                     <span style="font-size: 20px"><b>实验项目</b></span>
                   </template>
                   <el-table
+                      v-loading="loading"
                     :data="projectInfoList"
                     border
                     :row-style="{ height: '50px' }"
@@ -64,6 +65,7 @@
                     <span style="font-size: 20px"><b>考勤</b></span>
                   </template>
                   <el-table
+                      v-loading="loading"
                       :data="attendanceInfoList"
                       border
                       :row-style="{ height: '50px' }"
@@ -188,6 +190,7 @@ export default {
   name: "PartGrade",
   data() {
     return {
+      loading:true,
       projectInfoList: [],
       attendanceInfoList: [],
       attendStuList:[],
@@ -236,7 +239,6 @@ export default {
         },
       })
           .then((response) => {
-            console.log(response.data);
             for (let i = 0; i < response.data.length; i++) {
               this.scoreList.push({
                 student_ID: response.data[i].student_ID,
@@ -281,9 +283,9 @@ export default {
       this.attendVisible=true
     }
   },
-  mounted() {
+  async mounted() {
     //实验成绩
-    this.$axios({
+    await this.$axios({
       url: "/score/getProjectScoreInfoList",
       method: "get",
       params: {
@@ -296,7 +298,6 @@ export default {
       },
     })
       .then((response) => {
-        console.log(response.data)
         this.projectInfoList = response.data;
       })
       .catch();
@@ -321,6 +322,7 @@ export default {
         });
       }
     });
+    this.loading=false
   },
 };
 </script>

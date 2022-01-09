@@ -11,11 +11,13 @@
         v-model="activeIndex"
         type="border-card"
         @tab-click="handleClick"
+
       >
         <el-tab-pane label="课程设置"> </el-tab-pane>
         <el-tab-pane label="教师团队">
           <div>
             <el-table
+                v-loading="loading"
                 class="memberTab"
                 :data="teacherList"
                 height="500px"
@@ -67,6 +69,7 @@ export default {
   name: "TeacherList",
   data() {
     return {
+      loading:true,
       activeIndex: "1",
       teacherList: [],
       dialogVisible: false,
@@ -212,8 +215,9 @@ export default {
     },
 
     //加载老师列表数据
-    loadData() {
-      this.$axios({
+    async loadData() {
+      this.loading=true
+      await this.$axios({
         url:"/course/getTeacherInfoList",
         method:"get",
         params:{
@@ -229,6 +233,7 @@ export default {
           this.teacherList = response.data;
         })
         .catch();
+      this.loading=false
     },
   },
   mounted() {

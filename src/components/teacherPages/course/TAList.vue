@@ -16,7 +16,7 @@
         <el-tab-pane label="教师团队"> </el-tab-pane>
         <el-tab-pane label="助教团队">
           <div>
-            <el-table class="memberTab" :data="taList" height="500px"
+            <el-table class="memberTab" :data="taList" height="500px" v-loading="loading"
                       :row-style="{ height: '50px' }"
                       :cell-style="{ padding: '0' }">
               <el-table-column prop="student_ID" label="学号" width="250px">
@@ -49,6 +49,7 @@ export default {
   name: "TAList",
   data() {
     return {
+      loading:true,
       activeIndex: "2",
       taList: [],
       dialogVisible: false,
@@ -107,8 +108,6 @@ export default {
         data:taInfo,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then(() => {
@@ -189,8 +188,9 @@ export default {
     },
 
     //加载助教列表数据
-    loadDate() {
-      this.$axios({
+    async loadDate() {
+      this.loading=true
+      await this.$axios({
         url:"/course/getStudentInfoList",
         method:"get",
         params:{
@@ -205,6 +205,7 @@ export default {
           this.taList = response.data;
         })
         .catch();
+      this.loading=false
     },
   },
   mounted() {

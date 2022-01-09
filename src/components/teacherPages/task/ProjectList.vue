@@ -24,9 +24,12 @@
       >
         <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
         <el-tab-pane label="实验项目" name="project">
-          <el-empty description="课程没有实验，快去发布一项吧！" style="height: 500px" v-if="projectList.length===0"></el-empty>
+          <el-empty description="课程没有实验，快去发布一项吧！"
+                    v-loading="loading"
+                    style="height: 500px"
+                    v-if="projectList.length===0"></el-empty>
           <!--实验信息卡片列表-->
-          <div class="projectArea" v-if="projectList.length!==0">
+          <div class="projectArea" v-if="projectList.length!==0" v-loading="loading">
             <el-row>
               <el-col
                 :span="7.5"
@@ -254,6 +257,7 @@ export default {
   name: "ProjectList",
   data() {
     return {
+      loading:true,
       input: "",
       projectList: [],
       tmpList: [],
@@ -368,7 +372,6 @@ export default {
           token: window.sessionStorage.getItem('token')
         },
       }).then((response)=>{
-        console.log(response.data)
         if(response.data===1){
           this.isEdit=false
           this.$message({
@@ -451,7 +454,6 @@ export default {
           token: window.sessionStorage.getItem('token')
        },
       }).then((response)=>{
-        console.log(response.data)
         this.projectInfo.name=response.data.name
         this.projectInfo.description=response.data.description
         this.projectInfo.time=[response.data.start_time,response.data.end_time]
@@ -476,8 +478,6 @@ export default {
         },
       })
         .then((response) => {
-          console.log('report-list')
-          console.log(response.data);
           for (let i = 0; i < response.data.length; i++) {
             this.reportList.push({
               student_ID: response.data[i].student_ID,
@@ -614,9 +614,9 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     //调用api加载实验列表
-    this.$axios({
+    await this.$axios({
       url: "/project/getProjectInfoListByCourseId",
       method: "get",
       params: {
@@ -626,14 +626,13 @@ export default {
         token: window.sessionStorage.getItem('token')
       },
     })
-      .then((response) => {
-        console.log(response.data)
-        this.projectList = response.data;
-        this.tmpList = this.projectList;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          this.projectList = response.data;
+          this.tmpList = this.projectList;
+        })
+        .catch((error) => {
+        });
+    this.loading=false
   },
 };
 </script>
@@ -653,6 +652,7 @@ export default {
 }
 
 .projectCard {
+  background-color: rgba(239, 248, 247, 0.27);
   height: 330px;
   width: 460px;
 }

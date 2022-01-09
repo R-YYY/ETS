@@ -15,6 +15,7 @@
         v-model="activeIndex"
         type="border-card"
         @tab-click="handleClick"
+        v-loading="loading"
       >
         <el-tab-pane label="课程设置">
           <el-container style="height: 500px">
@@ -88,6 +89,7 @@ export default {
   name: "EditCourseInfo",
   data() {
     return {
+      loading:false,
       activeIndex: "0",
       tmpName: "",
       tmpDes: "",
@@ -115,12 +117,13 @@ export default {
       else if (tab.index == 2) this.$router.push({ name: "tas" });
     },
     //更新课程资料
-    saveEdit() {
+    async saveEdit() {
       let data = new FormData();
       data.append("course_ID", this.$route.params.course_id);
       data.append("name", this.tmpName);
       data.append("description", this.tmpDes);
-      this.$axios({
+      this.loading=true
+      await this.$axios({
         url: "/course/setInfo",
         method: "post",
         data:data,
@@ -131,27 +134,26 @@ export default {
         },
       })
         .then((response) => {
-          console.log(response.data);
           this.$message({
             type: "success",
             message: "修改成功!",
           });
+          this.loading=false
           this.$router.push({ name: "info" });
         })
         .catch((error) => {
-          console.log(error);
           this.$message({
             type: "error",
             message: "修改失败!请重试！",
           });
         });
     },
+
     cancelEdit() {
       this.$router.push({ name: "info" });
     },
 
     uploadPhoto(file){
-      console.log(file.file)
       let data = new FormData()
       data.append("course_ID",this.$route.params.course_id)
       data.append("photo",file.file)

@@ -20,7 +20,7 @@
         @tab-click="handleClick"
       >
         <el-tab-pane label="课程设置">
-          <el-container style="height: 500px">
+          <el-container style="height: 500px" v-loading="loading">
             <!--课程头像-->
             <div class="imgArea">
               <img
@@ -61,6 +61,7 @@ export default {
   name: "ManageCourse",
   data() {
     return {
+      loading:true,
       activeIndex: "0",
       courseTeacherID: "",
       courseName: "",
@@ -216,9 +217,7 @@ export default {
           _this.courseName = "";
           _this.courseDes = "";
         });
-
-    console.log(window.sessionStorage.getItem("is_active"))
-    console.log(window.sessionStorage.getItem("resTeacher_ID"))
+    this.loading=false
   },
 };
 </script>

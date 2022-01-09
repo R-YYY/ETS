@@ -39,7 +39,7 @@
     <div>
       <el-tabs class="fileTab" type="border-card">
         <el-tab-pane label="课程资料">
-          <el-container style="height: 500px">
+          <el-container style="height: 500px" v-loading="loading">
             <div>
               <div class="pathArea">
                 <el-breadcrumb class="filePath" separator="/">
@@ -136,6 +136,7 @@ export default {
   name: "ManageFile",
   data() {
     return {
+      loading:true,
       input: "",
       courseName: "",
       filePath: "/课程资料",
@@ -202,7 +203,6 @@ export default {
     },
 
     handleUpload(file) {
-      console.log(file)
       let data = new FormData();
       data.append("course_ID", this.$route.params.course_id);
       data.append("path", this.filePath);
@@ -360,13 +360,9 @@ export default {
         },
         responseType: "blob",
       }).then((response) => {
-        console.log(response);
         let blob = new Blob([response.data]);
-        console.log(blob);
 
         const disposition = response.headers["content-disposition"];
-        console.log(disposition)
-        console.log('hello')
         //获得文件名
         let fileName = disposition.substring(
           disposition.indexOf("filename=") + 9,
@@ -387,7 +383,7 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
     //加载课程名
     this.$axios({
       url: "/course/get",
@@ -397,8 +393,6 @@ export default {
       },
       headers: {
         token: window.sessionStorage.getItem('token')
-        // token:
-        //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     })
       .then((response) => {
@@ -431,11 +425,10 @@ export default {
         );
       })
       .catch((error) => {
-        console.log(error);
       });
 
     //默认选中节点
-    this.$axios({
+    await this.$axios({
       url: "/file/getFileList",
       method: "get",
       params: {
@@ -444,12 +437,11 @@ export default {
       },
       headers: {
         token: window.sessionStorage.getItem('token')
-        // token:
-        //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     }).then((response) => {
       this.fileList = response.data;
     });
+    this.loading=false
   },
   watch: {
     filePath: function (newVal) {

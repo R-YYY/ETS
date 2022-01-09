@@ -10,7 +10,7 @@
       >
         <el-tab-pane label="发布任务" name="task"> </el-tab-pane>
         <el-tab-pane label="实验项目" name="project"> </el-tab-pane>
-        <el-tab-pane label="课程考勤" name="attendance">
+        <el-tab-pane label="课程考勤" name="attendance" v-loading="loading">
           <div style="height: 500px">
             <el-table
               class="attendTable"
@@ -103,6 +103,7 @@ export default {
   name: "AttendanceList",
   data() {
     return {
+      loading:true,
       drawer: false,
       direction: "ltr",
       start_time:"",
@@ -205,9 +206,9 @@ export default {
       this.drawer=true
     }
   },
-  mounted() {
+  async mounted() {
     //调用api加载考勤列表
-    this.$axios({
+    await this.$axios({
       url: "/attend/getAttendanceInfoList",
       method: "get",
       params: {
@@ -216,7 +217,7 @@ export default {
       headers: {
         token: window.sessionStorage.getItem('token')
       },
-    }).then((response)=>{
+    }).then((response) => {
       for (let i = 0; i < response.data.length; i++) {
         this.attendList.push({
           start_time: response.data[i].start_time,
@@ -225,6 +226,7 @@ export default {
         });
       }
     });
+    this.loading=false
   },
 };
 </script>

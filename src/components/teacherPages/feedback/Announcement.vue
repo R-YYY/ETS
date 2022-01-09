@@ -7,48 +7,52 @@
           placeholder="请输入公告名称"
       >
       </el-input>
-      <el-button type="primary" plain>搜索</el-button>
+      <el-button>搜索</el-button>
     </div>
     <div>
       <el-tabs class="announcementTab" active-name="announcement" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="课程公告" name="announcement">
-          <div>
-            <el-input
-                class="writeArea"
-                placeholder="公告名称"
-                style="width: 500px"
-                v-model="announcementName">
-            </el-input>
-            <el-input
-                class="writeArea"
-                type="textarea"
-                :rows="2"
-                placeholder="公告内容"
-                v-model="myAnnouncement">
-            </el-input>
-            <el-button type="primary" class="feedbackButton" @click="sendAnnounce">发布公告</el-button>
-            <el-divider></el-divider>
-          </div>
-          <el-empty v-if="is_empty" description="没有公告" style="height: 325px"></el-empty>
-          <div v-if="!is_empty" class="feedbackArea">
-            <div class="feedbackText">
-              <div v-for="item in announcement_list" class="feedback-item">
-                <div>
-                  <div class="header">
-                    {{item.name}}<span class="number">{{item.release_time}}</span>
+          <el-container>
+            <div class="inputArea">
+              <div class="input">
+                <p><b>公告名称：</b></p>
+                <el-input
+                    placeholder="请输入公告名称"
+                    v-model="announcementName">
+                </el-input>
+              </div>
+              <div class="input">
+                <p><b>公告内容：</b></p>
+                <el-input
+                    type="textarea"
+                    :rows="10"
+                    placeholder="请输入公告内容"
+                    v-model="myAnnouncement">
+                </el-input>
+              </div>
+              <el-button class="inputBtn" type="primary" @click="sendAnnounce">发布公告</el-button>
+            </div>
+            <el-empty v-if="is_empty" description="没有公告" style="width:55%;height: 500px"></el-empty>
+            <div v-if="!is_empty" class="announcementArea">
+              <h2 style="margin-left: 30px">历史公告</h2>
+              <div v-for="item in announcement_list">
+                <el-card class="announcement">
+                  <div slot="header" style="margin-left: 10px">
+                    <p class="title"><b>公告名称：</b>{{ item.name }}</p>
+                    <span class="info"><b>发布时间：</b>{{ item.release_time }}</span>
+                    <span class="info"><b>发布教师：</b>{{ item.teacher_name }}</span>
+                    <el-button type="danger" style="margin-left: 50px" plain @click="openDelete(item)">删除</el-button>
                   </div>
-                  <div class="feedback-content">{{item.content}}</div>
-                  <div class="name">—— {{item.teacher_name}}</div>
-                </div>
-                <el-divider></el-divider>
+                  <div class="announcementContent">
+                    <p><b>公告内容：</b>{{item.content}}</p>
+                  </div>
+                </el-card>
               </div>
             </div>
-          </div>
+          </el-container>
         </el-tab-pane>
         <el-tab-pane label="课程反馈" name="feedback">
-          <el-empty description="没有反馈" style="height: 500px"></el-empty>
         </el-tab-pane>
-
       </el-tabs>
     </div>
   </div>
@@ -69,6 +73,53 @@ export default {
     }
   },
   methods:{
+    openDelete(item){
+      console.log(item)
+      this.$confirm("此操作将从课程中删除该公告, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.deleteAnnouncement(item);
+      }).catch();
+    },
+
+    deleteAnnouncement(item){
+      let data = new FormData()
+      data.append("course_ID",this.$route.params.course_id)
+      data.append("release_time",item.release_time)
+      data.append("name",item.student_ID)
+      data.append("teacher_ID",item.teacher_ID)
+      data.append("content","")
+      this.$axios({
+        url:"announcement/delete",
+        method:"post",
+        data:data,
+        headers:{
+          token: window.sessionStorage.getItem('token')
+        },
+      }).then((response)=>{
+        if(response.data === 1){
+          this.announcement_list.splice(item,1)
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        }
+        else{
+          this.$message({
+            type: "error",
+            message: "删除失败，请重试！",
+          });
+        }
+      }).catch(()=>{
+        this.$message({
+          type: "error",
+          message: "删除失败，请重试！",
+        });
+      })
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "announcements" });
       else if (tab.index == 1) this.$router.push({ name: "feedbacks" });
@@ -198,55 +249,43 @@ export default {
   width: 300px;
   margin-left: 40px;
 }
-.feedbackButton{
-  margin-left: 30px;
-  font-size: 19px;
-  margin-bottom: 10px;
+
+.announcementContent{
+  margin-left: 10px;
 }
-.writeArea{
-  margin-top: 10px;
-  width: 900px;
-  margin-left: 50px;
-  font-size: 18px;
+
+.title{
+  font-size: 21px;
 }
-.feedbackArea{
-  width: 1250px;
-  height: 325px;
-  /*border:1px solid rgba(0,0,0,1);*/
-  border-radius: 8px;
-  margin:0;
-  overflow: hidden;
+
+.info{
+  font-size: 14px;
+  margin-right: 30px;
 }
-.feedbackText{
-  width: 1250px;
-  height: 325px;
-  margin-top: 20px;
+
+.announcement{
+  background-color: rgba(239, 248, 246, 0.27);
+  margin: 20px 70px 40px 30px;
+}
+
+.announcementArea{
+  height: 500px;
+  width: 55%;
   overflow: auto;
-  padding-right: 70px;
 }
-.header{
-  font-size: 20px;
-  margin-left: 90px;
-  /*border: 1px solid red;*/
+
+.input{
+  margin-left: 10%;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  width:80%;
 }
-.name{
-  font-size: 19px;
-  margin-bottom: 5px;
-  margin-left: 900px;
-  /*border: 1px solid #f60b0b;*/
+
+.inputBtn{
+  margin-left: 40%;
 }
-.number{
-  font-size: 17px;
-  margin-left: 20px;
-  /*border: 1px solid #f60b0b;*/
-}
-.feedback-content{
-  width: 950px;
-  /*border: 1px solid rgba(0,0,220,1);*/
-  border-radius: 5px;
-  padding: 10px 10px;
-  margin-left: 140px;
-  /*margin-right: 50px;*/
-  font-size: 18px;
+
+.inputArea{
+  width: 45%;
 }
 </style>

@@ -423,8 +423,6 @@ export default {
                 },
               })
                 .then((res) => {
-                  console.log("psd:" + this.userInfo.password);
-                  console.log("updatePsd.res.data:" + res.data);
                   if (res.data !== -1) {
                     this.$message({
                       showClose: true,
@@ -450,7 +448,6 @@ export default {
                     type: "error",
                     duration: 0,
                   });
-                  console.log(err);
                 });
               this.dialogFormVisible = false;
             })
@@ -462,8 +459,6 @@ export default {
               this.dialogFormVisible = false;
             });
         } else {
-          console.log(valid, wrongstring);
-          console.log("error submit!!");
           this.$message({
             showClose: true,
             message: `请输入正确的信息！`,

@@ -42,6 +42,7 @@
         <el-tab-pane label="总成绩" name="total">
           <div style="height: 500px">
             <el-table
+                v-loading="loading"
               :data="totalGradeList"
               class="totalGradeTable"
               height="500px"
@@ -131,6 +132,7 @@ export default {
   name: "ManageGrade",
   data() {
     return {
+      loading:true,
       totalGradeList: [{
         student_ID: "",
         name:"",
@@ -290,8 +292,8 @@ export default {
       })
     }
   },
-  mounted() {
-    this.$axios({
+  async mounted() {
+    await this.$axios({
       url:"/course/get",
       method:"get",
       params:{
@@ -318,6 +320,7 @@ export default {
         this.totalGradeList=response.data
       })
       .catch();
+    this.loading=false
   },
 };
 </script>

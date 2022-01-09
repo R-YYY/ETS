@@ -234,9 +234,7 @@ export default {
 
     //重置表单
     resetProject() {
-      console.log(this.projectInfo.is_file)
       this.$refs.ProjectInfo.resetFields();
-      console.log(this.projectInfo.is_file)
       this.projectInfo.fileList = [];
     },
 

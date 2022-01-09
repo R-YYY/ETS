@@ -18,6 +18,7 @@
               height="500px"
               :row-style="{ height: '50px' }"
               :cell-style="{ padding: '0' }"
+              v-loading="loading"
             >
               <el-table-column prop="student_ID" label="学号" width="250px">
               </el-table-column>
@@ -49,6 +50,7 @@ export default {
   name: "ManageStudent",
   data() {
     return {
+      loading:true,
       studentList: [],
       dialogVisible: false,
       addStudentID: "",
@@ -170,7 +172,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
           this.$message({
             type: "error",
             message: "添加失败！请重试!",
@@ -179,8 +180,9 @@ export default {
     },
 
     //调用api，加载学生列表
-    loadData() {
-      this.$axios({
+    async loadData() {
+      this.loading=true
+      await this.$axios({
         url: "/course/getStudentInfoList",
         method: "get",
         params: {
@@ -195,8 +197,8 @@ export default {
           this.studentList = response.data;
         })
         .catch((error) => {
-          console.log(error);
         });
+      this.loading=false
     },
   },
   mounted() {
