@@ -162,16 +162,21 @@ export default {
       let data = new FormData();
       data.append("course_ID", this.course_ID);
       data.append("name",this.announcementName);
-      data.append("content",this.myAnnouncement);
       data.append("teacher_ID", this.teacher_ID);
+      data.append("content",this.myAnnouncement);
       data.append("release_time", this.getDateYYYYMMddHHMMSS());
-
+      console.log(this.course_ID)
+      console.log(this.announcementName)
+      console.log(this.teacher_ID)
+      console.log(this.myAnnouncement)
+      console.log(this.getDateYYYYMMddHHMMSS())
+      console.log(window.sessionStorage.getItem('token'))
       this.$axios({
         url: "announcement/addAnnouncement",
         method: "post",
         data: data,
         headers:{
-          token: this.token
+          token: window.sessionStorage.getItem('token')
         }
       }).then((response) => {
         console.log('/add:'+response.data);
