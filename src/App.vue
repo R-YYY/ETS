@@ -170,4 +170,19 @@ body{
   color: #2c3e50;
 }
 
+input[disabled],input:disabled,input.disabled{
+  -webkit-text-fill-color:#333;
+  -webkit-opacity:1;
+  opacity: 1;
+}
+
+textarea[disabled],textarea:disabled,textarea.disabled{
+  font-weight: bold;
+  color: white;
+  font-size: 17px;
+  -webkit-text-fill-color:#333;
+  -webkit-opacity:1;
+  opacity: 1;
+}
+
 </style>

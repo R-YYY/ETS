@@ -4,7 +4,7 @@
       <el-input class="inputProject" placeholder="请输入学生姓名"></el-input>
       <el-button>搜索</el-button>
       <el-button v-if="isRes()">导出成绩</el-button>
-      <el-button @click="showGrade" type="primary" v-if="isRes()" :disabled="!isAct()">设置成绩权重</el-button>
+      <el-button @click="showGrade" v-if="isRes()" :disabled="!isAct()">设置成绩权重</el-button>
       <el-drawer
           title="设置课程的成绩占比"
           :visible.sync="drawer"

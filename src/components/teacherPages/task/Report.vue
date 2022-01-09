@@ -11,7 +11,7 @@
             v-model="purpose"
             disabled
             maxlength="1000"
-            show-word-limit style="font-size: 19px">
+            show-word-limit>
         </el-input>
       </div>
       <div class="item">
@@ -24,7 +24,7 @@
             v-model="principle"
             disabled
             maxlength="1000"
-            show-word-limit style="font-size: 19px">
+            show-word-limit>
         </el-input>
       </div>
       <div class="item">
@@ -37,7 +37,7 @@
             v-model="device"
             disabled
             maxlength="1000"
-            show-word-limit style="font-size: 19px">
+            show-word-limit>
         </el-input>
       </div>
       <div class="item">
@@ -50,7 +50,7 @@
             v-model="steps"
             disabled
             maxlength="1000"
-            show-word-limit style="font-size: 19px">
+            show-word-limit>
         </el-input>
       </div>
       <div class="item">
@@ -64,7 +64,7 @@
             disabled
             maxlength="1000"
             show-word-limit
-            style="margin-bottom:80px;font-size: 19px">
+            style="margin-bottom:80px">
         </el-input>
       </div>
     </div>
