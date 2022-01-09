@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="height: 40px">
       <el-input class="inputProject" placeholder="请输入项目名称"></el-input>
       <el-button>搜索</el-button>
     </div>
@@ -195,10 +195,25 @@ export default {
       attendVisible:false,
       direction:"ltr",
       projectName:"",
-      scoreList:[]
+      scoreList:[],
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "totalGrades" });
       else if (tab.index == 1) this.$router.push({ name: "partGrades" });

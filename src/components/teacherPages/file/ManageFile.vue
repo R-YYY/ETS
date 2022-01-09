@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="height: 40px">
       <el-container>
         <el-input
           class="inputFileName"
@@ -25,9 +25,7 @@
             :http-request="handleUpload"
           >
             <el-button :disabled="!showOperation()">上传文件</el-button>
-
           </el-upload>
-
         </el-tooltip>
       </el-container>
     </div>
@@ -142,6 +140,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     pathArray() {
       return this.filePath.split("/").slice(1);
     },
@@ -188,12 +201,9 @@ export default {
         data: data,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then((response) => {
-          // console.log(response.data);
           if (response.data === 1) {
             this.$message({
               type: "success",

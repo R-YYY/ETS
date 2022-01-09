@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div>
-      <el-button class="addStudentBtn" @click="writeStudentID">
+    <div style="height: 40px">
+      <el-button class="addStudentBtn" @click="writeStudentID" v-if="isAct()&&isRes()">
         <span>添加学生</span>
       </el-button>
-      <el-button>
+      <el-button v-if="isAct()&&isRes()">
         <span>导出名单</span>
       </el-button>
     </div>
@@ -30,6 +30,7 @@
                   <el-button
                     type="text"
                     @click="open(scope.row)"
+                    v-if="isAct()&&isRes()"
                   >删除
                   </el-button>
                 </template>
@@ -53,6 +54,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     //删除学生的提示，确认后调用api删除学生
     open(row) {
       this.$confirm("此操作将从课程中删除该学生, 是否继续?", "提示", {
@@ -83,8 +99,6 @@ export default {
         data: studentInfo,
         headers: {
           token: window.sessionStorage.getItem('token')
-          // token:
-          //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         },
       })
         .then(() => {

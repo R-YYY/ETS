@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="height: 40px">
       <!--编辑课程信息按钮区域-->
       <el-button class="btn" @click="saveEdit">
         <span>保存</span>
@@ -94,6 +94,21 @@ export default {
     };
   },
   methods: {
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     handleClick(tab) {
       if (tab.index == 0) this.$router.push({ name: "info" });
       else if (tab.index == 1) this.$router.push({ name: "teachers" });

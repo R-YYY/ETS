@@ -83,6 +83,8 @@ export default {
       this.$router.push({ name: "announcements" });
     },
     toHome(){
+      window.sessionStorage.removeItem("is_active")
+      window.sessionStorage.removeItem("resTeacher_ID")
       if (window.sessionStorage.getItem("account_ID").length == 5)
         this.$router.push("/teacherhome");
       else if (window.sessionStorage.getItem("account_ID").length == 7)
@@ -117,6 +119,22 @@ export default {
     else if (this.$route.name === "feedbacks") {
       this.activeIndex = "6";
     }
+
+    this.$axios({
+      url: "/course/get",
+      method: "get",
+      params: {
+        course_ID: this.$route.params.course_id,
+      },
+      headers: {
+        token: window.sessionStorage.getItem('token')
+      },
+    })
+        .then(function (response) {
+          window.sessionStorage.setItem("is_active", response.data.is_active);
+        })
+        .catch(function (error) {
+        });
   },
 };
 </script>
@@ -149,7 +167,7 @@ export default {
   height: 38px;
   position: absolute;
   top:10%;
-  right: 4.5%;
+  right: 5%;
   /*margin-left: 500px;*/
 }
 </style>
