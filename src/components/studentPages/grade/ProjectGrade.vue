@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="shape2">
-
     </div>
   </div>
 </template>
@@ -21,7 +20,6 @@ export default {
       },
       headers:{
         token: window.sessionStorage.getItem('token')
-        // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
       },
     }).then((response)=>{
       console.log('score/getStuProScoreList:');
@@ -31,18 +29,17 @@ export default {
       var name_list=[];
       var score_list=[];
       for(var i=0; i<list.length; i++){
-        console.log(i);
         name_list.push(list[i].name);
-        if(list[i].score=='0'){
-          // 没有交的返回0
-          score_list.push(0);
-        }
-        else{
-          score_list.push(list[i].score);
-        }
+        // if(list[i].score==null){
+        //   score_list.push(0);
+        // }
+        // else{
+        //   score_list.push(list[i].score);
+        // }
+        score_list.push(list[i].score);
       }
       // console.log(name_list);
-      // console.log(score_list);
+      console.log(score_list);
       // 基于准备好的dom，初始化echarts实例
       var projectChart = echarts.init(document.getElementById('shape2'),'infographic');
       window.onresize = function() {
@@ -84,10 +81,6 @@ export default {
         ],
       })
     })
-    // var projects=['实验一', '实验二', '实验三', '实验四', '实验五', '实验六', '实验七',
-    //   '实验一', '实验二', '实验三', '实验四', '实验五'];
-    // var scores=[60, 98, 90, 86, 100, 89, 92, 60, 98, 90, 86, 100];
-
   }
 }
 </script>

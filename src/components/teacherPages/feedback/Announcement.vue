@@ -13,10 +13,12 @@
       <el-tabs class="announcementTab" active-name="announcement" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="课程公告" name="announcement">
           <el-empty description="没有公告" style="height: 500px"></el-empty>
+
         </el-tab-pane>
         <el-tab-pane label="课程反馈" name="feedback">
           <el-empty description="没有反馈" style="height: 500px"></el-empty>
         </el-tab-pane>
+
       </el-tabs>
     </div>
   </div>

@@ -127,9 +127,12 @@
               只能上传docx/doc/pdf文件，且不超过10Mb
             </div>
             <div v-if="has_submitted" style="margin-top: 20px">
-              <el-tag type="success" style="font-size: 16px">已提交</el-tag>:
+              <el-tag type="success" style="font-size: 16px">
+                已提交
+              </el-tag>:
               <span class="fileName" @click="downloadReport">{{this.report.report_name}}</span>
             </div>
+
           </el-upload>
         </el-card>
       </div>
@@ -161,36 +164,6 @@ export default {
     };
   },
   methods:{
-    getTemplateReport(){
-
-    },
-    autoSubmitTemplate(){
-      var is_submit = '1'
-      let data = new FormData();
-      data.append("course_ID", this.course_ID);
-      data.append("student_ID", this.student_ID);
-      data.append("project_name", this.project.name);
-      data.append("purpose",this.purpose);
-      data.append("principle",this.principle);
-      data.append("device",this.device);
-      data.append("steps",this.steps);
-      data.append("conclusion",this.conclusion);
-      data.append("isSubmit", is_submit);
-      this.$axios({
-        url: "report/add",
-        method: "post",
-        data: data,
-        headers:{
-          token: this.token
-          // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-        }
-      }).then((response) => {
-        console.log('report/add:'+response.data);
-      })
-          .catch(() => {
-
-          });
-    },
     addReport(is_submit){
       let data = new FormData();
       data.append("course_ID", this.course_ID);
@@ -202,13 +175,14 @@ export default {
       data.append("steps",this.steps);
       data.append("conclusion",this.conclusion);
       data.append("isSubmit", is_submit);
+      console.log('1:'+this.purpose)
+      // console.log('2:'+this.student_ID)
       this.$axios({
         url: "report/add",
         method: "post",
         data: data,
         headers:{
           token: this.token
-          // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
         }
       }).then((response) => {
         console.log('report/add:'+response.data);
@@ -218,7 +192,6 @@ export default {
               type: "success",
               message: "提交成功！",
             });
-            // location.reload();
           }
           else{
             this.$message({
@@ -394,16 +367,71 @@ export default {
           },
           headers:{
             token: this.token
-            // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
     .then((response)=>{
+      console.log('project/get')
+      console.log(response.data)
       this.project = response.data;
       if(this.project.is_file=="0"){
         this.is_file=false;
+        // 获取模板实验报告内容
+        let data = new FormData();
+        data.append("course_ID", this.course_ID);
+        data.append("student_ID", this.student_ID);
+        data.append("project_name", this.project_name);
+        console.log(this.project_name)
+        // 获取模板实验报告
+        this.$axios({
+          url: "report/getContent",
+          method: "post",
+          data: data,
+          headers:{
+            token: this.token
+          }
+        })
+            .then((response)=>{
+              console.log('report/getContent')
+              console.log(response.data);
+              var content=response.data
+              this.purpose=content.purpose
+              this.principle=content.principle
+              this.device=content.device
+              this.steps=content.steps
+              this.conclusion=content.conclusion
+            });
       }
       else{
         this.is_file=true;
+        // 获取实验报告
+        this.$axios.get(
+            '/report/get',{
+              params:{
+                course_ID: this.course_ID,
+                project_name: this.project_name,
+                student_ID: this.student_ID,
+              },
+              headers:{
+                token: this.token
+              }
+            })
+            .then((response)=>{
+              console.log('report/get')
+              console.log(response.data);
+              this.report=response.data
+              // 没提交，返回-1
+              // console.log(response.data == ''||response.data==null)
+              if(this.report == null||response.data == ''){
+                // console.log('没提交过实验报告文件')
+              }
+              else{
+                this.report_name=this.report.report_name
+                this.has_submitted=true;
+                if(this.report.correct_time!=null){
+                  this.is_corrected = true
+                }
+              }
+            });
       }
       if(this.project.description==''||this.project.description==null){
         this.project.description='暂无实验项目介绍';
@@ -418,72 +446,6 @@ export default {
       }
     });
 
-    // 获取实验报告
-    this.$axios.get(
-        '/report/get',{
-          params:{
-            course_ID: this.course_ID,
-            project_name: this.project_name,
-            student_ID: this.student_ID,
-          },
-          headers:{
-            token: this.token
-            // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-          }
-        })
-        .then((response)=>{
-          console.log('report/get')
-          console.log(response.data);
-          this.report=response.data
-          // 没提交，返回-1
-          if(this.report == null){
-          }
-          else{
-            this.report_name=this.report.report_name
-            this.has_submitted=true;
-            if(this.report.correct_time!=null){
-              this.is_corrected = true
-            }
-          }
-        });
-    this.getTemplateReport()
-    // 获取模板实验报告内容
-    let data = new FormData();
-    data.append("course_ID", this.course_ID);
-    data.append("student_ID", this.student_ID);
-    data.append("project_name", this.project_name);
-    console.log(this.project_name)
-    // 获取模板实验报告
-    this.$axios({
-      url: "report/getContent",
-      method: "post",
-      data: data,
-      headers:{
-        token: this.token
-        // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
-      }
-    })
-        .then((response)=>{
-          console.log('report/getContent')
-          console.log(response.data);
-          var content=response.data
-          this.purpose=content.purpose
-          this.principle=content.principle
-          this.device=content.device
-          this.steps=content.steps
-          this.conclusion=content.conclusion
-        });
-
-
-    if(this.is_file=true){
-
-    }
-    else{
-      if(this.has_submitted==false && this.is_expired==true){
-        this.autoSubmitTemplate();
-      }
-    }
-
     //获取实验的FileInfoList
     this.$axios.get(
         '/file/getFileList',{
@@ -493,7 +455,6 @@ export default {
           },
           headers:{
             token: this.token
-            // token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjM0NTY3In0.rrlord8uupqmlJXvDW6Ha1sGfp5te8ICtSrlaDe1f6o",
           }
         })
         .then((response)=>{
@@ -502,15 +463,6 @@ export default {
         });
 
   },
-  // updated() {
-  //   if(this.is_expired){
-  //     var htmls = document.getElementsByName('input')
-  //     for(var i=0 ;i<htmls.length; i++){
-  //       htmls[i].disabled=true
-  //       // console.log('updated'+htmls[i].disabled)
-  //     }
-  //   }
-  // }
 }
 </script>
 
