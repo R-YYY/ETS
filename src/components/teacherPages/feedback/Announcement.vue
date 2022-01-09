@@ -48,7 +48,7 @@
                         type="danger"
                         style="margin-left: 250px"
                         size="small" plain
-                        @click="openDelete(item)">删除</el-button>
+                        @click="openDelete(item)" v-if="isRes()">删除</el-button>
                     <br><br>
                     <span class="info"><b>发布时间：</b>{{ item.release_time }}</span>
                     <span class="info"><b>发布教师：</b>{{ item.teacher_name }}</span>
@@ -84,8 +84,22 @@ export default {
     }
   },
   methods:{
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     openDelete(item){
-      console.log(item)
       this.$confirm("此操作将从课程中删除该公告, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -110,6 +124,7 @@ export default {
           token: window.sessionStorage.getItem('token')
         },
       }).then((response)=>{
+        console.log(response.data)
         if(response.data === 1){
           this.announcement_list.splice(item,1)
           this.$message({
@@ -282,7 +297,7 @@ export default {
 
 .input{
   margin-left: 10%;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 40px;
   width:80%;
 }

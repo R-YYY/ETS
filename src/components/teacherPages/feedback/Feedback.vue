@@ -22,7 +22,7 @@
                   <span class="feedbackInfo"><b>反馈人：</b>{{ item.name }}</span>
                   <span class="feedbackInfo"><b>学号：</b>{{ item.student_ID }}</span>
                   <span class="feedbackInfo"><b>时间：</b>{{ item.submit_time }}</span>
-                  <el-button type="danger" plain @click="openDelete(item)">删除</el-button>
+                  <el-button type="danger" plain @click="openDelete(item)" v-if="isRes()">删除</el-button>
                 </div>
                 <div class="feedbackContent">
                   <p><b>反馈内容：</b>{{item.content}}</p>
@@ -50,6 +50,21 @@ export default {
     }
   },
   methods:{
+    isAct(){
+      return window.sessionStorage.getItem("is_active") === "1"
+    },
+
+    isRes(){
+      let resTeacher_ID = window.sessionStorage.getItem("resTeacher_ID")
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return resTeacher_ID === account_ID
+    },
+
+    isTea(){
+      let account_ID = window.sessionStorage.getItem("account_ID")
+      return account_ID.length===5
+    },
+
     openDelete(item){
       this.$confirm("此操作将从课程中删除该反馈, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -74,6 +89,7 @@ export default {
           token: window.sessionStorage.getItem('token')
         },
       }).then((response)=>{
+        console.log(response.data)
         if(response.data === 1){
           this.feedback_list.splice(item,1)
           this.$message({
