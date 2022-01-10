@@ -62,31 +62,26 @@
                 sortable
               ></el-table-column>
               <el-table-column
+                  prop="project_score"
                 label="实验成绩"
                 width="190px"
                 sortable
               >
-                <template slot-scope="scope">
-                  {{(scope.row.project_score*courseGrade.project_percentage).toFixed(2)}}
-                </template>
               </el-table-column>
               <el-table-column
+                  prop="attend_score"
                 label="考勤成绩"
                 width="190px"
                 sortable
               >
-               <template slot-scope="scope">
-                 {{(scope.row.attend_score * courseGrade.attend_percentage).toFixed(2)}}
-               </template>
               </el-table-column>
               <el-table-column
-                label="总成绩"
+                label="加权总成绩"
                 width="190px"
                 sortable
               >
                 <template slot-scope="scope">
-                  {{(scope.row.project_score * courseGrade.project_percentage
-                    + scope.row.attend_score * courseGrade.attend_percentage).toFixed(2)}}
+                  {{(scope.row.project_score + scope.row.attend_score)}}
                 </template>
               </el-table-column>
               <el-table-column width="140px">
@@ -147,10 +142,6 @@ export default {
         name:"",
         score:""
       }],
-      courseGrade:{
-        attend_percentage: 1.0,
-        project_percentage: 1.0,
-      },
       stuName:"",
       drawer: false,
       direction: 'ltr',
@@ -178,9 +169,8 @@ export default {
       if (tab.index == 0) this.$router.push({ name: "totalGrades" });
       else if (tab.index == 1) this.$router.push({ name: "partGrades" });
     },
-    showGrade(){
-      this.drawer=true
-      this.$axios.get(
+    async showGrade(){
+      await this.$axios.get(
           '/course/get',{
             params:{
               course_ID:this.$route.params.course_id
@@ -193,6 +183,7 @@ export default {
         this.newAttendPercentage=response.data.attend_percentage
         this.newProjectPercentage=response.data.project_percentage
       })
+      this.drawer=true
     },
     setPercentage(){
       let attend = parseFloat(this.newAttendPercentage)
@@ -221,8 +212,7 @@ export default {
               message: "设置成功！",
             });
             this.drawer=false
-            this.courseGrade.project_percentage=this.newProjectPercentage
-            this.courseGrade.attend_percentage=this.newAttendPercentage
+            this.loadScoreList()
           }
           else{
             this.$message({
@@ -290,37 +280,29 @@ export default {
       }).then((response)=>{
         this.stuScore = response.data
       })
+    },
+
+    async loadScoreList(){
+      this.loading = true
+      await this.$axios({
+        url: "/score/getTotalScoreList",
+        method: "get",
+        params: {
+          course_ID: this.$route.params.course_id,
+        },
+        headers: {
+          token: window.sessionStorage.getItem('token')
+        },
+      })
+          .then((response) => {
+            this.totalGradeList=response.data
+          })
+          .catch();
+      this.loading=false
     }
   },
-  async mounted() {
-    await this.$axios({
-      url:"/course/get",
-      method:"get",
-      params:{
-        course_ID:this.$route.params.course_id,
-      },
-      headers:{
-        token:window.sessionStorage.getItem("token")
-      },
-    }).then((response)=>{
-      this.courseGrade.attend_percentage = response.data.attend_percentage
-      this.courseGrade.project_percentage = response.data.project_percentage
-    }).catch()
-    this.$axios({
-      url: "/score/getTotalScoreList",
-      method: "get",
-      params: {
-        course_ID: this.$route.params.course_id,
-      },
-      headers: {
-        token: window.sessionStorage.getItem('token')
-      },
-    })
-      .then((response) => {
-        this.totalGradeList=response.data
-      })
-      .catch();
-    this.loading=false
+  mounted() {
+    this.loadScoreList()
   },
 };
 </script>
