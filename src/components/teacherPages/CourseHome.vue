@@ -1,11 +1,11 @@
 <template>
   <el-container style="height: 100%">
-    <el-header style="height: 8%">
+    <el-header style="height: 7.5%">
       <el-container>
         <img
             src="@/assets/course2.png"
             alt=""
-            style="height: 50px; width: 70px; margin-right: 20px;margin-top: 5px"
+            style="height: 50px; width: 70px; margin-right: 20px;margin-top: 0"
         />
         <span class="title"><b>实验教学管理系统</b></span>
       </el-container>
@@ -150,7 +150,7 @@ export default {
 
 .title {
   font-size: 28px;
-  line-height: 60px;
+  line-height: 56px;
   text-align: left;
 }
 
