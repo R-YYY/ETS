@@ -1,8 +1,9 @@
 <template>
   <div id="report">
-    <div class="reportArea" align="center">
+    <div class="reportArea">
+      <h1 align="center">{{project_name+"实验报告"}}</h1>
       <div class="item">
-        <p class="title">实验目的</p>
+        <p class="title">实验目的：</p>
         <el-input
             name="input"
             type="textarea"
@@ -15,7 +16,7 @@
         </el-input>
       </div>
       <div class="item">
-        <p class="title">实验原理</p>
+        <p class="title">实验原理：</p>
         <el-input
             name="input"
             type="textarea"
@@ -28,7 +29,7 @@
         </el-input>
       </div>
       <div class="item">
-        <p class="title">实验设备</p>
+        <p class="title">实验设备：</p>
         <el-input
             name="input"
             type="textarea"
@@ -41,7 +42,7 @@
         </el-input>
       </div>
       <div class="item">
-        <p class="title">实验步骤</p>
+        <p class="title">实验步骤：</p>
         <el-input
             name="input"
             type="textarea"
@@ -54,7 +55,7 @@
         </el-input>
       </div>
       <div class="item">
-        <p class="title">实验结论</p>
+        <p class="title">实验结论：</p>
         <el-input
             name="input"
             type="textarea"
@@ -267,8 +268,8 @@ export default {
 }
 
 .title{
-  text-align: center;
-  font-size: 25px;
+  /*text-align: center;*/
+  font-size: 22px;
   /*font-weight: bold;*/
   margin-top: 10px;
 }
