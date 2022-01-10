@@ -119,6 +119,7 @@
             <el-button slot="trigger" size="medium" type="primary"
                        id="button_selectFile"
                        style="margin-bottom: 15px;"
+                       :disabled="is_expired"
             >
               <span style="font-size: 16px;display: block">上传实验报告</span>
             </el-button>
@@ -433,6 +434,7 @@ export default {
               }
             });
       }
+
       if(this.project.description==''||this.project.description==null){
         this.project.description='暂无实验项目介绍';
       }
