@@ -1,17 +1,23 @@
 <template>
   <div class="stulistform">
     <div class="form" style="margin-top: 15px">
-      <el-table
-        ref="filterTable"
-        :data="
+      <!--         :data="
           tableData.filter(
             (data) =>
               !search ||
               data.account_ID.toLowerCase().includes(search.toLowerCase())
           ) ||
           tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-        "
+        " -->
+      <el-table
+        ref="filterTable"
         style="width: 100%"
+        :data="
+          tableData.filter(
+            (data) =>
+              !search ||
+              data.account_ID.toLowerCase().includes(search.toLowerCase())
+          )"
       >
         <!-- 账户id -->
         <el-table-column
@@ -80,7 +86,7 @@
 
         <el-table-column label="重置" width="150">
           <template slot-scope="scope">
-            <div v-if="scope.row.is_active !='-1'">
+            <div v-if="scope.row.is_active != '-1'">
               <el-button
                 size="mini"
                 type="danger"
@@ -123,7 +129,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="block">
+    <!-- <div class="block">
       <el-pagination
         align="center"
         @size-change="handleSizeChange"
@@ -135,7 +141,7 @@
         :total="tableData.length"
       >
       </el-pagination>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -169,7 +175,7 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -207,7 +213,7 @@ export default {
         method: "post",
         data: taInfo1,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -261,7 +267,7 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -315,8 +321,8 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
-        },        
+          token: window.sessionStorage.getItem("token"),
+        },
       })
         .then((res) => {
           console.log("传出的" + res.data);
@@ -371,7 +377,7 @@ export default {
       url: "/account/getAllTeacherAccount",
       method: "get",
       headers: {
-          token:window.sessionStorage.getItem("token"),
+        token: window.sessionStorage.getItem("token"),
       },
     })
       .then(function (response) {

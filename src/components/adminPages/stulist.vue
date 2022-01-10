@@ -8,8 +8,7 @@
             (data) =>
               !search ||
               data.account_ID.toLowerCase().includes(search.toLowerCase())
-          ) ||
-          tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+          ) 
         "
         style="width: 100%"
       >
@@ -123,7 +122,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="block">
+    <!-- <div class="block">
       <el-pagination
         align="center"
         @size-change="handleSizeChange"
@@ -135,7 +134,7 @@
         :total="tableData.length"
       >
       </el-pagination>
-    </div>
+    </div> -->
   </div>
 </template>
 
