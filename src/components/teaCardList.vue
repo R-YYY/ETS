@@ -56,6 +56,8 @@
   width:200px;
   text-align: center;
   margin-right: 150px;
+  color:white;
+  background: #369575;
 }
 
 .bottom {

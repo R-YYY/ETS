@@ -10,7 +10,7 @@
         :push=1
       >
         <div style="margin-top:30px">
-          <el-card :body-style="{ padding: '10px'}" shadow="hover" class="box-card" @click.native="formore(item.course_ID,item.is_student,item.teacher_ID)">
+          <el-card :body-style="{ padding: '10px' }" shadow="hover" class="box-card" @click.native="formore(item.course_ID,item.is_student,item.teacher_ID)">
             <h2>{{ item.course_name }} </h2>
             <h3>{{ item.course_ID }}</h3>
             <h4>{{ item.teacher_name}}</h4>
@@ -46,6 +46,8 @@
   width:200px;
   text-align: center;
   margin-right: 150px;
+  color:white;
+  background: #369575;
 }
 
 .bottom {
