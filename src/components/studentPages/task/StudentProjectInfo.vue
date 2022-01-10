@@ -468,7 +468,7 @@ export default {
 
 <style scoped>
 #projectInfo{
-  width: 1350px;
+  width: 1150px;
   /*height: 1300px;*/
   overflow: hidden;
   margin-top: 25px;
@@ -479,7 +479,7 @@ export default {
   border-radius: 5px;
 }
 .contents{
-  width: 1200px;
+  width: 1000px;
   height: 600px;
   overflow: auto;
   padding-right: 200px;
@@ -525,13 +525,13 @@ a:hover{
 }
 .model-report{
   /*border: 1px solid red;*/
-  width: 1300px;
+  width: 1100px;
   height: 500px;
   padding-bottom: 100px;
   overflow: hidden;
 }
 .model-text{
-  width: 1200px;
+  width: 1000px;
   height: 600px;
   padding-right: 300px;
   /*border: 1px solid pink;*/
@@ -554,7 +554,7 @@ a:hover{
   margin-right: 50px;
 }
 .button-area{
-  padding: 20px 400px 20px 420px;
+  padding: 20px 100px 20px 400px;
 }
 
 </style>
