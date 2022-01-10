@@ -23,7 +23,7 @@ axios.defaults.baseURL="/api";
 //路由跳转前检测
 router.beforeEach((to, from, next) => {
   let token = window.sessionStorage.getItem("token")
-  if(to.path === "/login" || to.path === "/register"){
+  if(to.path === "/login" || to.path === "/register" || to.path==="/report" || to.path==="/stuProjectInfo"){
     next()
   }
   else if(token === "" || token === null){
