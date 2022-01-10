@@ -255,7 +255,7 @@ export default {
     toregister() {
       this.$router.push("/");
     },
-    //点击重置按钮，重置登录
+    //点击重置按钮，重置注册表单
     resetregisterForm() {
       this.$refs.registerForm.resetFields();
     },

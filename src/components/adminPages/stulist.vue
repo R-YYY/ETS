@@ -41,35 +41,57 @@
           :filters="[
             { text: '未激活', value: '0' },
             { text: '已激活', value: '1' },
+            { text: '未注册', value: '-1' },
           ]"
           :filter-method="filterStatus"
           filter-placement="bottom-end"
         >
           <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.is_active === '0' ? 'primary' : 'success'"
-              disable-transitions
+            <el-tag v-if="scope.row.is_active === '0'" type="primary"
+              >未激活</el-tag
             >
-              <div v-if="scope.row.is_active != '0'">已激活</div>
-              <div v-else>未激活</div>
-            </el-tag>
+            <el-tag v-if="scope.row.is_active === '1'" type="success"
+              >已激活</el-tag
+            >
+            <el-tag v-if="scope.row.is_active === '-1'" type="info"
+              >未注册</el-tag
+            >
           </template>
         </el-table-column>
         <!-- 封禁or激活 -->
         <el-table-column label="操作" width="150">
-          <div slot-scope="scope" v-if="scope.row.is_active != '0'">
-            <el-button size="mini" type="danger" @click="ban(scope.row)"
-              >封禁</el-button
-            >
-          </div>
-          <div v-else>
-            <el-button size="mini" type="success" @click="activation(scope.row)"
-              >激活</el-button
-            >
-          </div>
+          <template slot-scope="scope">
+            <div v-if="scope.row.is_active == '1'">
+              <el-button size="mini" type="danger" @click="ban(scope.row)"
+                >封禁</el-button
+              >
+            </div>
+            <div v-if="scope.row.is_active == '0'">
+              <el-button
+                size="mini"
+                type="success"
+                @click="activation(scope.row)"
+                >激活</el-button
+              >
+            </div>
+          </template>
         </el-table-column>
         <!-- 重置密码 -->
-        <el-table-column label="重置">
+
+        <el-table-column label="重置" width="150">
+          <template slot-scope="scope">
+            <div v-if="scope.row.is_active !='-1'">
+              <el-button
+                size="mini"
+                type="danger"
+                @click="startreset(scope.row)"
+                >重置密码</el-button
+              >
+            </div>
+          </template>
+        </el-table-column>
+
+        <!-- <el-table-column label="重置">
           <el-button
             size="mini"
             type="danger"
@@ -77,7 +99,7 @@
             slot-scope="scope"
             >重置密码</el-button
           >
-        </el-table-column>
+        </el-table-column> -->
         <!-- 删除账户 -->
         <el-table-column>
           <el-button
@@ -125,7 +147,7 @@ export default {
       dialogTableVisible: false,
       dialogFormVisible: false,
       currentPage: 1, // 当前页码
-      total: 20, // 总条数
+      // total: 20, // 总条数
       pageSize: 20, // 每页的数据条数
       form: {
         reason: "",
@@ -147,7 +169,7 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -185,7 +207,7 @@ export default {
         method: "post",
         data: taInfo1,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -239,7 +261,7 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -293,7 +315,7 @@ export default {
         method: "post",
         data: taInfo,
         headers: {
-          token:window.sessionStorage.getItem("token"),
+          token: window.sessionStorage.getItem("token"),
         },
       })
         .then((res) => {
@@ -349,7 +371,7 @@ export default {
       url: "/account/getAllStudentAccount",
       method: "get",
       headers: {
-          token:window.sessionStorage.getItem("token"),
+        token: window.sessionStorage.getItem("token"),
       },
     })
       .then(function (response) {
