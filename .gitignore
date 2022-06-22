@@ -26,7 +26,6 @@ hs_err_pid*
 .browserslistrc
 babel.config.js
 package-lock.json
-package.json
 
 # package
 /dist/
